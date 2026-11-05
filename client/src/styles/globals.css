@@ -1,0 +1,123 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+@theme {
+  /* Brand Colors - Matching Reference HTML */
+  --color-deep-indigo: #2D1B69;
+  --color-royal-purple: #4A1E8C;
+  --color-rose-gold: #D4A574;
+  --color-copper: #B8860B;
+  --color-cream: #FAF8F3;
+  --color-off-white: #F5F2EB;
+  --color-dark-navy: #0A0E27;
+  --color-text-dark: #1A1A2E;
+  --color-text-muted: #6B6B80;
+  --color-success: #2E7D32;
+  
+  /* Semantic Colors */
+  --color-primary: var(--color-deep-indigo);
+  --color-secondary: var(--color-royal-purple);
+  --color-background: var(--color-cream);
+  --color-surface: var(--color-off-white);
+  --color-text: var(--color-text-dark);
+  --color-text-muted: var(--color-text-muted);
+  
+  /* Fonts */
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Poppins', sans-serif;
+  
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(45, 27, 105, 0.08);
+  --shadow-card-hover: 0 10px 40px rgba(45, 27, 105, 0.15);
+  --shadow-button: 0 8px 25px rgba(45, 27, 105, 0.3);
+  --shadow-button-hover: 0 15px 40px rgba(45, 27, 105, 0.4);
+}
+
+/* Base Styles */
+@layer base {
+  html { scroll-behavior: smooth; }
+  
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-cream);
+    color: var(--color-text-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
+
+/* Keyframes */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(180deg); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Utilities */
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  
+  .gradient-text {
+    background: linear-gradient(135deg, var(--color-rose-gold), var(--color-copper));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-off-white) 100%);
+  }
+  
+  .bg-gradient-purple {
+    background: linear-gradient(135deg, var(--color-deep-indigo) 0%, var(--color-royal-purple) 100%);
+  }
+  
+  .animate-twinkle { animation: twinkle 3s infinite ease-in-out; }
+  .animate-rotate { animation: rotate 8s linear infinite; }
+  .animate-float { animation: float 6s ease-in-out infinite; }
+  .animate-pulse-slow { animation: pulse 6s ease-in-out infinite; }
+  .animate-slide-in-left { animation: slideInLeft 1s ease-out; }
+  .animate-slide-in-right { animation: slideInRight 1s ease-out; }
+  .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-off-white); }
+::-webkit-scrollbar-thumb { background: var(--color-royal-purple); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-deep-indigo); }
+::selection { background: rgba(212, 165, 116, 0.3); color: var(--color-deep-indigo); }
+
