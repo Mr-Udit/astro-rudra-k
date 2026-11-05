@@ -528,7 +528,17 @@ h1, h2, h3, h4, h5, h6 {
 
 @supports not ((backdrop-filter: blur(1px))) {
   .glass,
-  .glass-strong {
+  .glass-strong,
+  [data-slot="card"],
+  [data-slot="sidebar"],
+  [class*="bg-background-card"],
+  [class*="bg-background-elevated"],
+  [class*="bg-card"],
+  [class*="bg-sidebar"],
+  [class*="bg-popover"],
+  [class*="bg-muted"],
+  header,
+  footer {
     background: hsl(var(--background-card));
   }
 }
@@ -540,6 +550,11 @@ h1, h2, h3, h4, h5, h6 {
 [class*="bg-background-elevated"],
 [class*="bg-card"],
 [class*="bg-sidebar"],
+[class*="bg-popover"],
+[class*="bg-muted"],
+[style*="background-card"],
+[style*="background-elevated"],
+header,
 footer,
 main > section > .max-w-7xl > .grid > article,
 main > section > .max-w-7xl > .grid > div[class*="rounded"] {
@@ -552,7 +567,9 @@ main > section > .max-w-7xl > .grid > div[class*="rounded"] {
 
 [class*="bg-background-card"]:hover,
 [class*="bg-background-elevated"]:hover,
-[class*="bg-card"]:hover {
+[class*="bg-card"]:hover,
+[class*="bg-popover"]:hover,
+[class*="bg-muted"]:hover {
   filter: brightness(1.04);
 }
 
@@ -579,7 +596,8 @@ select:focus-visible,
 [data-slot="dropdown-menu-content"],
 [data-slot="popover-content"],
 [data-slot="context-menu-content"],
-[data-slot="command"] {
+[data-slot="command"],
+[data-slot="select-content"] {
   background: var(--glass-bg-strong) !important;
   border-color: var(--glass-border) !important;
   -webkit-backdrop-filter: blur(20px) saturate(var(--glass-saturate));
@@ -626,6 +644,15 @@ a:focus-visible {
   .glass,
   .glass-strong,
   [data-slot="card"],
+  [data-slot="sidebar"],
+  [class*="bg-background-card"],
+  [class*="bg-background-elevated"],
+  [class*="bg-card"],
+  [class*="bg-sidebar"],
+  [class*="bg-popover"],
+  [class*="bg-muted"],
+  header,
+  footer,
   input,
   textarea,
   select,
