@@ -195,17 +195,17 @@ export default function SignupPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF8F3] to-[#F5F2EB] flex items-center justify-center py-10 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--background))] to-[hsl(var(--background-elevated))] flex items-center justify-center py-10 px-4 relative overflow-hidden">
       <ConstellationBg starCount={60} />
 
       <div className="max-w-6xl w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
         {/* LEFT SIDE (UNCHANGED) */}
         <div className="hidden lg:block">
           <div className="mb-8">
-            <h1 className="font-serif text-4xl font-bold text-[#2D1B69] mb-4">
+            <h1 className="font-serif text-4xl font-bold text-primary mb-4">
               Join Astro-Rudra-K
             </h1>
-            <p className="text-lg text-[#6B6B80]">
+            <p className="text-lg text-muted-foreground">
               Start your journey towards clarity and purpose
             </p>
           </div>
@@ -213,10 +213,10 @@ export default function SignupPage() {
           <ul className="space-y-6">
             {features.map((feature, index) => (
               <li key={index} className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-[#1A1A2E] font-medium">
+                <span className="text-primary font-medium">
                   {feature.text}
                 </span>
               </li>
@@ -225,14 +225,14 @@ export default function SignupPage() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="bg-white rounded-3xl p-10 shadow-2xl shadow-[#2D1B69]/10">
+        <div className="bg-background-card rounded-3xl p-10 shadow-2xl shadow-[hsl(var(--primary))]/10">
           {step === "form" ? (
             <form onSubmit={handleSignupSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="username">Username</Label>
 
                 <div className="relative">
-                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
 
                   <Input
                     id="username"
@@ -243,7 +243,7 @@ export default function SignupPage() {
                       : usernameStatus === "taken" ||
                         usernameStatus === "invalid"
                         ? "border-red-500"
-                        : "border-gray-200"
+                        : "border-border"
                       }`}
                     required
                   />
@@ -260,7 +260,7 @@ export default function SignupPage() {
                     </span>
                   )}
                   {usernameStatus === "taken" && (
-                    <span className="text-red-600">
+                    <span className="text-destructive">
                       Username already exists
                     </span>
                   )}
@@ -290,12 +290,12 @@ export default function SignupPage() {
                 {isLoading ? "Processing..." : "Create Account"}
               </Button>
 
-              <p className="text-center text-sm text-[#6B6B80] mt-2">
+              <p className="text-center text-sm text-muted-foreground mt-2">
                 Already have an account?{" "}
                 <button
                   type="button"
                   onClick={() => navigate("/login")}
-                  className="text-[#4A1E8C] font-semibold hover:underline"
+                  className="text-primary font-semibold hover:underline"
                 >
                   Login
                 </button>

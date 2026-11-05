@@ -19,19 +19,19 @@ export default function StarRating({ rating, size = 16, showValue = false, revie
           <Star
             key={`full-${i}`}
             size={size}
-            className="fill-[#B8860B] text-[#B8860B]"
+            className="fill-accent-gold text-accent-gold"
           />
         ))}
         {hasHalfStar && (
           <div className="relative" style={{ width: size, height: size }}>
             <Star
               size={size}
-              className="absolute text-gray-300"
+              className="absolute text-muted"
             />
             <div className="absolute overflow-hidden" style={{ width: size / 2 }}>
               <Star
                 size={size}
-                className="fill-[#B8860B] text-[#B8860B]"
+                className="fill-accent-gold text-accent-gold"
               />
             </div>
           </div>
@@ -40,12 +40,12 @@ export default function StarRating({ rating, size = 16, showValue = false, revie
           <Star
             key={`empty-${i}`}
             size={size}
-            className="text-gray-300"
+            className="text-muted"
           />
         ))}
       </div>
       {showValue && (
-        <span className="text-sm text-[#6B6B80] ml-1">
+        <span className="text-sm text-muted ml-1">
           {rating.toFixed(1)}
           {reviewCount !== undefined && ` (${reviewCount.toLocaleString()} reviews)`}
         </span>

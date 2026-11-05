@@ -114,15 +114,15 @@ export default function ServicesPage() {
 
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto mb-16">
-            <h1 className="font-serif text-5xl font-bold text-[#2D1B69] mb-6">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4A574] to-[#B8860B]">Services</span>
+            <h1 className="font-serif text-5xl font-bold text-primary mb-6">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accent">Services</span>
             </h1>
-            <p className="text-xl text-[#6B6B80] leading-relaxed">
+            <p className="text-xl text-muted-foreground leading-relaxed">
               Experience personalized astrological services to guide you through life's journey.
             </p>
           </div>
@@ -136,28 +136,28 @@ export default function ServicesPage() {
             {services.map((service) => {
               const IconComponent = getServiceIcon(service.icon);
               return (
-                <Card key={service.id} className="group bg-white rounded-2xl shadow-lg shadow-[#2D1B69]/5 border border-gray-100 hover:shadow-xl transition-shadow duration-300">
-                  <CardHeader className="p-6 border-b border-gray-100">
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Card key={service.id} className="group bg-background-card rounded-2xl shadow-lg shadow-[hsl(var(--primary))]/5 border border-border hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader className="p-6 border-b border-border">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                       <IconComponent className="w-8 h-8 text-white" />
                     </div>
-                    <CardTitle className="text-2xl font-serif text-[#2D1B69]">
+                    <CardTitle className="text-2xl font-serif text-primary">
                       {service.name}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">{service.name}</h3>
-                        <p className="text-[#6B6B80] mb-4">{service.description}</p>
+                        <h3 className="font-serif text-xl font-bold text-primary mb-2">{service.name}</h3>
+                        <p className="text-muted-foreground mb-4">{service.description}</p>
                       </div>
-                      <Badge variant="secondary" className="bg-[#FAF8F3] text-[#2D1B69] border-[#D4A574]">
+                      <Badge variant="secondary" className="bg-background text-primary border-accent">
                         ₹{service.price}
                       </Badge>
                     </div>
                     
                     <div className="mb-4">
-                      <div className="flex items-center gap-4 text-sm text-[#6B6B80] mb-4">
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
                         <div className="flex items-center gap-1">
                           <Clock className="w-4 h-4" />
                           <span>{service.duration}</span>
@@ -169,11 +169,11 @@ export default function ServicesPage() {
                       </div>
                       
                       <div className="mb-4">
-                        <h4 className="font-medium text-[#2D1B69] mb-2">Features:</h4>
+                        <h4 className="font-medium text-primary mb-2">Features:</h4>
                         <ul className="space-y-1">
                           {service.features.map((feature) => (
-                            <li key={feature} className="flex items-start gap-2 text-sm text-[#6B6B80]">
-                              <StarIcon className="w-4 h-4 text-[#D4A574] mt-0.5 flex-shrink-0" />
+                            <li key={feature} className="flex items-start gap-2 text-sm text-muted-foreground">
+                              <StarIcon className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -186,14 +186,14 @@ export default function ServicesPage() {
                         href={import.meta.env.VITE_KUNDLI_APP_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 w-full justify-center px-4 py-2 bg-gradient-to-r from-[#D4A574] to-[#B8860B] text-white rounded-lg hover:from-[#C89666] hover:to-[#A87A0B] transition-all duration-200"
+                        className="inline-flex items-center gap-2 w-full justify-center px-4 py-2 bg-gradient-to-r from-accent to-accent text-white rounded-lg hover:from-accent/80 hover:to-accent/80 transition-all duration-200"
                       >
                         Explore Now
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     ) : (
                       <Link to={`/booking?service=${service.id}&serviceName=${encodeURIComponent(service.name)}`}>
-                        <Button className="w-full bg-gradient-to-r from-[#2D1B69] to-[#4A1E8C] hover:from-[#1A1443] hover:to-[#2A1456] text-white">
+                        <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 text-white">
                           Book Now
                         </Button>
                       </Link>
@@ -208,26 +208,26 @@ export default function ServicesPage() {
 
       {/* Testimonials Section */}
       {testimonials.length > 0 && (
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-background-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-serif text-4xl font-bold text-[#2D1B69] mb-4">
+            <h2 className="font-serif text-4xl font-bold text-primary mb-4">
               What Our Clients Say
             </h2>
-            <p className="text-lg text-[#6B6B80]">
+            <p className="text-lg text-muted-foreground">
               Hear from people whose lives have been transformed by our services
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="bg-[#FAF8F3] rounded-2xl p-6">
+              <div key={testimonial.id} className="bg-background rounded-2xl p-6">
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-[#6B6B80] italic mb-4">"{testimonial.text}"</p>
+                <p className="text-muted-foreground italic mb-4">"{testimonial.text}"</p>
                 <div className="flex items-center gap-3">
                   <img
                     src={testimonial.avatar}
@@ -235,8 +235,8 @@ export default function ServicesPage() {
                     className="w-12 h-12 rounded-full object-cover"
                   />
                   <div>
-                    <p className="font-semibold text-[#2D1B69]">{testimonial.name}</p>
-                    <p className="text-sm text-[#6B6B80]">{testimonial.date}</p>
+                    <p className="font-semibold text-primary">{testimonial.name}</p>
+                    <p className="text-sm text-muted-foreground">{testimonial.date}</p>
                   </div>
                 </div>
               </div>

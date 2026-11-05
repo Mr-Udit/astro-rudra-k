@@ -5,7 +5,7 @@ export default function CheckoutPage() {
 
   return (
     <div style={{ marginTop: "120px" }}>
-      <p className="text-center text-gray-600">
+      <p className="text-center text-secondary">
         Please use the booking flow to initiate a payment.
       </p>
     </div>

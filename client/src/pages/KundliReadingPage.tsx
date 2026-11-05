@@ -4,10 +4,10 @@ import { Sparkles, TrendingUp, Heart, Briefcase, Shield, ChevronLeft } from 'luc
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 const dashaTimeline = [
-  { planet: 'Venus', period: '2020-2023', status: 'completed', color: '#D4A574' },
-  { planet: 'Sun', period: '2023-2024', status: 'current', color: '#D4A574' },
-  { planet: 'Moon', period: '2024-2034', status: 'upcoming', color: '#B8860B' },
-  { planet: 'Mars', period: '2034-2041', status: 'upcoming', color: '#B8860B' },
+  { planet: 'Venus', period: '2020-2023', status: 'completed', color: 'hsl(var(--accent))' },
+  { planet: 'Sun', period: '2023-2024', status: 'current', color: 'hsl(var(--accent))' },
+  { planet: 'Moon', period: '2024-2034', status: 'upcoming', color: 'hsl(var(--accent))' },
+  { planet: 'Mars', period: '2034-2041', status: 'upcoming', color: 'hsl(var(--accent))' },
 ];
 
 const planetaryStrengths = [
@@ -49,25 +49,25 @@ const lifeAreas = [
     icon: <Briefcase className="w-6 h-6" />,
     title: 'Career & Success',
     prediction: 'Strong potential for leadership roles. Best period: 2024-2026.',
-    color: '#D4A574',
+    color: 'hsl(var(--accent))',
   },
   {
     icon: <Heart className="w-6 h-6" />,
     title: 'Love & Relationships',
     prediction: 'Favorable time for marriage after mid-2025. Compatible with Taurus & Virgo.',
-    color: '#B8860B',
+    color: 'hsl(var(--accent))',
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
     title: 'Finance & Wealth',
     prediction: 'Gradual financial growth. Avoid speculation. Real estate favorable.',
-    color: '#D4A574',
+    color: 'hsl(var(--accent))',
   },
   {
     icon: <Shield className="w-6 h-6" />,
     title: 'Health & Wellness',
     prediction: 'Generally good. Watch digestive system. Yoga & meditation recommended.',
-    color: '#B8860B',
+    color: 'hsl(var(--accent))',
   },
 ];
 
@@ -78,7 +78,7 @@ export default function KundliReadingPage() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       {/* Navbar */}
-      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-white sticky top-0 z-50"
+      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-background-card sticky top-0 z-50"
         style={{ boxShadow: '0 2px 20px rgba(45, 27, 105, 0.08)' }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
@@ -197,7 +197,7 @@ export default function KundliReadingPage() {
                       ? 'bg-amber-100 text-amber-700'
                       : item.status === 'Moderate'
                       ? 'bg-yellow-100 text-yellow-700'
-                      : 'bg-red-100 text-red-700'
+                      : 'bg-destructive/20 text-red-700'
                   }`}>
                     {item.status}
                   </span>
@@ -260,7 +260,7 @@ export default function KundliReadingPage() {
                   } w-8 h-8 rounded-full border-4 flex items-center justify-center`}
                   style={{ borderColor: 'white', backgroundColor: dasha.color }}
                 >
-                  <div className="w-2 h-2 rounded-full bg-white" />
+                  <div className="w-2 h-2 rounded-full bg-background-card" />
                 </div>
 
                 <div className={`card p-6 ${

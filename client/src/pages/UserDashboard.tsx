@@ -71,11 +71,11 @@ export default function UserDashboard() {
 
   if (!user || user.role !== 'user') {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
+      <div className="min-h-screen bg-background pt-24 flex items-center justify-center">
+        <div className="text-center bg-background-card p-8 rounded-2xl shadow-xl">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#2D1B69] mb-2">Access Denied</h2>
-          <p className="text-[#6B6B80] mb-6">Only users can access this dashboard</p>
+          <h2 className="text-xl font-bold text-primary mb-2">Access Denied</h2>
+          <p className="text-muted-foreground mb-6">Only users can access this dashboard</p>
           <Button onClick={() => navigate('/login')} className="btn-primary">
             Go to Login
           </Button>
@@ -109,13 +109,13 @@ export default function UserDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] rounded-3xl p-8 mb-8 text-white">
+        <div className="bg-gradient-to-br from-primary to-secondary rounded-3xl p-8 mb-8 text-white">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full bg-background-card/20 flex items-center justify-center">
                 {user?.avatar ? (
                   <img src={user.avatar} alt={user.fullName} className="w-full h-full rounded-full object-cover" />
                 ) : (
@@ -129,13 +129,13 @@ export default function UserDashboard() {
             </div>
             <div className="flex gap-3">
               <Link to="/astrologers">
-                <Button className="bg-white text-[#2D1B69] hover:bg-white/90">
+                <Button className="bg-background-card text-primary hover:bg-background-card/90">
                   Book New Consultation
                 </Button>
               </Link>
               <Button
                 variant="outline"
-                className="bg-white/10 border-white/40 text-white hover:bg-white/20"
+                className="bg-background-card/10 border-white/40 text-white hover:bg-background-card/20"
                 onClick={() => navigate('/complete-profile')}
               >
                 <Settings className="w-4 h-4 mr-2" />
@@ -148,24 +148,24 @@ export default function UserDashboard() {
         {/* Stats */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
+            <div key={stat.label} className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <p className="text-3xl font-bold text-[#2D1B69] mb-1">{stat.value}</p>
-              <p className="text-sm text-[#6B6B80]">{stat.label}</p>
+              <p className="text-3xl font-bold text-primary mb-1">{stat.value}</p>
+              <p className="text-sm text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-10 h-10 animate-spin text-[#4A1E8C]" />
+            <Loader2 className="w-10 h-10 animate-spin text-primary" />
           </div>
         ) : error ? (
-          <div className="text-center py-12 text-red-600">
+          <div className="text-center py-12 text-destructive">
             <p>{error}</p>
           </div>
         ) : (
@@ -173,8 +173,8 @@ export default function UserDashboard() {
             {/* Main Content */}
             <div className="lg:col-span-2">
               {/* Tabs */}
-              <div className="bg-white rounded-2xl shadow-lg shadow-[#2D1B69]/5 overflow-hidden">
-                <div className="flex border-b border-gray-100">
+              <div className="bg-background-card rounded-2xl shadow-lg shadow-[hsl(var(--primary))]/5 overflow-hidden">
+                <div className="flex border-b border-border">
                   {[
                     { id: 'upcoming', label: 'Upcoming Sessions' },
                     { id: 'past', label: 'Past Consultations' },
@@ -184,8 +184,8 @@ export default function UserDashboard() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as typeof activeTab)}
                       className={`flex-1 py-4 text-sm font-medium transition-colors ${activeTab === tab.id
-                        ? 'text-[#4A1E8C] border-b-2 border-[#4A1E8C]'
-                        : 'text-[#6B6B80] hover:text-[#4A1E8C]'
+                        ? 'text-primary border-b-2 border-[hsl(var(--secondary))]'
+                        : 'text-muted-foreground hover:text-primary'
                         }`}
                     >
                       {tab.label}
@@ -200,16 +200,16 @@ export default function UserDashboard() {
                         upcomingBookings.map((booking) => (
                           <div
                             key={booking._id || booking.id}
-                            className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-[#F5F2EB] rounded-xl"
+                            className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
                           >
-                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                               <span className="text-white font-bold text-xl">
                                 {booking.astrologerName?.charAt(0) || 'A'}
                               </span>
                             </div>
                             <div className="flex-1">
-                              <h4 className="font-semibold text-[#1A1A2E]">{booking.astrologerName || 'Astrologer'}</h4>
-                              <div className="flex flex-wrap gap-4 text-sm text-[#6B6B80] mt-1">
+                              <h4 className="font-semibold text-primary">{booking.astrologerName || 'Astrologer'}</h4>
+                              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-1">
                                 <span className="flex items-center gap-1">
                                   <Calendar className="w-4 h-4" />
                                   {new Date(booking.bookingDate || booking.date || new Date()).toLocaleDateString()}
@@ -228,7 +228,7 @@ export default function UserDashboard() {
                             </div>
                             <div className="flex items-center gap-3">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-700'
+                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-background-elevated text-secondary'
                                 }`}>
                                 {booking.status}
                               </span>
@@ -236,7 +236,7 @@ export default function UserDashboard() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="text-[#4A1E8C]"
+                                  className="text-primary"
                                   onClick={() =>
                                     navigate(
                                       `/booking/payment?bookingId=${
@@ -248,7 +248,7 @@ export default function UserDashboard() {
                                   Pay Now <ChevronRight className="w-4 h-4" />
                                 </Button>
                               ) : (
-                                <Button variant="ghost" size="sm" className="text-[#4A1E8C]">
+                                <Button variant="ghost" size="sm" className="text-primary">
                                   View <ChevronRight className="w-4 h-4" />
                                 </Button>
                               )}
@@ -257,11 +257,11 @@ export default function UserDashboard() {
                         ))
                       ) : (
                         <div className="text-center py-12">
-                          <Calendar className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                          <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                          <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                          <h3 className="font-serif text-xl font-bold text-primary mb-2">
                             No upcoming sessions
                           </h3>
-                          <p className="text-[#6B6B80] mb-4">Book a consultation to get started</p>
+                          <p className="text-muted-foreground mb-4">Book a consultation to get started</p>
                           <Link to="/astrologers">
                             <Button className="btn-primary">Book Now</Button>
                           </Link>
@@ -276,16 +276,16 @@ export default function UserDashboard() {
                         pastBookings.map((booking: BookingType) => (
                           <div
                             key={booking._id || booking.id}
-                            className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-[#F5F2EB] rounded-xl"
+                            className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
                           >
-                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                               <span className="text-white font-bold text-xl">
                                 {booking.astrologerName?.charAt(0) || 'A'}
                               </span>
                             </div>
                             <div className="flex-1">
-                              <h4 className="font-semibold text-[#1A1A2E]">{booking.astrologerName || 'Astrologer'}</h4>
-                              <div className="flex flex-wrap gap-4 text-sm text-[#6B6B80] mt-1">
+                              <h4 className="font-semibold text-primary">{booking.astrologerName || 'Astrologer'}</h4>
+                              <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-1">
                                 <span className="flex items-center gap-1">
                                   <Calendar className="w-4 h-4" />
                                   {new Date(booking.bookingDate || booking.date || '').toLocaleDateString()}
@@ -299,7 +299,7 @@ export default function UserDashboard() {
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                              <span className="px-3 py-1 rounded-full text-xs font-medium bg-background-elevated text-secondary">
                                 {booking.status === 'completed' && 'Completed'}
                                 {booking.status === 'cancelled' &&
                                   (booking.cancellation?.cancelledBy === 'system'
@@ -311,7 +311,7 @@ export default function UserDashboard() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="text-[#4A1E8C]"
+                                  className="text-primary"
                                   onClick={() => {
                                     setReviewModalBooking(booking);
                                     setReviewRating(5);
@@ -326,11 +326,11 @@ export default function UserDashboard() {
                         ))
                       ) : (
                         <div className="text-center py-12">
-                          <History className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                          <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                          <History className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                          <h3 className="font-serif text-xl font-bold text-primary mb-2">
                             No past consultations
                           </h3>
-                          <p className="text-[#6B6B80]">Your consultation history will appear here</p>
+                          <p className="text-muted-foreground">Your consultation history will appear here</p>
                         </div>
                       )}
                     </div>
@@ -338,11 +338,11 @@ export default function UserDashboard() {
 
                   {activeTab === 'favorites' && (
                     <div className="text-center py-12">
-                      <Heart className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                      <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                      <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="font-serif text-xl font-bold text-primary mb-2">
                         Favorites coming soon
                       </h3>
-                      <p className="text-[#6B6B80]">Save your favorite astrologers for quick access</p>
+                      <p className="text-muted-foreground">Save your favorite astrologers for quick access</p>
                     </div>
                   )}
                 </div>
@@ -352,8 +352,8 @@ export default function UserDashboard() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Quick Actions */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
-                <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+              <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
+                <h3 className="font-serif text-lg font-bold text-primary mb-4">
                   Quick Actions
                 </h3>
                 <div className="space-y-3">
@@ -364,11 +364,11 @@ export default function UserDashboard() {
         {/* Review Modal */}
         {reviewModalBooking && (
           <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl">
+            <div className="bg-background-card rounded-2xl max-w-md w-full p-6 shadow-xl">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-[#2D1B69] mb-1">Rate Your Consultation</h2>
-                  <p className="text-sm text-[#6B6B80]">
+                  <h2 className="text-lg font-semibold text-primary mb-1">Rate Your Consultation</h2>
+                  <p className="text-sm text-muted-foreground">
                     {reviewModalBooking.astrologerName || 'Astrologer'} ·{' '}
                     {new Date(reviewModalBooking.bookingDate || reviewModalBooking.date || '').toLocaleDateString()}
                   </p>
@@ -377,7 +377,7 @@ export default function UserDashboard() {
                   onClick={() => {
                     setReviewModalBooking(null);
                   }}
-                  className="text-[#6B6B80] hover:text-[#1A1A2E]"
+                  className="text-muted-foreground hover:text-primary"
                 >
                   ✕
                 </button>
@@ -385,7 +385,7 @@ export default function UserDashboard() {
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm font-medium text-[#1A1A2E] mb-2">Overall Rating</p>
+                  <p className="text-sm font-medium text-primary mb-2">Overall Rating</p>
                   <div className="flex items-center gap-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <button
@@ -397,26 +397,26 @@ export default function UserDashboard() {
                         <Star
                           className={`w-6 h-6 ${
                             star <= reviewRating
-                              ? 'fill-[#B8860B] text-[#B8860B]'
-                              : 'text-gray-300'
+                              ? 'fill-[hsl(var(--accent))] text-accent'
+                              : 'text-muted-foreground'
                           }`}
                         />
                       </button>
                     ))}
-                    <span className="text-sm text-[#6B6B80] ml-2">{reviewRating} / 5</span>
+                    <span className="text-sm text-muted-foreground ml-2">{reviewRating} / 5</span>
                   </div>
                 </div>
 
                 <div>
-                  <p className="text-sm font-medium text-[#1A1A2E] mb-2">Share your experience (optional)</p>
+                  <p className="text-sm font-medium text-primary mb-2">Share your experience (optional)</p>
                   <textarea
-                    className="w-full min-h-[80px] border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#4A1E8C] focus:border-[#4A1E8C]"
+                    className="w-full min-h-[80px] border border-border rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[hsl(var(--secondary))] focus:border-[hsl(var(--secondary))]"
                     maxLength={500}
                     value={reviewComment}
                     onChange={(e) => setReviewComment(e.target.value)}
                     placeholder="How was your session?"
                   />
-                  <p className="text-xs text-gray-400 mt-1">Max 500 characters</p>
+                  <p className="text-xs text-muted-foreground mt-1">Max 500 characters</p>
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
@@ -478,7 +478,7 @@ export default function UserDashboard() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="w-full justify-start gap-3 text-red-600 hover:bg-red-50"
+                    className="w-full justify-start gap-3 text-destructive hover:bg-red-50"
                     onClick={handleLogout}
                   >
                     <LogOut className="w-5 h-5" />
@@ -488,19 +488,19 @@ export default function UserDashboard() {
               </div>
 
               {/* Recent Activity */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
-                <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+              <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
+                <h3 className="font-serif text-lg font-bold text-primary mb-4">
                   Recent Activity
                 </h3>
                 <div className="space-y-4">
                   {bookings.slice(0, 3).map((booking: BookingType) => (
                     <div key={booking._id || booking.id} className="flex items-start gap-3">
-                      <div className="w-2 h-2 rounded-full bg-[#4A1E8C] mt-2" />
+                      <div className="w-2 h-2 rounded-full bg-[hsl(var(--secondary))] mt-2" />
                       <div>
-                        <p className="text-sm text-[#1A1A2E]">
+                        <p className="text-sm text-primary">
                           Booked consultation with {booking.astrologerName || 'an astrologer'}
                         </p>
-                        <p className="text-xs text-[#6B6B80]">
+                        <p className="text-xs text-muted-foreground">
                           {new Date(booking.createdAt || booking.date || '').toLocaleDateString()}
                         </p>
                       </div>

@@ -107,20 +107,20 @@ export default function LoginPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF8F3] to-[#F5F2EB] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--background))] to-[hsl(var(--background-elevated))] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <ConstellationBg starCount={60} />
 
       <div className="max-w-6xl w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10">
         {/* Left Side */}
         <div className="hidden lg:block animate-slide-in-left">
           <div className="mb-6 lg:mb-8">
-            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center mb-4 lg:mb-6 shadow-xl shadow-[#2D1B69]/20">
-              <span className="text-[#D4A574] text-2xl lg:text-3xl animate-rotate">✦</span>
+            <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4 lg:mb-6 shadow-xl shadow-[hsl(var(--primary))]/20">
+              <span className="text-accent text-2xl lg:text-3xl animate-rotate">✦</span>
             </div>
-            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-[#2D1B69] mb-3 lg:mb-4">
+            <h1 className="font-serif text-3xl lg:text-4xl font-bold text-primary mb-3 lg:mb-4">
               Astro-Rudra-K
             </h1>
-            <p className="text-base lg:text-lg text-[#6B6B80]">
+            <p className="text-base lg:text-lg text-muted-foreground">
               Transform Your Life Through Vedic Wisdom
             </p>
           </div>
@@ -132,23 +132,23 @@ export default function LoginPage() {
                 className="flex items-center gap-4 animate-slide-in-up"
                 style={{ animationDelay: `${(index + 1) * 0.2}s` }}
               >
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center flex-shrink-0">
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-[#1A1A2E] font-medium">{feature.text}</span>
+                <span className="text-primary font-medium">{feature.text}</span>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Right Side - Form */}
-        <div className="bg-white rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl shadow-[#2D1B69]/10 relative overflow-hidden animate-slide-in-right">
+        <div className="bg-background-card rounded-2xl lg:rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl shadow-[hsl(var(--primary))]/10 relative overflow-hidden animate-slide-in-right">
           <div className="relative z-10 transition-all duration-300">
             <div className="text-center mb-6 lg:mb-8">
-              <h2 className="font-serif text-2xl lg:text-3xl font-bold text-[#2D1B69] mb-2">
+              <h2 className="font-serif text-2xl lg:text-3xl font-bold text-primary mb-2">
                 {step === 'username' ? 'Welcome' : 'Enter OTP'}
               </h2>
-              <p className="text-sm lg:text-base text-[#6B6B80]">
+              <p className="text-sm lg:text-base text-muted-foreground">
                 {step === 'username' ? 'Enter your username to continue' : `Code sent to ${username}`}
               </p>
             </div>
@@ -159,37 +159,37 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => navigate('/signup')}
-                    className="text-sm text-[#4A1E8C] hover:text-[#2D1B69] font-medium transition-colors"
+                    className="text-sm text-primary hover:text-primary font-medium transition-colors"
                   >
                     New user? Sign Up
                   </button>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-[#1A1A2E] font-medium">
+                  <Label htmlFor="username" className="text-primary font-medium">
                     Username
                   </Label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="username"
                       type="text"
                       placeholder="Username"
                       value={username}
                       onChange={(e) => setusername(e.target.value)}
-                      className="pl-12 py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                      className="pl-12 py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                       required
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="role" className="text-[#1A1A2E] font-medium">
+                  <Label htmlFor="role" className="text-primary font-medium">
                     I am a...
                   </Label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80] z-10" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
                     <Select value={role} onValueChange={(val: 'user' | 'astrologer') => setRole(val)}>
-                      <SelectTrigger className="pl-12 py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20 w-full">
+                      <SelectTrigger className="pl-12 py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20 w-full">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -232,21 +232,21 @@ export default function LoginPage() {
 
                 {/* On-screen OTP Debug Display */}
                 {step === 'otp' && debugOtp && (
-                  <div className="bg-[#2D1B69]/5 border-2 border-dashed border-[#2D1B69]/20 rounded-xl p-4 mb-6 text-center animate-pulse">
-                    <p className="text-xs font-bold uppercase tracking-widest text-[#2D1B69]/60 mb-1">
+                  <div className="bg-[hsl(var(--primary))]/5 border-2 border-dashed border-[hsl(var(--primary))]/20 rounded-xl p-4 mb-6 text-center animate-pulse">
+                    <p className="text-xs font-bold uppercase tracking-widest text-primary/60 mb-1">
                       Debug OTP Code
                     </p>
-                    <p className="text-3xl font-mono font-bold text-[#2D1B69]">
+                    <p className="text-3xl font-mono font-bold text-primary">
                       {debugOtp}
                     </p>
-                    <p className="text-[10px] text-[#6B6B80] mt-2 italic">
+                    <p className="text-[10px] text-muted-foreground mt-2 italic">
                       (Enter this code to login)
                     </p>
                   </div>
                 )}
 
-                <div className="text-center text-sm text-[#6B6B80] mb-4">
-                  Didn't receive code? <button type="button" onClick={handleSendOtp} className="text-[#4A1E8C] font-semibold underline">Resend</button>
+                <div className="text-center text-sm text-muted-foreground mb-4">
+                  Didn't receive code? <button type="button" onClick={handleSendOtp} className="text-primary font-semibold underline">Resend</button>
                 </div>
 
                 <Button
@@ -264,7 +264,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setStep('username')}
-                  className="w-full text-sm text-[#6B6B80] mt-4 hover:text-[#2D1B69]"
+                  className="w-full text-sm text-muted-foreground mt-4 hover:text-primary"
                 >
                   Change username
                 </button>
@@ -273,16 +273,16 @@ export default function LoginPage() {
 
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200" />
+                <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-4 bg-white text-[#6B6B80]">
+                <span className="px-4 bg-background-card text-muted-foreground">
                   New here? No problem.
                 </span>
               </div>
             </div>
 
-            <p className="text-center text-sm text-[#6B6B80] mt-4">
+            <p className="text-center text-sm text-muted-foreground mt-4">
               We will create an account for you automatically.
             </p>
 

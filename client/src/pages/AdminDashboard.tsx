@@ -1,4 +1,4 @@
-﻿import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Star, Calendar, DollarSign, Settings, LogOut, CheckCircle, XCircle, Search, Filter, BarChart3, Loader2, Plus, X, Upload, AsteriskIcon } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
@@ -151,11 +151,11 @@ export default function AdminDashboard() {
   // Role-based access control
   if (!user || user.role !== 'admin') {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
+      <div className="min-h-screen bg-background pt-24 flex items-center justify-center">
+        <div className="text-center bg-background-card p-8 rounded-2xl shadow-xl">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#2D1B69] mb-2">Access Denied</h2>
-          <p className="text-[#6B6B80] mb-6">Only admins can access this dashboard</p>
+          <h2 className="text-xl font-bold text-primary mb-2">Access Denied</h2>
+          <p className="text-muted-foreground mb-6">Only admins can access this dashboard</p>
           <Button onClick={() => navigate('/login')} className="btn-primary">
             Go to Login
           </Button>
@@ -447,18 +447,18 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Loading state */}
         {loading && (
           <div className="flex justify-center py-12">
-            <Loader2 className="w-10 h-10 animate-spin text-[#4A1E8C]" />
+            <Loader2 className="w-10 h-10 animate-spin text-primary" />
           </div>
         )}
 
         {/* Error state */}
         {error && (
-          <div className="text-center py-12 text-red-600">
+          <div className="text-center py-12 text-destructive">
             <p>{error}</p>
             <Button
               className="mt-4"
@@ -501,7 +501,7 @@ export default function AdminDashboard() {
         {!loading && !error && (
           <>
             {/* Header */}
-            <div className="bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] rounded-2xl lg:rounded-3xl p-5 lg:p-8 mb-6 lg:mb-8 text-white">
+            <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl lg:rounded-3xl p-5 lg:p-8 mb-6 lg:mb-8 text-white">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 lg:gap-6">
                 <div>
                   <h1 className="font-serif text-2xl lg:text-3xl font-bold mb-1">Admin Dashboard</h1>
@@ -510,7 +510,7 @@ export default function AdminDashboard() {
                 <div className="flex flex-wrap gap-2 lg:gap-3">
                   <Button
                     variant="outline"
-                    className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    className="bg-background-card/10 border-white/30 text-white hover:bg-background-card/20"
                     onClick={() => navigate('/complete-profile')}
                   >
                     <Settings className="w-4 h-4 mr-2" />
@@ -518,7 +518,7 @@ export default function AdminDashboard() {
                   </Button>
                   <Button
                     variant="outline"
-                    className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                    className="bg-background-card/10 border-white/30 text-white hover:bg-background-card/20"
                     onClick={handleLogout}
                   >
                     <LogOut className="w-4 h-4 mr-2" />
@@ -531,21 +531,21 @@ export default function AdminDashboard() {
             {/* Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
               {stats.map((stat) => (
-                <div key={stat.label} className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
+                <div key={stat.label} className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
                   <div className="flex items-center justify-between mb-4">
                     <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
                       <stat.icon className="w-6 h-6 text-white" />
                     </div>
                   </div>
-                  <p className="text-3xl font-bold text-[#2D1B69] mb-1">{stat.value}</p>
-                  <p className="text-sm text-[#6B6B80]">{stat.label}</p>
+                  <p className="text-3xl font-bold text-primary mb-1">{stat.value}</p>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Navigation Tabs */}
-            <div className="bg-white rounded-2xl shadow-lg shadow-[#2D1B69]/5 overflow-hidden mb-8">
-              <div className="flex border-b border-gray-100 overflow-x-auto">
+            <div className="bg-background-card rounded-2xl shadow-lg shadow-[hsl(var(--primary))]/5 overflow-hidden mb-8">
+              <div className="flex border-b border-border overflow-x-auto">
                 {[
                   { id: 'overview', label: 'Overview', icon: BarChart3 },
                   { id: 'users', label: 'Users', icon: Users },
@@ -558,8 +558,8 @@ export default function AdminDashboard() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as typeof activeTab)}
                     className={`flex items-center gap-2 px-6 py-4 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === tab.id
-                      ? 'text-[#4A1E8C] border-b-2 border-[#4A1E8C]'
-                      : 'text-[#6B6B80] hover:text-[#4A1E8C]'
+                      ? 'text-primary border-b-2 border-[hsl(var(--secondary))]'
+                      : 'text-muted-foreground hover:text-primary'
                       }`}
                   >
                     <tab.icon className="w-4 h-4" />
@@ -575,26 +575,26 @@ export default function AdminDashboard() {
                     {/* Charts Row */}
                     <div className="grid lg:grid-cols-2 gap-8">
                       {/* Revenue Chart Placeholder */}
-                      <div className="bg-[#F5F2EB] rounded-2xl p-6">
-                        <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+                      <div className="bg-background-elevated rounded-2xl p-6">
+                        <h3 className="font-serif text-lg font-bold text-primary mb-4">
                           Revenue Overview
                         </h3>
                         <div className="h-64 flex items-end justify-around">
                           {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month, i) => (
                             <div key={month} className="flex flex-col items-center gap-2">
                               <div
-                                className="w-12 bg-gradient-to-t from-[#2D1B69] to-[#4A1E8C] rounded-t-lg"
+                                className="w-12 bg-gradient-to-t from-primary to-secondary rounded-t-lg"
                                 style={{ height: `${Math.max(50, bookings.filter(b => new Date(b.createdAt || '').getMonth() === i).reduce((sum, b) => sum + (b.totalAmount || 0), 0) / 1000)}px` }}
                               />
-                              <span className="text-xs text-[#6B6B80]">{month}</span>
+                              <span className="text-xs text-muted-foreground">{month}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       {/* Booking Stats */}
-                      <div className="bg-[#F5F2EB] rounded-2xl p-6">
-                        <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+                      <div className="bg-background-elevated rounded-2xl p-6">
+                        <h3 className="font-serif text-lg font-bold text-primary mb-4">
                           Booking Statistics
                         </h3>
                         <div className="space-y-4">
@@ -606,10 +606,10 @@ export default function AdminDashboard() {
                           ].map((stat) => (
                             <div key={stat.label}>
                               <div className="flex justify-between text-sm mb-1">
-                                <span className="text-[#6B6B80]">{stat.label}</span>
-                                <span className="font-medium text-[#1A1A2E]">{stat.value.toLocaleString()}</span>
+                                <span className="text-muted-foreground">{stat.label}</span>
+                                <span className="font-medium text-primary">{stat.value.toLocaleString()}</span>
                               </div>
-                              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div className="h-2 bg-border rounded-full overflow-hidden">
                                 <div
                                   className={`h-full ${stat.color} rounded-full`}
                                   style={{ width: `${Math.min(100, (stat.value / Math.max(1, bookings.length)) * 100)}%` }}
@@ -623,39 +623,39 @@ export default function AdminDashboard() {
 
                     {/* Recent Activity */}
                     <div className="grid lg:grid-cols-2 gap-8">
-                      <div className="bg-white border border-gray-100 rounded-2xl p-6">
-                        <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+                      <div className="bg-background-card border border-border rounded-2xl p-6">
+                        <h3 className="font-serif text-lg font-bold text-primary mb-4">
                           Recent Bookings
                         </h3>
                         <div className="space-y-4">
                           {recentBookings.map((booking) => (
-                            <div key={booking._id || booking.id} className="flex items-center gap-4 p-3 bg-[#F5F2EB] rounded-xl">
-                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                            <div key={booking._id || booking.id} className="flex items-center gap-4 p-3 bg-background-elevated rounded-xl">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                                 <span className="text-white font-bold text-sm">{booking.astrologerName?.charAt(0) || 'A'}</span>
                               </div>
                               <div className="flex-1">
-                                <p className="text-sm font-medium text-[#1A1A2E]">{booking.astrologerName}</p>
-                                <p className="text-xs text-[#6B6B80]">{booking.userName || 'N/A'}</p>
+                                <p className="text-sm font-medium text-primary">{booking.astrologerName}</p>
+                                <p className="text-xs text-muted-foreground">{booking.userName || 'N/A'}</p>
                               </div>
-                              <span className="text-sm font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</span>
+                              <span className="text-sm font-semibold text-primary">₹{booking.amount || booking.totalAmount}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
-                      <div className="bg-white border border-gray-100 rounded-2xl p-6">
-                        <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+                      <div className="bg-background-card border border-border rounded-2xl p-6">
+                        <h3 className="font-serif text-lg font-bold text-primary mb-4">
                           New Users
                         </h3>
                         <div className="space-y-4">
                           {recentUsers.map((user) => (
-                            <div key={user._id} className="flex items-center gap-4 p-3 bg-[#F5F2EB] rounded-xl">
-                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                            <div key={user._id} className="flex items-center gap-4 p-3 bg-background-elevated rounded-xl">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                                 <span className="text-white font-bold text-sm">{(user.name || user.fullName || 'U').charAt(0)}</span>
                               </div>
                               <div className="flex-1">
-                                <p className="text-sm font-medium text-[#1A1A2E]">{user.name || user.fullName || 'Unknown User'}</p>
-                                <p className="text-xs text-[#6B6B80]">{user.email}</p>
+                                <p className="text-sm font-medium text-primary">{user.name || user.fullName || 'Unknown User'}</p>
+                                <p className="text-xs text-muted-foreground">{user.email}</p>
                               </div>
                               <span className={`text-xs px-2 py-1 rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
                                 user.role === 'astrologer' ? 'bg-blue-100 text-blue-700' :
@@ -676,11 +676,11 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <div className="relative max-w-md">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <Input
                           type="text"
                           placeholder="Search users..."
-                          className="pl-12 py-6 border-2 border-gray-200 rounded-xl"
+                          className="pl-12 py-6 border-2 border-border rounded-xl"
                         />
                       </div>
                       <div className="flex gap-3">
@@ -697,26 +697,26 @@ export default function AdminDashboard() {
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-gray-100">
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">User</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Email</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Role</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Status</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Actions</th>
+                          <tr className="border-b border-border">
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">User</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Email</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Role</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Status</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           {users.map((user: AdminUserType) => (
-                            <tr key={user._id} className="border-b border-gray-50 hover:bg-[#F5F2EB]">
+                            <tr key={user._id} className="border-b border-border hover:bg-background-elevated">
                               <td className="py-4 px-4">
                                 <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                                     <span className="text-white font-bold">{user.fullName?.charAt(0) || 'U'}</span>
                                   </div>
-                                  <span className="font-medium text-[#1A1A2E]">{user.fullName}</span>
+                                  <span className="font-medium text-primary">{user.fullName}</span>
                                 </div>
                               </td>
-                              <td className="py-4 px-4 text-[#6B6B80]">{user.email}</td>
+                              <td className="py-4 px-4 text-muted-foreground">{user.email}</td>
                               <td className="py-4 px-4">
                                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
                                   user.role === 'astrologer' ? 'bg-blue-100 text-blue-700' :
@@ -761,11 +761,11 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <div className="relative max-w-md">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <Input
                           type="text"
                           placeholder="Search astrologers..."
-                          className="pl-12 py-6 border-2 border-gray-200 rounded-xl"
+                          className="pl-12 py-6 border-2 border-border rounded-xl"
                         />
                       </div>
                       <div className="flex gap-3">
@@ -781,23 +781,23 @@ export default function AdminDashboard() {
                     </div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {astrologers.map((astrologer: AdminUserType) => (
-                        <div key={astrologer._id || astrologer.id} className="bg-[#F5F2EB] rounded-2xl p-6">
-                          <div className="flex items-center gap-4 p-3 bg-[#F5F2EB] rounded-xl">
+                        <div key={astrologer._id || astrologer.id} className="bg-background-elevated rounded-2xl p-6">
+                          <div className="flex items-center gap-4 p-3 bg-background-elevated rounded-xl">
                             <img
                               src={astrologer.profileImage || '/placeholder-astrologer.jpg'}
                               alt={astrologer.name || astrologer.fullName || 'Astrologer'}
-                              className="w-10 h-10 rounded-full object-cover border-2 border-[#D4A574]"
+                              className="w-10 h-10 rounded-full object-cover border-2 border-accent"
                             />
                             <div className="flex-1">
-                              <h4 className="font-semibold text-[#1A1A2E]">{astrologer.name || astrologer.fullName || 'Unknown Astrologer'}</h4>
-                              <p className="text-sm text-[#6B6B80]">{astrologer.title || 'Astrologer'}</p>
+                              <h4 className="font-semibold text-primary">{astrologer.name || astrologer.fullName || 'Unknown Astrologer'}</h4>
+                              <p className="text-sm text-muted-foreground">{astrologer.title || 'Astrologer'}</p>
                               {astrologer.experienceYears !== undefined && (
-                                <p className="text-xs text-[#6B6B80]">
+                                <p className="text-xs text-muted-foreground">
                                   {astrologer.experienceYears} yr(s)
                                 </p>
                               )}
                               {astrologer.specializations && astrologer.specializations.length > 0 && (
-                                <p className="text-xs text-[#6B6B80] truncate">
+                                <p className="text-xs text-muted-foreground truncate">
                                   {astrologer.specializations.join(', ')}
                                 </p>
                               )}
@@ -805,7 +805,7 @@ export default function AdminDashboard() {
                           </div>
                           <div className="flex flex-wrap gap-2 mb-4">
                             {astrologer.specializations?.slice(0, 3).map((spec: string) => (
-                              <span key={spec} className="px-2 py-1 bg-white rounded-full text-xs">
+                              <span key={spec} className="px-2 py-1 bg-background-card rounded-full text-xs">
                                 {spec}
                               </span>
                             ))}
@@ -814,7 +814,7 @@ export default function AdminDashboard() {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
+                              className="flex-1 text-destructive border-red-200 hover:bg-red-50"
                               onClick={() => handleDeleteAstrologer(astrologer._id || astrologer.id || '')}
                             >
                               <XCircle className="w-4 h-4 mr-1" />
@@ -853,11 +853,11 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <div className="relative max-w-md">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <Input
                           type="text"
                           placeholder="Search bookings..."
-                          className="pl-12 py-6 border-2 border-gray-200 rounded-xl"
+                          className="pl-12 py-6 border-2 border-border rounded-xl"
                         />
                       </div>
                       <Button variant="outline">
@@ -868,31 +868,31 @@ export default function AdminDashboard() {
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="border-b border-gray-100">
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Booking ID</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">User</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Astrologer</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Date</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Amount</th>
-                            <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Status</th>
+                          <tr className="border-b border-border">
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Booking ID</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">User</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Astrologer</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Date</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Amount</th>
+                            <th className="text-left py-4 px-4 font-medium text-muted-foreground">Status</th>
                           </tr>
                         </thead>
                         <tbody>
                           {bookings.map((booking: BookingType) => (
-                            <tr key={booking._id || booking.id} className="border-b border-gray-50 hover:bg-[#F5F2EB]">
+                            <tr key={booking._id || booking.id} className="border-b border-border hover:bg-background-elevated">
                               <td className="py-4 px-4 font-mono text-sm">{booking.bookingId || booking._id || booking.id}</td>
-                              <td className="py-4 px-4 text-[#1A1A2E]">{booking.userName || 'User'}</td>
-                              <td className="py-4 px-4 text-[#1A1A2E]">{booking.astrologerName}</td>
-                              <td className="py-4 px-4 text-[#6B6B80]">
+                              <td className="py-4 px-4 text-primary">{booking.userName || 'User'}</td>
+                              <td className="py-4 px-4 text-primary">{booking.astrologerName}</td>
+                              <td className="py-4 px-4 text-muted-foreground">
                                 {new Date(booking.bookingDate || booking.date || new Date()).toLocaleDateString()}
                               </td>
-                              <td className="py-4 px-4 font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</td>
+                              <td className="py-4 px-4 font-semibold text-primary">₹{booking.amount || booking.totalAmount}</td>
                               <td className="py-4 px-4">
                                 <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
                                   booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
                                     booking.status === 'completed' ? 'bg-blue-100 text-blue-700' :
-                                      booking.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                                        'bg-gray-100 text-gray-700'
+                                      booking.status === 'cancelled' ? 'bg-destructive/20 text-red-700' :
+                                        'bg-background-elevated text-secondary'
                                   }`}>
                                   {booking.status}
                                 </span>
@@ -926,28 +926,28 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    <div className="bg-white border border-gray-100 rounded-2xl p-6">
-                      <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+                    <div className="bg-background-card border border-border rounded-2xl p-6">
+                      <h3 className="font-serif text-lg font-bold text-primary mb-4">
                         Recent Transactions
                       </h3>
                       <div className="overflow-x-auto">
                         <table className="w-full">
                           <thead>
-                            <tr className="border-b border-gray-100">
-                              <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Transaction ID</th>
-                              <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">User</th>
-                              <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Amount</th>
-                              <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Method</th>
-                              <th className="text-left py-4 px-4 font-medium text-[#6B6B80]">Status</th>
+                            <tr className="border-b border-border">
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Transaction ID</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">User</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Amount</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Method</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Status</th>
                             </tr>
                           </thead>
                           <tbody>
                             {bookings.map((booking: BookingType, index: number) => (
-                              <tr key={booking._id || booking.id} className="border-b border-gray-50 hover:bg-[#F5F2EB]">
+                              <tr key={booking._id || booking.id} className="border-b border-border hover:bg-background-elevated">
                                 <td className="py-4 px-4 font-mono text-sm">TXN{100000 + index}</td>
-                                <td className="py-4 px-4 text-[#1A1A2E]">{booking.userName}</td>
-                                <td className="py-4 px-4 font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</td>
-                                <td className="py-4 px-4 text-[#6B6B80]">Card</td>
+                                <td className="py-4 px-4 text-primary">{booking.userName}</td>
+                                <td className="py-4 px-4 font-semibold text-primary">₹{booking.amount || booking.totalAmount}</td>
+                                <td className="py-4 px-4 text-muted-foreground">Card</td>
                                 <td className="py-4 px-4">
                                   <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
                                     Success
@@ -966,7 +966,7 @@ export default function AdminDashboard() {
                 {activeTab === 'monitoring' && (
                   <div className="space-y-6">
                     {monitoringLoading && (
-                      <div className="flex items-center gap-2 text-[#6B6B80] text-sm">
+                      <div className="flex items-center gap-2 text-muted-foreground text-sm">
                         <Loader2 className="w-4 h-4 animate-spin" />
                         <span>Loading monitoring data...</span>
                       </div>
@@ -1004,27 +1004,27 @@ export default function AdminDashboard() {
                     {monitoring && !monitoringLoading && !monitoringError && (
                       <>
                         <div className="grid md:grid-cols-2 gap-6">
-                          <div className="bg-[#F5F2EB] rounded-2xl p-6">
-                            <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">System Health</h3>
+                          <div className="bg-background-elevated rounded-2xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-primary mb-4">System Health</h3>
                             <div className="space-y-3 text-sm">
                               <div className="flex items-center justify-between">
-                                <span className="text-[#6B6B80]">MongoDB</span>
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.mongoUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                <span className="text-muted-foreground">MongoDB</span>
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.mongoUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
                                   {monitoring.infra?.mongoUp >= 1 ? 'Up' : 'Down'}
                                 </span>
                               </div>
                               <div className="flex items-center justify-between">
-                                <span className="text-[#6B6B80]">Redis</span>
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.redisUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                <span className="text-muted-foreground">Redis</span>
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.redisUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
                                   {monitoring.infra?.redisUp >= 1 ? 'Up' : 'Down'}
                                 </span>
                               </div>
                             </div>
                           </div>
 
-                          <div className="bg-[#F5F2EB] rounded-2xl p-6">
-                            <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">Operational Alerts</h3>
-                            <ul className="space-y-2 text-sm text-[#1A1A2E] list-disc pl-5">
+                          <div className="bg-background-elevated rounded-2xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-primary mb-4">Operational Alerts</h3>
+                            <ul className="space-y-2 text-sm text-primary list-disc pl-5">
                               {monitoring.bookings?.failedTotal > 0 && (
                                 <li>{monitoring.bookings.failedTotal} booking creation failures since startup</li>
                               )}
@@ -1044,36 +1044,36 @@ export default function AdminDashboard() {
                         </div>
 
                         <div className="grid md:grid-cols-2 gap-6">
-                          <div className="bg-white border border-gray-100 rounded-2xl p-6">
-                            <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">Booking Metrics</h3>
-                            <div className="space-y-2 text-sm text-[#1A1A2E]">
+                          <div className="bg-background-card border border-border rounded-2xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-primary mb-4">Booking Metrics</h3>
+                            <div className="space-y-2 text-sm text-primary">
                               <p>Total bookings: <span className="font-semibold">{monitoring.bookings?.total ?? 0}</span></p>
                               <p>Last 24h created: <span className="font-semibold">{monitoring.bookings?.last24h?.created ?? 0}</span></p>
                               <p>Last 24h completed: <span className="font-semibold">{monitoring.bookings?.last24h?.completed ?? 0}</span></p>
                             </div>
-                            <div className="mt-4 space-y-1 text-xs text-[#6B6B80]">
+                            <div className="mt-4 space-y-1 text-xs text-muted-foreground">
                               {Object.entries(monitoring.bookings?.byStatus || {}).map(([status, count]) => (
                                 <div key={status} className="flex justify-between">
                                   <span className="capitalize">{status}</span>
-                                  <span className="font-medium text-[#1A1A2E]">{(count as number).toLocaleString()}</span>
+                                  <span className="font-medium text-primary">{(count as number).toLocaleString()}</span>
                                 </div>
                               ))}
                             </div>
                           </div>
 
-                          <div className="bg-white border border-gray-100 rounded-2xl p-6">
-                            <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">Payment Metrics</h3>
-                            <div className="space-y-2 text-sm text-[#1A1A2E]">
+                          <div className="bg-background-card border border-border rounded-2xl p-6">
+                            <h3 className="font-serif text-lg font-bold text-primary mb-4">Payment Metrics</h3>
+                            <div className="space-y-2 text-sm text-primary">
                               <p>Total payments: <span className="font-semibold">{monitoring.payments?.total ?? 0}</span></p>
                               <p>Last 24h created: <span className="font-semibold">{monitoring.payments?.last24h?.created ?? 0}</span></p>
                               <p>Last 24h captured: <span className="font-semibold">{monitoring.payments?.last24h?.captured ?? 0}</span></p>
                               <p>Last 24h failed: <span className="font-semibold">{monitoring.payments?.last24h?.failed ?? 0}</span></p>
                             </div>
-                            <div className="mt-4 space-y-1 text-xs text-[#6B6B80]">
+                            <div className="mt-4 space-y-1 text-xs text-muted-foreground">
                               {Object.entries(monitoring.payments?.byStatus || {}).map(([status, count]) => (
                                 <div key={status} className="flex justify-between">
                                   <span className="capitalize">{status}</span>
-                                  <span className="font-medium text-[#1A1A2E]">{(count as number).toLocaleString()}</span>
+                                  <span className="font-medium text-primary">{(count as number).toLocaleString()}</span>
                                 </div>
                               ))}
                             </div>
@@ -1092,29 +1092,29 @@ export default function AdminDashboard() {
       {/* Add User Modal */}
       {showUserModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+          <div className="bg-background-card rounded-2xl p-6 w-full max-w-md">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-[#1A1A2E]">Add New User</h2>
-              <button onClick={() => setShowUserModal(false)} className="p-2 hover:bg-gray-100 rounded-lg">
+              <h2 className="text-xl font-bold text-primary">Add New User</h2>
+              <button onClick={() => setShowUserModal(false)} className="p-2 hover:bg-background-elevated rounded-lg">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div>
-                <label htmlFor="admin-user-name" className="block text-sm font-medium text-[#1A1A2E] mb-1">Full Name *</label>
+                <label htmlFor="admin-user-name" className="block text-sm font-medium text-primary mb-1">Full Name *</label>
                 <Input id="admin-user-name" name="fullName" required placeholder="Enter full name" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-user-email" className="block text-sm font-medium text-[#1A1A2E] mb-1">Email *</label>
+                <label htmlFor="admin-user-email" className="block text-sm font-medium text-primary mb-1">Email *</label>
                 <Input id="admin-user-email" name="email" type="email" required placeholder="Enter email" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-user-phone" className="block text-sm font-medium text-[#1A1A2E] mb-1">Phone Number</label>
+                <label htmlFor="admin-user-phone" className="block text-sm font-medium text-primary mb-1">Phone Number</label>
                 <Input id="admin-user-phone" name="phoneNumber" type="tel" placeholder="Enter phone number" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-user-role" className="block text-sm font-medium text-[#1A1A2E] mb-1">Role</label>
-                <select id="admin-user-role" name="role" className="w-full px-3 py-2 border-2 border-gray-200 rounded-xl">
+                <label htmlFor="admin-user-role" className="block text-sm font-medium text-primary mb-1">Role</label>
+                <select id="admin-user-role" name="role" className="w-full px-3 py-2 border-2 border-border rounded-xl">
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
                 </select>
@@ -1123,7 +1123,7 @@ export default function AdminDashboard() {
                 <Button type="button" variant="outline" onClick={() => setShowUserModal(false)} className="flex-1">
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting} className="flex-1 bg-[#2D1B69] hover:bg-[#231552]">
+                <Button type="submit" disabled={submitting} className="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary) / 0.85)]">
                   {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create User'}
                 </Button>
               </div>
@@ -1135,54 +1135,54 @@ export default function AdminDashboard() {
       {/* Add Astrologer Modal */}
       {showAstrologerModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+          <div className="bg-background-card rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-[#1A1A2E]">Add New Astrologer</h2>
+              <h2 className="text-xl font-bold text-primary">Add New Astrologer</h2>
               <button 
                 onClick={() => {
                   setShowAstrologerModal(false);
                   setAstrologerAvailability([{ day: 'Monday', startTime: '09:00', endTime: '17:00' }]);
                 }} 
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="p-2 hover:bg-background-elevated rounded-lg"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
             <form onSubmit={handleCreateAstrologer} className="space-y-4">
               <div>
-                <label htmlFor="admin-astro-name" className="block text-sm font-medium text-[#1A1A2E] mb-1">Full Name *</label>
+                <label htmlFor="admin-astro-name" className="block text-sm font-medium text-primary mb-1">Full Name *</label>
                 <Input id="admin-astro-name" name="fullName" required placeholder="Enter full name" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-astro-email" className="block text-sm font-medium text-[#1A1A2E] mb-1">Email *</label>
+                <label htmlFor="admin-astro-email" className="block text-sm font-medium text-primary mb-1">Email *</label>
                 <Input id="admin-astro-email" name="email" type="email" required placeholder="Enter email" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-astro-phone" className="block text-sm font-medium text-[#1A1A2E] mb-1">Phone Number *</label>
+                <label htmlFor="admin-astro-phone" className="block text-sm font-medium text-primary mb-1">Phone Number *</label>
                 <Input id="admin-astro-phone" name="phoneNumber" type="tel" required placeholder="Enter phone number" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-astro-title" className="block text-sm font-medium text-[#1A1A2E] mb-1">Title</label>
+                <label htmlFor="admin-astro-title" className="block text-sm font-medium text-primary mb-1">Title</label>
                 <Input id="admin-astro-title" name="title" placeholder="e.g., Vedic Astrologer" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-astro-skills" className="block text-sm font-medium text-[#1A1A2E] mb-1">Skills *</label>
+                <label htmlFor="admin-astro-skills" className="block text-sm font-medium text-primary mb-1">Skills *</label>
                 <Input id="admin-astro-skills" name="skills" required placeholder="e.g., Vedic Astrology, Numerology, Palmistry" className="w-full" />
-                <p className="text-xs text-gray-500 mt-1">Separate skills with commas</p>
+                <p className="text-xs text-muted-foreground mt-1">Separate skills with commas</p>
               </div>
               <div>
-                <label htmlFor="admin-astro-experience" className="block text-sm font-medium text-[#1A1A2E] mb-1">Experience (Years) *</label>
+                <label htmlFor="admin-astro-experience" className="block text-sm font-medium text-primary mb-1">Experience (Years) *</label>
                 <Input id="admin-astro-experience" name="experienceYears" type="number" required placeholder="e.g., 5" className="w-full" />
               </div>
               <div>
-                <label htmlFor="admin-astro-languages" className="block text-sm font-medium text-[#1A1A2E] mb-1">Languages</label>
+                <label htmlFor="admin-astro-languages" className="block text-sm font-medium text-primary mb-1">Languages</label>
                 <Input id="admin-astro-languages" name="languages" placeholder="e.g., Hindi, English" className="w-full" />
-                <p className="text-xs text-gray-500 mt-1">Separate languages with commas</p>
+                <p className="text-xs text-muted-foreground mt-1">Separate languages with commas</p>
               </div>
               
               {/* Availability Section */}
               <div className="pt-4 border-t">
-                <label htmlFor="admin-astro-avail-day-0" className="block text-sm font-medium text-[#1A1A2E] mb-3">Availability Schedule *</label>
+                <label htmlFor="admin-astro-avail-day-0" className="block text-sm font-medium text-primary mb-3">Availability Schedule *</label>
                 <div className="space-y-3">
                   {astrologerAvailability.map((slot, index) => (
                     <div key={slot.day} className="flex items-center gap-2">
@@ -1190,7 +1190,7 @@ export default function AdminDashboard() {
                         value={slot.day}
                         id={index === 0 ? "admin-astro-avail-day-0" : undefined}
                         onChange={(e) => updateAstrologerAvailability(index, 'day', e.target.value)}
-                        className="px-2 py-2 text-sm border border-gray-300 rounded flex-1"
+                        className="px-2 py-2 text-sm border border-border rounded flex-1"
                       >
                         {DAYS.map(day => <option key={day} value={day}>{day}</option>)}
                       </select>
@@ -1198,14 +1198,14 @@ export default function AdminDashboard() {
                         type="time"
                         value={slot.startTime}
                         onChange={(e) => updateAstrologerAvailability(index, 'startTime', e.target.value)}
-                        className="px-2 py-2 text-sm border border-gray-300 rounded w-20"
+                        className="px-2 py-2 text-sm border border-border rounded w-20"
                       />
                       <span className="text-xs">to</span>
                       <input
                         type="time"
                         value={slot.endTime}
                         onChange={(e) => updateAstrologerAvailability(index, 'endTime', e.target.value)}
-                        className="px-2 py-2 text-sm border border-gray-300 rounded w-20"
+                        className="px-2 py-2 text-sm border border-border rounded w-20"
                       />
                       {astrologerAvailability.length > 1 && (
                         <button
@@ -1230,7 +1230,7 @@ export default function AdminDashboard() {
               </div>
 
               <div>
-                <label htmlFor="admin-astro-profile-image" className="block text-sm font-medium text-[#1A1A2E] mb-1">Profile Image</label>
+                <label htmlFor="admin-astro-profile-image" className="block text-sm font-medium text-primary mb-1">Profile Image</label>
                 <div
                   role="button"
                   tabIndex={0}
@@ -1250,12 +1250,12 @@ export default function AdminDashboard() {
                     }
                   }}
                   className="w-24 h-24 rounded-full border-2 border-dashed flex items-center justify-center cursor-pointer overflow-hidden"
-                  style={{ borderColor: previewUrl ? 'transparent' : '#E5E5EA' }}
+                  style={{ borderColor: previewUrl ? 'transparent' : 'hsl(var(--border))' }}
                 >
                   {previewUrl ? (
                     <img src={previewUrl} alt="preview" className="w-full h-full object-cover" />
                   ) : (
-                    <Upload className="w-6 h-6" style={{ color: '#A0A0A0' }} />
+                    <Upload className="w-6 h-6" style={{ color: 'hsl(var(--text-muted))' }} />
                   )}
                 </div>
                 <input
@@ -1276,7 +1276,7 @@ export default function AdminDashboard() {
                   }}
                   className="hidden"
                 />
-                <p className="text-xs text-gray-500 mt-1">You can drag & drop or click to upload. <br />or paste URL below</p>
+                <p className="text-xs text-muted-foreground mt-1">You can drag & drop or click to upload. <br />or paste URL below</p>
                 <Input name="profileImageUrl" placeholder="https://..." className="w-full mt-2" />
               </div>
               <div className="flex gap-3 pt-4">
@@ -1291,7 +1291,7 @@ export default function AdminDashboard() {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting} className="flex-1 bg-[#2D1B69] hover:bg-[#231552]">
+                <Button type="submit" disabled={submitting} className="flex-1 bg-[hsl(var(--primary))] hover:bg-[hsl(var(--primary) / 0.85)]">
                   {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create Astrologer'}
                 </Button>
               </div>

@@ -67,7 +67,7 @@ export default function PaymentPage() {
 
   if (hasExistingBookingFromUrl && isLoadingExistingBooking) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-background pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Loading Booking</h2>
         </div>
@@ -84,7 +84,7 @@ export default function PaymentPage() {
       !userDetails)
   ) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-background pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-4">Incomplete Booking</h2>
           <Link to="/booking">
@@ -168,8 +168,8 @@ export default function PaymentPage() {
 
   if (isSuccess) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] flex items-center justify-center">
-        <div className="bg-white rounded-3xl p-10 shadow-xl text-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="bg-background-card rounded-3xl p-10 shadow-xl text-center">
           <Check className="w-14 h-14 text-green-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-3">Payment Successful</h2>
           <p className="mb-4">
@@ -182,7 +182,7 @@ export default function PaymentPage() {
             is confirmed.
           </p>
 
-          <div className="bg-gray-100 p-3 rounded-lg mb-4">
+          <div className="bg-background-elevated p-3 rounded-lg mb-4">
             Booking Ref: {bookingRecord?.bookingId || bookingRecord?.id}
           </div>
 
@@ -195,7 +195,7 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-3xl mx-auto px-4">
         <div className="flex items-center gap-4 mb-8">
           <Link to="/booking/details">
@@ -217,7 +217,7 @@ export default function PaymentPage() {
           completedSteps={[0, 1, 2]}
         />
 
-        <div className="bg-white rounded-2xl p-8 shadow-lg mt-8">
+        <div className="bg-background-card rounded-2xl p-8 shadow-lg mt-8">
           <h2 className="text-xl font-bold mb-6">Booking Summary</h2>
 
           <div className="flex items-center gap-4 mb-6">
@@ -227,7 +227,7 @@ export default function PaymentPage() {
                 className="w-16 h-16 rounded-full"
               />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gray-200" />
+              <div className="w-16 h-16 rounded-full bg-border" />
             )}
             <div>
               <h4 className="font-semibold">
@@ -313,7 +313,7 @@ export default function PaymentPage() {
             label="Pay Now"
           />
 
-          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-2 mt-4 text-sm text-muted-foreground">
             <Shield className="w-4 h-4" />
             Secure payment powered by Razorpay
           </div>

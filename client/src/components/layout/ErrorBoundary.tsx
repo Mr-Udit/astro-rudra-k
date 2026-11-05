@@ -33,17 +33,17 @@ export class ErrorBoundary extends Component<Props, State> {
     public render() {
         if (this.state.hasError) {
             return (
-                <div className="min-h-screen bg-[#FAF8F3] flex items-center justify-center p-4">
-                    <div className="bg-white max-w-md w-full rounded-2xl shadow-xl p-8 text-center border border-red-100">
-                        <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <AlertTriangle className="w-8 h-8 text-red-600" />
+                <div className="min-h-screen bg-background flex items-center justify-center p-4">
+                    <div className="bg-background-card max-w-md w-full rounded-2xl shadow-xl p-8 text-center border border-destructive/30">
+                        <div className="w-16 h-16 bg-destructive/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <AlertTriangle className="w-8 h-8 text-destructive" />
                         </div>
 
-                        <h1 className="font-serif text-2xl font-bold text-[#2D1B69] mb-3">
+                        <h1 className="font-serif text-2xl font-bold text-primary mb-3">
                             Something went wrong
                         </h1>
 
-                        <p className="text-[#6B6B80] mb-8">
+                        <p className="text-muted-foreground mb-8">
                             We encountered an unexpected error. Please try reloading the page.
                         </p>
 
@@ -56,7 +56,7 @@ export class ErrorBoundary extends Component<Props, State> {
                                 Reload Page
                             </Button>
 
-                            <div className="text-xs text-[#6B6B80]/60 font-mono bg-gray-50 p-4 rounded-lg overflow-auto max-h-32 text-left">
+                            <div className="text-xs text-muted-foreground/60 font-mono bg-background-elevated p-4 rounded-lg overflow-auto max-h-32 text-left">
                                 {this.state.error?.message}
                             </div>
                         </div>

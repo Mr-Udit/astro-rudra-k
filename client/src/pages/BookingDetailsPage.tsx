@@ -58,12 +58,12 @@ export default function BookingDetailsPage() {
     !selectedTime
   ) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-background pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-4">
+          <h2 className="font-serif text-2xl font-bold text-primary mb-4">
             Incomplete Booking
           </h2>
-          <p className="text-[#6B6B80] mb-6">
+          <p className="text-muted-foreground mb-6">
             Please complete the previous steps to proceed.
           </p>
           <Link to="/booking">
@@ -197,7 +197,7 @@ export default function BookingDetailsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -206,7 +206,7 @@ export default function BookingDetailsPage() {
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="font-serif text-2xl font-bold text-[#2D1B69]">
+          <h1 className="font-serif text-2xl font-bold text-primary">
             Enter Your Details
           </h1>
         </div>
@@ -225,9 +225,9 @@ export default function BookingDetailsPage() {
           <div className="lg:col-span-2">
             <form
               onSubmit={handlePayNow}
-              className="bg-white rounded-2xl p-8 shadow-lg shadow-[#2D1B69]/5"
+              className="bg-background-card rounded-2xl p-8 shadow-lg shadow-[hsl(var(--primary))]/5"
             >
-              <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-6">
+              <h2 className="font-serif text-2xl font-bold text-primary mb-6">
                 Personal Information
               </h2>
 
@@ -236,7 +236,7 @@ export default function BookingDetailsPage() {
                 <div className="space-y-2">
                   <Label htmlFor="name">Full Name *</Label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="name"
                       name="name"
@@ -252,7 +252,7 @@ export default function BookingDetailsPage() {
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone *</Label>
                   <div className="relative">
-                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="phone"
                       name="phone"
@@ -268,7 +268,7 @@ export default function BookingDetailsPage() {
                 <div className="space-y-2">
                   <Label>Date of Birth *</Label>
                   <div className="relative">
-                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       type="date"
                       name="dateOfBirth"
@@ -284,7 +284,7 @@ export default function BookingDetailsPage() {
                 <div className="space-y-2">
                   <Label>Time of Birth *</Label>
                   <div className="relative">
-                    <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <Clock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       type="time"
                       name="timeOfBirth"
@@ -300,7 +300,7 @@ export default function BookingDetailsPage() {
                 <div className="space-y-2 md:col-span-2">
                   <Label>Place of Birth *</Label>
                   <div className="relative">
-                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                    <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       name="placeOfBirth"
                       value={formData.placeOfBirth}
@@ -334,7 +334,7 @@ export default function BookingDetailsPage() {
           </div>
 
           {/* Summary */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24 h-fit">
+          <div className="bg-background-card rounded-2xl p-6 shadow-lg sticky top-24 h-fit">
             <h3 className="font-serif text-xl font-bold mb-6">
               Booking Summary
             </h3>

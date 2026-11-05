@@ -15,8 +15,8 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 // Custom styles for calendar
 const calendarStyles = `
   .rdp-cell.rdp-day_disabled {
-    color: #d1d5db !important;
-    background-color: #f3f4f6 !important;
+    color: hsl(var(--muted-foreground)) !important;
+    background-color: hsl(var(--background-elevated)) !important;
     opacity: 0.6;
     cursor: not-allowed !important;
   }
@@ -27,17 +27,17 @@ const calendarStyles = `
   }
   
   .rdp-day:not([disabled]):hover {
-    background-color: #e0d9f5 !important;
+    background-color: hsl(var(--primary) / 0.2) !important;
   }
   
   .rdp:not([disabled]) .rdp-day_selected {
-    background-color: #4a1e8c !important;
+    background-color: hsl(var(--secondary)) !important;
     color: white !important;
     font-weight: bold;
   }
   
   .rdp-head_cell {
-    color: #1a1a2e;
+    color: hsl(var(--text-primary));
     font-weight: 500;
   }
 `;
@@ -175,12 +175,12 @@ export default function BookingPage() {
   // Redirect if no astrologer selected
   if (!selectedAstrologer) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-background pt-24 pb-16 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-4">
+          <h2 className="font-serif text-2xl font-bold text-primary mb-4">
             No Astrologer Selected
           </h2>
-          <p className="text-[#6B6B80] mb-6">
+          <p className="text-muted-foreground mb-6">
             Please select an astrologer first to proceed with booking.
           </p>
           <Link to="/astrologers">
@@ -219,7 +219,7 @@ export default function BookingPage() {
   const finalTotal = totalPrice + platformFee - discount;
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
@@ -228,7 +228,7 @@ export default function BookingPage() {
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="font-serif text-2xl font-bold text-[#2D1B69]">
+          <h1 className="font-serif text-2xl font-bold text-primary">
             Book Consultation
           </h1>
         </div>
@@ -244,7 +244,7 @@ export default function BookingPage() {
             {/* Step 1: Consultation Type */}
             {currentStep === 1 && (
               <div className="animate-fade-in">
-                <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-6">
+                <h2 className="font-serif text-2xl font-bold text-primary mb-6">
                   Choose Consultation Type
                 </h2>
                 <div className="grid sm:grid-cols-3 gap-4">
@@ -253,24 +253,24 @@ export default function BookingPage() {
                       key={type.id}
                       onClick={() => setConsultationType(type)}
                       className={`p-6 rounded-2xl border-2 text-left transition-all duration-300 ${consultationType?.id === type.id
-                        ? 'border-[#4A1E8C] bg-gradient-to-br from-[#2D1B69]/5 to-[#4A1E8C]/5'
-                        : 'border-gray-200 bg-white hover:border-[#4A1E8C]/50'
+                        ? 'border-[hsl(var(--secondary))] bg-gradient-to-br from-primary/5 to-secondary/5'
+                        : 'border-border bg-background-card hover:border-[hsl(var(--secondary))]/50'
                         }`}
                     >
                       <type.icon
                         className={`w-10 h-10 mb-4 ${consultationType?.id === type.id
-                          ? 'text-[#4A1E8C]'
-                          : 'text-[#6B6B80]'
+                          ? 'text-primary'
+                          : 'text-muted-foreground'
                           }`}
                       />
-                      <h3 className="font-semibold text-[#1A1A2E] mb-1">
+                      <h3 className="font-semibold text-primary mb-1">
                         {type.name}
                       </h3>
-                      <p className="text-sm text-[#6B6B80] mb-2">
+                      <p className="text-sm text-muted-foreground mb-2">
                         {type.duration} minutes
                       </p>
-                      <p className="text-xs text-[#6B6B80]">{type.description}</p>
-                      <p className="text-sm font-medium mt-2 text-[#4A1E8C]">
+                      <p className="text-xs text-muted-foreground">{type.description}</p>
+                      <p className="text-sm font-medium mt-2 text-primary">
                         ₹{type.price}
                       </p>
                     </button>
@@ -284,41 +284,41 @@ export default function BookingPage() {
               <div className="animate-fade-in space-y-8">
                 {/* Date Selection */}
                 <div>
-                  <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-6">
+                  <h2 className="font-serif text-2xl font-bold text-primary mb-6">
                     Select Date
                   </h2>
                   {isLoadingAvailability && (
-                    <p className="text-[#6B6B80] mb-4">Loading availability...</p>
+                    <p className="text-muted-foreground mb-4">Loading availability...</p>
                   )}
-                  <div className="bg-white p-4 rounded-2xl border-2 border-gray-100 shadow-sm inline-block">
+                  <div className="bg-background-card p-4 rounded-2xl border-2 border-border shadow-sm inline-block">
                     <DayPicker
                       mode="single"
                       selected={selectedDate || undefined}
                       onSelect={(day) => day && setSelectedDate(day)}
                       disabled={disabledDates}
                       modifiersClassNames={{
-                        selected: 'bg-[#4A1E8C] text-white hover:bg-[#2D1B69] rounded-xl',
-                        today: 'text-[#4A1E8C] font-bold',
-                        disabled: 'text-gray-300 opacity-50 cursor-not-allowed',
+                        selected: 'bg-[hsl(var(--secondary))] text-white hover:bg-[hsl(var(--primary))] rounded-xl',
+                        today: 'text-primary font-bold',
+                        disabled: 'text-muted-foreground opacity-50 cursor-not-allowed',
                       }}
                       modifiersStyles={{
                         disabled: {
-                          color: '#D1D5DB',
-                          backgroundColor: '#F9FAFB',
+                          color: 'hsl(var(--muted-foreground))',
+                          backgroundColor: 'hsl(var(--background-elevated))',
                           cursor: 'not-allowed',
                         },
                       }}
                       className="border-0"
                     />
                   </div>
-                  <p className="text-sm text-[#6B6B80] mt-4">
+                  <p className="text-sm text-muted-foreground mt-4">
                     Only dates when the astrologer is available are enabled.
                   </p>
                 </div>
 
                 {/* Time Selection */}
                 <div>
-                  <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-6">
+                  <h2 className="font-serif text-2xl font-bold text-primary mb-6">
                     Choose Time Slot
                   </h2>
                   <div className="grid grid-cols-4 gap-3">
@@ -327,8 +327,8 @@ export default function BookingPage() {
                         key={time}
                         onClick={() => setSelectedTime(time)}
                         className={`py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300 ${selectedTime === time
-                          ? 'bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] text-white'
-                          : 'bg-white border-2 border-gray-200 hover:border-[#4A1E8C] text-[#1A1A2E]'
+                          ? 'bg-gradient-to-br from-primary to-secondary text-white'
+                          : 'bg-background-card border-2 border-border hover:border-[hsl(var(--secondary))] text-primary'
                           }`}
                       >
                         {time}
@@ -342,23 +342,23 @@ export default function BookingPage() {
 
           {/* Sidebar - Booking Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5 sticky top-24">
-              <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-6">
+            <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5 sticky top-24">
+              <h3 className="font-serif text-xl font-bold text-primary mb-6">
                 Booking Summary
               </h3>
 
               {/* Astrologer Info */}
-              <div className="flex items-center gap-4 pb-6 mb-6 border-b border-gray-100">
+              <div className="flex items-center gap-4 pb-6 mb-6 border-b border-border">
                 <img
                   src={selectedAstrologer.image}
                   alt={selectedAstrologer.name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-[#D4A574]"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-accent"
                 />
                 <div>
-                  <h4 className="font-semibold text-[#1A1A2E]">
+                  <h4 className="font-semibold text-primary">
                     {selectedAstrologer.name}
                   </h4>
-                  <p className="text-sm text-[#6B6B80]">
+                  <p className="text-sm text-muted-foreground">
                     {selectedAstrologer.title}
                   </p>
                 </div>
@@ -374,15 +374,15 @@ export default function BookingPage() {
               {/* Booking Details */}
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#6B6B80]">Consultation Type:</span>
-                  <span className="font-medium text-[#1A1A2E]">
+                  <span className="text-muted-foreground">Consultation Type:</span>
+                  <span className="font-medium text-primary">
                     {selectedType?.name || 'Not selected'}
                   </span>
                 </div>
                 {selectedDate && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#6B6B80]">Date:</span>
-                    <span className="font-medium text-[#1A1A2E]">
+                    <span className="text-muted-foreground">Date:</span>
+                    <span className="font-medium text-primary">
                       {new Date(selectedDate).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
@@ -393,16 +393,16 @@ export default function BookingPage() {
                 )}
                 {selectedTime && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#6B6B80]">Time:</span>
-                    <span className="font-medium text-[#1A1A2E]">
+                    <span className="text-muted-foreground">Time:</span>
+                    <span className="font-medium text-primary">
                       {selectedTime}
                     </span>
                   </div>
                 )}
                 {selectedType && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#6B6B80]">Duration:</span>
-                    <span className="font-medium text-[#1A1A2E]">
+                    <span className="text-muted-foreground">Duration:</span>
+                    <span className="font-medium text-primary">
                       {selectedType.duration} minutes
                     </span>
                   </div>
@@ -410,20 +410,20 @@ export default function BookingPage() {
               </div>
 
               {/* Price Breakdown */}
-              <div className="border-t border-gray-100 pt-4 mb-6 space-y-2">
+              <div className="border-t border-border pt-4 mb-6 space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#6B6B80]">Consultation Fee</span>
+                  <span className="text-muted-foreground">Consultation Fee</span>
                   <span>₹{totalPrice}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#6B6B80]">Platform Fee</span>
+                  <span className="text-muted-foreground">Platform Fee</span>
                   <span>₹{platformFee}</span>
                 </div>
                 <div className="flex justify-between text-sm text-green-600">
                   <span>First Time Discount (20%)</span>
                   <span>-₹{discount}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold text-[#2D1B69] pt-2 border-t border-gray-100">
+                <div className="flex justify-between text-lg font-bold text-primary pt-2 border-t border-border">
                   <span>Total Amount</span>
                   <span>₹{finalTotal}</span>
                 </div>
@@ -439,7 +439,7 @@ export default function BookingPage() {
               </Button>
 
               {/* Secure Payment */}
-              <div className="flex items-center justify-center gap-2 text-sm text-[#6B6B80]">
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                 <Shield className="w-4 h-4" />
                 <span>Secure payment powered by Razorpay</span>
               </div>

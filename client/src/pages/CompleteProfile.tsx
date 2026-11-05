@@ -131,7 +131,7 @@ export default function CompleteProfile() {
             className={`p-4 rounded-xl mb-6 text-center ${
               message.includes("success")
                 ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
+                : "bg-destructive/20 text-red-700"
             }`}
           >
             {message}

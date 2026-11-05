@@ -9,7 +9,12 @@ module.exports = {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        "background-elevated": "hsl(var(--background-elevated))",
+        "background-card": "hsl(var(--background-card))",
         foreground: "hsl(var(--foreground))",
+        "text-primary": "hsl(var(--text-primary))",
+        "text-secondary": "hsl(var(--text-secondary))",
+        "text-muted": "hsl(var(--text-muted))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -30,6 +35,14 @@ module.exports = {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+                accentGold: {
+                  DEFAULT: "hsl(var(--accent-gold))",
+                  foreground: "hsl(var(--accent-gold-foreground))",
+                },
+                success: {
+                  DEFAULT: "hsl(var(--success))",
+                  foreground: "hsl(var(--success-foreground))",
+                },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

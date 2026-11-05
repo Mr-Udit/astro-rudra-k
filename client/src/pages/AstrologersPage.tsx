@@ -42,11 +42,11 @@ export default function AstrologersPage() {
   }, [setSelectedAstrologer, setBookingStep]);
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-20 sm:pt-24 pb-10 sm:pb-16">
+    <div className="min-h-screen bg-background pt-20 sm:pt-24 pb-10 sm:pb-16">
       {/* Hero Banner */}
-      <div className="bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] py-10 sm:py-16 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#D4A574]/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#D4A574]/10 rounded-full blur-3xl" />
+      <div className="bg-gradient-to-br from-primary to-secondary py-10 sm:py-16 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-2xl mx-auto">
@@ -57,7 +57,7 @@ export default function AstrologersPage() {
               Connect with expert Vedic astrologers for personalized guidance
             </p>
             <div className="relative max-w-xl mx-auto px-4 sm:px-0">
-              <Search className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+              <Search className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search by name, specialization..."
@@ -74,7 +74,7 @@ export default function AstrologersPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Filters */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 sm:mb-8">
-          <div className="flex items-center gap-2 text-[#1A1A2E] font-medium">
+          <div className="flex items-center gap-2 text-primary font-medium">
             <Filter className="w-5 h-5" />
             <span className="text-sm sm:text-base">Filter by:</span>
           </div>
@@ -92,7 +92,7 @@ export default function AstrologersPage() {
         </div>
 
         {/* Results Count */}
-        <p className="text-[#6B6B80] mb-6">
+        <p className="text-muted-foreground mb-6">
           Showing {filteredAstrologers.length} astrologer
           {filteredAstrologers.length !== 1 ? 's' : ''}
         </p>
@@ -109,10 +109,10 @@ export default function AstrologersPage() {
             <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
               <AlertCircle className="w-10 h-10 text-red-500" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+            <h3 className="font-serif text-xl font-bold text-primary mb-2">
               Failed to load astrologers
             </h3>
-            <p className="text-[#6B6B80] mb-6">
+            <p className="text-muted-foreground mb-6">
               Something went wrong while fetching data. Please try again.
             </p>
             <Button onClick={() => window.location.reload()} variant="outline">
@@ -133,13 +133,13 @@ export default function AstrologersPage() {
 
         {!isLoading && filteredAstrologers.length === 0 && (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-[#F5F2EB] rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-10 h-10 text-[#6B6B80]" />
+            <div className="w-20 h-20 bg-background-elevated rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-10 h-10 text-muted-foreground" />
             </div>
-            <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+            <h3 className="font-serif text-xl font-bold text-primary mb-2">
               No astrologers found
             </h3>
-            <p className="text-[#6B6B80]">
+            <p className="text-muted-foreground">
               Try adjusting your search or filters to find what you're looking for.
             </p>
           </div>

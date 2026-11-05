@@ -24,7 +24,7 @@ export default function AboutPage() {
     <LazyMotion features={domAnimation}>
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       {/* Navbar */}
-      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-white sticky top-0 z-50"
+      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-background-card sticky top-0 z-50"
         style={{ boxShadow: '0 2px 20px rgba(45, 27, 105, 0.08)' }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
@@ -101,7 +101,7 @@ export default function AboutPage() {
       </section>
 
       {/* What We Offer */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background-card">
         <div className="max-w-5xl mx-auto">
           <m.h2
             initial={{ opacity: 0 }}

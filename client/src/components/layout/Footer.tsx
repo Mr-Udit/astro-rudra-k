@@ -25,20 +25,20 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0A0E27] text-white">
+    <footer className="bg-background-card text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center">
-                <span className="text-[#D4A574] text-xl">✦</span>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[hsl(var(--deep-indigo))] to-[hsl(var(--royal-purple))] flex items-center justify-center">
+                <span className="text-[hsl(var(--rose-gold))] text-xl">✦</span>
               </div>
-              <span className="font-serif text-xl font-bold">
+              <span className="font-serif text-xl font-bold text-foreground">
                 Astro-Rudra-K
               </span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
               Transform your life through ancient Vedic wisdom. Connect with expert
               astrologers for personalized guidance on career, relationships, health,
               and spiritual growth.
@@ -48,7 +48,7 @@ export default function Footer() {
                 <button
                   key={Icon.name}
                   type="button"
-                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#D4A574] hover:to-[#B8860B] transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-gradient-to-br hover:from-[hsl(var(--rose-gold))] hover:to-[hsl(var(--copper))] transition-all duration-300 hover:-translate-y-1"
                 >
                   <Icon className="w-5 h-5" />
                 </button>
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[#D4A574] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
               Quick Links
             </h3>
             <ul className="space-y-3">
@@ -66,7 +66,7 @@ export default function Footer() {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 text-sm hover:text-[#D4A574] transition-colors"
+                    className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -77,7 +77,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[#D4A574] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
               Our Services
             </h3>
             <ul className="space-y-3">
@@ -85,7 +85,7 @@ export default function Footer() {
                 <li key={service}>
                   <Link
                     to="/services"
-                    className="text-gray-400 text-sm hover:text-[#D4A574] transition-colors"
+                    className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
                   >
                     {service}
                   </Link>
@@ -96,25 +96,25 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[#D4A574] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
               Contact Us
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-[#D4A574] mt-0.5" />
-                <span className="text-gray-400 text-sm">
+                <Mail className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <span className="text-muted-foreground text-sm">
                   support@astro-rudra-k.com
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-[#D4A574] mt-0.5" />
-                <span className="text-gray-400 text-sm">
+                <Phone className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <span className="text-muted-foreground text-sm">
                   +91 1800-123-4567
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#D4A574] mt-0.5" />
-                <span className="text-gray-400 text-sm">
+                <MapPin className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <span className="text-muted-foreground text-sm">
                   123 Spiritual Lane, Mumbai,
                   <br />
                   Maharashtra 400001, India
@@ -125,9 +125,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-white/10">
+        <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-border">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-gray-500 text-sm text-center sm:text-left">
+            <p className="text-muted-foreground text-sm text-center sm:text-left">
               © 2026 Astro-Rudra-K. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 lg:gap-6">
@@ -135,7 +135,7 @@ export default function Footer() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-gray-500 text-sm hover:text-[#D4A574] transition-colors"
+                  className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
                 >
                   {link.label}
                 </Link>

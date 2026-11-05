@@ -193,7 +193,7 @@ export default function CreateAstrologerForm() {
     <LazyMotion features={domAnimation}>
     <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
       {/* Navbar */}
-      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-white sticky top-0 z-50"
+      <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-background-card sticky top-0 z-50"
         style={{ boxShadow: '0 2px 20px rgba(45, 27, 105, 0.08)' }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
@@ -235,7 +235,7 @@ export default function CreateAstrologerForm() {
                 onClick={() => fileInputRef.current?.click()}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInputRef.current?.click(); } }}
                 className="w-32 h-32 rounded-full border-2 border-dashed flex items-center justify-center cursor-pointer overflow-hidden"
-                style={{ borderColor: previewUrl ? 'transparent' : '#E5E5EA' }}
+                style={{ borderColor: previewUrl ? 'transparent' : 'hsl(var(--border))' }}
               >
                 {previewUrl ? (
                   <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
@@ -332,7 +332,7 @@ export default function CreateAstrologerForm() {
                   className="form-input"
                   placeholder="Hindi, English"
                 />
-                <p className="text-xs text-gray-500 mt-1">Separate languages with commas</p>
+                <p className="text-xs text-muted-foreground mt-1">Separate languages with commas</p>
               </div>
             </div>
 

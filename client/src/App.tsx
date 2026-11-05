@@ -31,10 +31,10 @@ const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'));
 
 // Loading Fallback
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-[#FAF8F3]">
+  <div className="min-h-screen flex items-center justify-center bg-background">
     <div className="flex flex-col items-center gap-4">
-      <Loader2 className="w-12 h-12 animate-spin text-[#4A1E8C]" />
-      <p className="text-[#2D1B69] font-medium animate-pulse">Loading...</p>
+      <Loader2 className="w-12 h-12 animate-spin text-primary" />
+      <p className="text-primary font-medium animate-pulse">Loading...</p>
     </div>
   </div>
 );

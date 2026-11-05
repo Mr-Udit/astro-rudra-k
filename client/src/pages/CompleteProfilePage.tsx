@@ -24,9 +24,9 @@ export default function CompleteProfilePage() {
   // Ensure user is authenticated
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#FAF8F3] to-[#F5F2EB] flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
-          <p className="text-[#6B6B80] mb-6">Please log in to continue</p>
+      <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--background))] to-[hsl(var(--background-elevated))] flex items-center justify-center">
+        <div className="text-center bg-background-card p-8 rounded-2xl shadow-xl">
+          <p className="text-muted-foreground mb-6">Please log in to continue</p>
           <Button onClick={() => navigate("/login")} className="btn-primary">
             Go to Login
           </Button>
@@ -114,52 +114,52 @@ export default function CompleteProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FAF8F3] to-[#F5F2EB] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[hsl(var(--background))] to-[hsl(var(--background-elevated))] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <ConstellationBg starCount={40} />
 
       <div className="max-w-xl w-full relative z-10">
-        <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl shadow-[#2D1B69]/10 animate-slide-in-up">
+        <div className="bg-background-card rounded-3xl p-8 md:p-10 shadow-2xl shadow-[hsl(var(--primary))]/10 animate-slide-in-up">
           <div className="text-center mb-8">
-            <h2 className="font-serif text-3xl font-bold text-[#2D1B69] mb-2">
+            <h2 className="font-serif text-3xl font-bold text-primary mb-2">
               Complete Your Profile
             </h2>
-            <p className="text-[#6B6B80]">
+            <p className="text-muted-foreground">
               Tell us a bit about yourself to get started
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="name" className="text-[#1A1A2E] font-medium">
+              <Label htmlFor="name" className="text-primary font-medium">
                 Full Name *
               </Label>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   id="name"
                   type="text"
                   placeholder="Enter your full name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="pl-12 py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                  className="pl-12 py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                   required
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-[#1A1A2E] font-medium">
+              <Label htmlFor="phone" className="text-primary font-medium">
                 Phone Number *
               </Label>
               <div className="relative">
-                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   id="phone"
                   type="tel"
                   placeholder="+91 98765 43210"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="pl-12 py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                  className="pl-12 py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                   required
                 />
               </div>
@@ -168,7 +168,7 @@ export default function CompleteProfilePage() {
             <div className="space-y-5">
               {/* Date of Birth */}
               <div className="space-y-2">
-                <Label htmlFor="dob" className="text-[#1A1A2E] font-medium">
+                <Label htmlFor="dob" className="text-primary font-medium">
                   Date of Birth
                 </Label>
                 <Input
@@ -176,31 +176,31 @@ export default function CompleteProfilePage() {
                   type="date"
                   value={dob}
                   onChange={(e) => setDob(e.target.value)}
-                  className="w-full py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                  className="w-full py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                 />
               </div>
 
               {/* Location */}
               <div className="space-y-2">
-                <Label htmlFor="location" className="text-[#1A1A2E] font-medium">
+                <Label htmlFor="location" className="text-primary font-medium">
                   Location
                 </Label>
                 <div className="relative">
-                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B80]" />
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input
                     id="location"
                     type="text"
                     placeholder="City, Country"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="pl-12 py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                    className="pl-12 py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                   />
                 </div>
               </div>
 
               {/* Gender */}
               <div className="space-y-2">
-                <Label htmlFor="gender" className="text-[#1A1A2E] font-medium">
+                <Label htmlFor="gender" className="text-primary font-medium">
                   Gender
                 </Label>
                 <select
@@ -209,7 +209,7 @@ export default function CompleteProfilePage() {
                   required
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
-                  className="w-full py-3 px-4 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:outline-none text-[#1A1A2E] bg-white"
+                  className="w-full py-3 px-4 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:outline-none text-primary bg-background-card"
                 >
                   <option value="" disabled>
                     Select your gender

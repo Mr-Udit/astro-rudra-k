@@ -143,11 +143,11 @@ export default function AstrologerDashboard() {
 
   if (!user || user.role !== 'astrologer') {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
+      <div className="min-h-screen bg-background pt-24 flex items-center justify-center">
+        <div className="text-center bg-background-card p-8 rounded-2xl shadow-xl">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#2D1B69] mb-2">Access Denied</h2>
-          <p className="text-[#6B6B80] mb-6">Only astrologers can access this dashboard</p>
+          <h2 className="text-xl font-bold text-primary mb-2">Access Denied</h2>
+          <p className="text-muted-foreground mb-6">Only astrologers can access this dashboard</p>
           <Button onClick={() => navigate('/login')} className="btn-primary">
             Go to Login
           </Button>
@@ -158,10 +158,10 @@ export default function AstrologerDashboard() {
 
   if (!user || (loading && bookings.length === 0)) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 flex items-center justify-center">
+      <div className="min-h-screen bg-background pt-24 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-10 h-10 animate-spin text-[#4A1E8C] mx-auto mb-4" />
-          <p className="text-[#6B6B80]">{!user ? 'Loading astrologer profile...' : 'Fetching your consultations...'}</p>
+          <Loader2 className="w-10 h-10 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">{!user ? 'Loading astrologer profile...' : 'Fetching your consultations...'}</p>
         </div>
       </div>
     );
@@ -169,11 +169,11 @@ export default function AstrologerDashboard() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#FAF8F3] pt-24 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
+      <div className="min-h-screen bg-background pt-24 flex items-center justify-center">
+        <div className="text-center bg-background-card p-8 rounded-2xl shadow-xl">
           <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-[#2D1B69] mb-2">Error Loading Dashboard</h2>
-          <p className="text-[#6B6B80] mb-6">{error}</p>
+          <h2 className="text-xl font-bold text-primary mb-2">Error Loading Dashboard</h2>
+          <p className="text-muted-foreground mb-6">{error}</p>
           <Button onClick={() => window.location.reload()} className="btn-primary">
             Retry
           </Button>
@@ -246,13 +246,13 @@ export default function AstrologerDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] rounded-3xl p-8 mb-8 text-white">
+        <div className="bg-gradient-to-br from-primary to-secondary rounded-3xl p-8 mb-8 text-white">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="flex items-center gap-6">
-              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+              <div className="w-20 h-20 rounded-full bg-background-card/20 flex items-center justify-center overflow-hidden">
                 {user?.avatar ? (
                   <img src={user.avatar} alt={user.fullName} className="w-full h-full object-cover" />
                 ) : (
@@ -267,7 +267,7 @@ export default function AstrologerDashboard() {
             <div className="flex gap-3">
               <Button
                 variant="outline"
-                className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                className="bg-background-card/10 border-white/30 text-white hover:bg-background-card/20"
                 onClick={openScheduleDialog}
               >
                 <Settings className="w-4 h-4 mr-2" />
@@ -280,14 +280,14 @@ export default function AstrologerDashboard() {
         {/* Stats */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
+            <div key={stat.label} className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
               </div>
-              <p className="text-3xl font-bold text-[#2D1B69] mb-1">{stat.value}</p>
-              <p className="text-sm text-[#6B6B80]">{stat.label}</p>
+              <p className="text-3xl font-bold text-primary mb-1">{stat.value}</p>
+              <p className="text-sm text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -296,8 +296,8 @@ export default function AstrologerDashboard() {
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Tabs */}
-            <div className="bg-white rounded-2xl shadow-lg shadow-[#2D1B69]/5 overflow-hidden">
-              <div className="flex border-b border-gray-100">
+            <div className="bg-background-card rounded-2xl shadow-lg shadow-[hsl(var(--primary))]/5 overflow-hidden">
+              <div className="flex border-b border-border">
                 {[
                   { id: 'upcoming', label: 'Upcoming Sessions' },
                   { id: 'requests', label: 'New Requests' },
@@ -307,8 +307,8 @@ export default function AstrologerDashboard() {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as typeof activeTab)}
                     className={`flex-1 py-4 text-sm font-medium transition-colors ${activeTab === tab.id
-                      ? 'text-[#4A1E8C] border-b-2 border-[#4A1E8C]'
-                      : 'text-[#6B6B80] hover:text-[#4A1E8C]'
+                      ? 'text-primary border-b-2 border-[hsl(var(--secondary))]'
+                      : 'text-muted-foreground hover:text-primary'
                       }`}
                   >
                     {tab.label}
@@ -328,14 +328,14 @@ export default function AstrologerDashboard() {
                       upcomingBookings.map((booking) => (
                         <div
                           key={booking.id}
-                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-[#F5F2EB] rounded-xl"
+                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
                         >
-                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                             <span className="text-white font-bold">{(booking.userName || 'U').charAt(0)}</span>
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-[#1A1A2E]">{booking.userName || 'User'}</h4>
-                            <div className="flex flex-wrap gap-4 text-sm text-[#6B6B80] mt-1">
+                            <h4 className="font-semibold text-primary">{booking.userName || 'User'}</h4>
+                            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-1">
                               <span className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
                                 {new Date(booking.bookingDate || booking.date || new Date()).toLocaleDateString()}
@@ -353,7 +353,7 @@ export default function AstrologerDashboard() {
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</span>
+                            <span className="font-semibold text-primary">₹{booking.amount || booking.totalAmount}</span>
                             <Button size="sm" className="btn-primary">
                               Join
                             </Button>
@@ -362,11 +362,11 @@ export default function AstrologerDashboard() {
                       ))
                     ) : (
                       <div className="text-center py-12">
-                        <Calendar className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                        <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                        <Calendar className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                        <h3 className="font-serif text-xl font-bold text-primary mb-2">
                           No upcoming sessions
                         </h3>
-                        <p className="text-[#6B6B80]">Your upcoming consultations will appear here</p>
+                        <p className="text-muted-foreground">Your upcoming consultations will appear here</p>
                       </div>
                     )}
                   </div>
@@ -378,14 +378,14 @@ export default function AstrologerDashboard() {
                       pendingRequests.map((booking) => (
                         <div
                           key={booking.id}
-                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-[#F5F2EB] rounded-xl"
+                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
                         >
-                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                             <span className="text-white font-bold">{(booking.userName || 'U').charAt(0)}</span>
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-[#1A1A2E]">{booking.userName || 'User'}</h4>
-                            <div className="flex flex-wrap gap-4 text-sm text-[#6B6B80] mt-1">
+                            <h4 className="font-semibold text-primary">{booking.userName || 'User'}</h4>
+                            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-1">
                               <span className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
                                 {new Date(booking.bookingDate || booking.date || new Date()).toLocaleDateString()}
@@ -403,12 +403,12 @@ export default function AstrologerDashboard() {
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</span>
+                            <span className="font-semibold text-primary">₹{booking.amount || booking.totalAmount}</span>
                             <div className="flex gap-2">
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="text-red-600 border-red-200 hover:bg-red-50"
+                                className="text-destructive border-red-200 hover:bg-red-50"
                                 onClick={() => handleRejectBooking(booking._id || booking.id || '')}
                               >
                                 <XCircle className="w-4 h-4" />
@@ -426,11 +426,11 @@ export default function AstrologerDashboard() {
                       ))
                     ) : (
                       <div className="text-center py-12">
-                        <CheckCircle className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                        <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                        <CheckCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                        <h3 className="font-serif text-xl font-bold text-primary mb-2">
                           No new requests
                         </h3>
-                        <p className="text-[#6B6B80]">New booking requests will appear here</p>
+                        <p className="text-muted-foreground">New booking requests will appear here</p>
                       </div>
                     )}
                   </div>
@@ -442,14 +442,14 @@ export default function AstrologerDashboard() {
                       completedBookings.map((booking) => (
                         <div
                           key={booking.id}
-                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-[#F5F2EB] rounded-xl"
+                          className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
                         >
-                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#D4A574] to-[#B8860B] flex items-center justify-center">
+                          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent to-accent flex items-center justify-center">
                             <span className="text-white font-bold">{(booking.userName || 'U').charAt(0)}</span>
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-[#1A1A2E]">{booking.userName || 'User'}</h4>
-                            <div className="flex flex-wrap gap-4 text-sm text-[#6B6B80] mt-1">
+                            <h4 className="font-semibold text-primary">{booking.userName || 'User'}</h4>
+                            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mt-1">
                               <span className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
                                 {new Date(booking.bookingDate || booking.date || new Date()).toLocaleDateString()}
@@ -463,8 +463,8 @@ export default function AstrologerDashboard() {
                             </div>
                           </div>
                           <div className="flex items-center gap-3">
-                            <span className="font-semibold text-[#4A1E8C]">₹{booking.amount || booking.totalAmount}</span>
-                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                            <span className="font-semibold text-primary">₹{booking.amount || booking.totalAmount}</span>
+                            <span className="px-3 py-1 rounded-full text-xs font-medium bg-background-elevated text-secondary">
                               Completed
                             </span>
                           </div>
@@ -472,11 +472,11 @@ export default function AstrologerDashboard() {
                       ))
                     ) : (
                       <div className="text-center py-12">
-                        <TrendingUp className="w-16 h-16 text-[#6B6B80] mx-auto mb-4" />
-                        <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-2">
+                        <TrendingUp className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                        <h3 className="font-serif text-xl font-bold text-primary mb-2">
                           No completed consultations
                         </h3>
-                        <p className="text-[#6B6B80]">Your completed sessions will appear here</p>
+                        <p className="text-muted-foreground">Your completed sessions will appear here</p>
                       </div>
                     )}
                   </div>
@@ -488,19 +488,19 @@ export default function AstrologerDashboard() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Availability */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
-              <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+            <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
+              <h3 className="font-serif text-lg font-bold text-primary mb-4">
                 Today's Schedule
               </h3>
               {scheduleLoading ? (
-                <div className="flex items-center justify-center py-4 text-[#6B6B80]">
+                <div className="flex items-center justify-center py-4 text-muted-foreground">
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                   Loading schedule...
                 </div>
               ) : (
                 <div className="space-y-3">
                   {todaySlots.length === 0 ? (
-                    <p className="text-sm text-[#6B6B80]">
+                    <p className="text-sm text-muted-foreground">
                       No availability configured for today. Use "Manage Schedule" to add your working hours.
                     </p>
                   ) : (
@@ -527,24 +527,24 @@ export default function AstrologerDashboard() {
             </div>
 
             {/* Earnings */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
-              <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+            <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
+              <h3 className="font-serif text-lg font-bold text-primary mb-4">
                 Earnings Overview
               </h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-[#6B6B80]">Today</span>
-                  <span className="font-semibold text-[#2D1B69]">₹3,500</span>
+                  <span className="text-sm text-muted-foreground">Today</span>
+                  <span className="font-semibold text-primary">₹3,500</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-[#6B6B80]">This Week</span>
-                  <span className="font-semibold text-[#2D1B69]">₹18,200</span>
+                  <span className="text-sm text-muted-foreground">This Week</span>
+                  <span className="font-semibold text-primary">₹18,200</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-[#6B6B80]">This Month</span>
-                  <span className="font-semibold text-[#2D1B69]">₹72,500</span>
+                  <span className="text-sm text-muted-foreground">This Month</span>
+                  <span className="font-semibold text-primary">₹72,500</span>
                 </div>
-                <div className="pt-4 border-t border-gray-100">
+                <div className="pt-4 border-t border-border">
                   <Button variant="outline" className="w-full">
                     View Details
                   </Button>
@@ -553,8 +553,8 @@ export default function AstrologerDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5">
-              <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-4">
+            <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5">
+              <h3 className="font-serif text-lg font-bold text-primary mb-4">
                 Quick Actions
               </h3>
               <div className="space-y-3">
@@ -568,7 +568,7 @@ export default function AstrologerDashboard() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full justify-start gap-3 text-red-600 hover:bg-red-50"
+                  className="w-full justify-start gap-3 text-destructive hover:bg-red-50"
                   onClick={handleLogout}
                 >
                   <LogOut className="w-5 h-5" />
@@ -591,17 +591,17 @@ export default function AstrologerDashboard() {
 
           <div className="mt-4 space-y-3 max-h-[360px] overflow-y-auto pr-1">
             {scheduleLoading ? (
-              <div className="flex items-center justify-center py-8 text-[#6B6B80]">
+              <div className="flex items-center justify-center py-8 text-muted-foreground">
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                 Loading availability...
               </div>
             ) : availability.length === 0 ? (
-              <p className="text-sm text-[#6B6B80]">No availability configured yet. Add your first time slot.</p>
+              <p className="text-sm text-muted-foreground">No availability configured yet. Add your first time slot.</p>
             ) : (
               availability.map((slot, index) => (
                 <div key={index} className="flex items-center gap-3">
                   <select
-                    className="w-32 py-2 px-2 border border-gray-200 rounded-lg text-sm bg-white"
+                    className="w-32 py-2 px-2 border border-border rounded-lg text-sm bg-background-card"
                     value={slot.day}
                     onChange={(e) => updateSlot(index, 'day', e.target.value)}
                   >
@@ -617,7 +617,7 @@ export default function AstrologerDashboard() {
                     onChange={(e) => updateSlot(index, 'startTime', e.target.value)}
                     className="w-28"
                   />
-                  <span className="text-sm text-[#6B6B80]">to</span>
+                  <span className="text-sm text-muted-foreground">to</span>
                   <Input
                     type="time"
                     value={slot.endTime}
@@ -628,7 +628,7 @@ export default function AstrologerDashboard() {
                     type="button"
                     variant="outline"
                     size="icon"
-                    className="shrink-0 text-red-600 hover:bg-red-50"
+                    className="shrink-0 text-destructive hover:bg-red-50"
                     onClick={() => removeSlot(index)}
                   >
                     <Trash2 className="w-4 h-4" />

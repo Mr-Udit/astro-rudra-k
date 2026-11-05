@@ -3,16 +3,16 @@
 
 @theme {
   /* Brand Colors - Matching Reference HTML */
-  --color-deep-indigo: #2D1B69;
-  --color-royal-purple: #4A1E8C;
-  --color-rose-gold: #D4A574;
-  --color-copper: #B8860B;
-  --color-cream: #FAF8F3;
-  --color-off-white: #F5F2EB;
-  --color-dark-navy: #0A0E27;
-  --color-text-dark: #1A1A2E;
-  --color-text-muted: #6B6B80;
-  --color-success: #2E7D32;
+  --color-deep-indigo: #6240c7;
+  --color-royal-purple: #7848d9;
+  --color-rose-gold: #e6b56f;
+  --color-copper: #d3a21f;
+  --color-cream: #0f1018;
+  --color-off-white: #181a24;
+  --color-dark-navy: #0b0c12;
+  --color-text-dark: #eceef5;
+  --color-text-muted: #6f7689;
+  --color-success: #48b84d;
   
   /* Semantic Colors */
   --color-primary: var(--color-deep-indigo);
@@ -33,16 +33,68 @@
   --shadow-button-hover: 0 15px 40px rgba(45, 27, 105, 0.4);
 }
 
+/* Dark Theme Variables */
+@layer base {
+  :root {
+    --background: 240 10% 6%;
+    --foreground: 0 0% 93%;
+    --card: 240 10% 14%;
+    --card-foreground: 0 0% 93%;
+    --popover: 240 10% 14%;
+    --popover-foreground: 0 0% 93%;
+    --primary: 258 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 70% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 20%;
+    --muted-foreground: 240 10% 60%;
+    --accent: 35 80% 60%;
+    --accent-foreground: 240 10% 10%;
+    --destructive: 0 80% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 25%;
+    --input: 240 10% 22%;
+    --ring: 258 70% 45%;
+    --radius: 0.75rem;
+  }
+  
+  html.dark {
+    --background: 240 10% 6%;
+    --foreground: 0 0% 93%;
+    --card: 240 10% 14%;
+    --card-foreground: 0 0% 93%;
+    --popover: 240 10% 14%;
+    --popover-foreground: 0 0% 93%;
+    --primary: 258 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 260 70% 50%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 20%;
+    --muted-foreground: 240 10% 60%;
+    --accent: 35 80% 60%;
+    --accent-foreground: 240 10% 10%;
+    --destructive: 0 80% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 10% 25%;
+    --input: 240 10% 22%;
+    --ring: 258 70% 45%;
+  }
+}
+
 /* Base Styles */
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { 
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
   
   body {
     font-family: var(--font-body);
-    background-color: var(--color-cream);
-    color: var(--color-text-dark);
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -92,18 +144,22 @@
   .font-display { font-family: var(--font-display); }
   
   .gradient-text {
-    background: linear-gradient(135deg, var(--color-rose-gold), var(--color-copper));
+    background: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--copper)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
   .bg-gradient-hero {
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-off-white) 100%);
+    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--card)) 100%);
   }
   
   .bg-gradient-purple {
-    background: linear-gradient(135deg, var(--color-deep-indigo) 0%, var(--color-royal-purple) 100%);
+    background: linear-gradient(135deg, hsl(var(--deep-indigo)) 0%, hsl(var(--royal-purple)) 100%);
+  }
+  
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, hsl(var(--rose-gold)) 0%, hsl(var(--copper)) 100%);
   }
   
   .animate-twinkle { animation: twinkle 3s infinite ease-in-out; }
@@ -116,8 +172,17 @@
 }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--color-off-white); }
-::-webkit-scrollbar-thumb { background: var(--color-royal-purple); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-deep-indigo); }
-::selection { background: rgba(212, 165, 116, 0.3); color: var(--color-deep-indigo); }
-
+::-webkit-scrollbar-track { background: hsl(var(--card)); border-radius: 8px; }
+::-webkit-scrollbar-thumb { 
+  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple))); 
+  border-radius: 8px;
+  border: 2px solid hsl(var(--card));
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  opacity: 0.8;
+}
+::selection { 
+  background: hsla(35 80% 60% / 0.3); 
+  color: hsl(var(--text-primary));
+}

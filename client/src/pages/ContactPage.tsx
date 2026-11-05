@@ -65,9 +65,9 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F3] pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16">
       {/* Hero Section */}
-      <section className="relative py-16 bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-br from-primary to-secondary overflow-hidden">
         <ConstellationBg starCount={50} opacity={0.1} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
@@ -89,16 +89,16 @@ export default function ContactPage() {
             {contactInfo.map((info) => (
               <div
                 key={info.title}
-                className="bg-white rounded-2xl p-6 shadow-lg shadow-[#2D1B69]/5 text-center card-hover"
+                className="bg-background-card rounded-2xl p-6 shadow-lg shadow-[hsl(var(--primary))]/5 text-center card-hover"
               >
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#2D1B69] to-[#4A1E8C] flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
                   <info.icon className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="font-serif text-lg font-bold text-[#2D1B69] mb-2">
+                <h3 className="font-serif text-lg font-bold text-primary mb-2">
                   {info.title}
                 </h3>
-                <p className="text-[#1A1A2E] font-medium mb-1">{info.content}</p>
-                <p className="text-sm text-[#6B6B80]">{info.description}</p>
+                <p className="text-primary font-medium mb-1">{info.content}</p>
+                <p className="text-sm text-muted-foreground">{info.description}</p>
               </div>
             ))}
           </div>
@@ -110,16 +110,16 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg shadow-[#2D1B69]/5">
+            <div className="bg-background-card rounded-2xl p-8 shadow-lg shadow-[hsl(var(--primary))]/5">
               {isSubmitted ? (
                 <div className="text-center py-12">
                   <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="w-10 h-10 text-green-600" />
                   </div>
-                  <h3 className="font-serif text-2xl font-bold text-[#2D1B69] mb-4">
+                  <h3 className="font-serif text-2xl font-bold text-primary mb-4">
                     Message Sent!
                   </h3>
-                  <p className="text-[#6B6B80] mb-6">
+                  <p className="text-muted-foreground mb-6">
                     Thank you for reaching out. We'll get back to you within 24 hours.
                   </p>
                   <Button
@@ -140,13 +140,13 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <>
-                  <h2 className="font-serif text-2xl font-bold text-[#2D1B69] mb-6">
+                  <h2 className="font-serif text-2xl font-bold text-primary mb-6">
                     Send us a Message
                   </h2>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="name" className="text-[#1A1A2E] font-medium">
+                        <Label htmlFor="name" className="text-primary font-medium">
                           Full Name <span className="text-red-500">*</span>
                         </Label>
                         <Input
@@ -156,12 +156,12 @@ export default function ContactPage() {
                           placeholder="John Doe"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                          className="py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="text-[#1A1A2E] font-medium">
+                        <Label htmlFor="email" className="text-primary font-medium">
                           Email Address <span className="text-red-500">*</span>
                         </Label>
                         <Input
@@ -171,7 +171,7 @@ export default function ContactPage() {
                           placeholder="john@example.com"
                           value={formData.email}
                           onChange={handleInputChange}
-                          className="py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                          className="py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                           required
                         />
                       </div>
@@ -179,7 +179,7 @@ export default function ContactPage() {
 
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-[#1A1A2E] font-medium">
+                        <Label htmlFor="phone" className="text-primary font-medium">
                           Phone Number
                         </Label>
                         <Input
@@ -189,11 +189,11 @@ export default function ContactPage() {
                           placeholder="+91 98765 43210"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                          className="py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="subject" className="text-[#1A1A2E] font-medium">
+                        <Label htmlFor="subject" className="text-primary font-medium">
                           Subject <span className="text-red-500">*</span>
                         </Label>
                         <Input
@@ -203,14 +203,14 @@ export default function ContactPage() {
                           placeholder="How can we help?"
                           value={formData.subject}
                           onChange={handleInputChange}
-                          className="py-6 border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20"
+                          className="py-6 border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20"
                           required
                         />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message" className="text-[#1A1A2E] font-medium">
+                      <Label htmlFor="message" className="text-primary font-medium">
                         Message <span className="text-red-500">*</span>
                       </Label>
                       <Textarea
@@ -220,7 +220,7 @@ export default function ContactPage() {
                         value={formData.message}
                         onChange={handleInputChange}
                         rows={6}
-                        className="border-2 border-gray-200 rounded-xl focus:border-[#4A1E8C] focus:ring-[#4A1E8C]/20 resize-none"
+                        className="border-2 border-border rounded-xl focus:border-[hsl(var(--secondary))] focus:ring-[hsl(var(--secondary))]/20 resize-none"
                         required
                       />
                     </div>
@@ -250,19 +250,19 @@ export default function ContactPage() {
             {/* Map & Additional Info */}
             <div className="space-y-8">
               {/* Map Placeholder */}
-              <div className="bg-white rounded-2xl p-2 shadow-lg shadow-[#2D1B69]/5 h-80">
-                <div className="w-full h-full bg-gradient-to-br from-[#F5F2EB] to-[#E8E4DC] rounded-xl flex items-center justify-center">
+              <div className="bg-background-card rounded-2xl p-2 shadow-lg shadow-[hsl(var(--primary))]/5 h-80">
+                <div className="w-full h-full bg-gradient-to-br from-background-elevated to-background-card rounded-xl flex items-center justify-center">
                   <div className="text-center">
-                    <MapPin className="w-12 h-12 text-[#4A1E8C] mx-auto mb-4" />
-                    <p className="text-[#6B6B80]">Interactive Map</p>
-                    <p className="text-sm text-[#6B6B80]">Mumbai, Maharashtra, India</p>
+                    <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
+                    <p className="text-muted-foreground">Interactive Map</p>
+                    <p className="text-sm text-muted-foreground">Mumbai, Maharashtra, India</p>
                   </div>
                 </div>
               </div>
 
               {/* FAQ Preview */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg shadow-[#2D1B69]/5">
-                <h3 className="font-serif text-xl font-bold text-[#2D1B69] mb-4">
+              <div className="bg-background-card rounded-2xl p-8 shadow-lg shadow-[hsl(var(--primary))]/5">
+                <h3 className="font-serif text-xl font-bold text-primary mb-4">
                   Frequently Asked Questions
                 </h3>
                 <div className="space-y-4">
@@ -274,9 +274,9 @@ export default function ContactPage() {
                   ].map((question) => (
                     <div
                       key={question}
-                      className="p-4 bg-[#F5F2EB] rounded-xl hover:bg-[#EBE7DD] cursor-pointer transition-colors"
+                      className="p-4 bg-background-elevated rounded-xl hover:bg-background-card cursor-pointer transition-colors"
                     >
-                      <p className="text-sm font-medium text-[#1A1A2E]">{question}</p>
+                      <p className="text-sm font-medium text-primary">{question}</p>
                     </div>
                   ))}
                 </div>
