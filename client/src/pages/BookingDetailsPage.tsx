@@ -383,7 +383,7 @@ export default function BookingDetailsPage() {
                 <span>₹{platformFee}</span>
               </div>
 
-              <div className="flex justify-between text-green-600">
+              <div className="flex justify-between text-success">
                 <span>Discount</span>
                 <span>-₹{discount}</span>
               </div>

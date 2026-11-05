@@ -83,11 +83,11 @@ export default function CompleteProfile() {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
-        style={{ background: "var(--cream)" }}
+        style={{ background: "hsl(var(--background))" }}
       >
         <Loader2
           className="w-10 h-10 animate-spin"
-          style={{ color: "var(--royal-purple)" }}
+          style={{ color: "hsl(var(--primary-hover))" }}
         />
       </div>
     );
@@ -97,7 +97,7 @@ export default function CompleteProfile() {
     <LazyMotion features={domAnimation}>
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ background: "var(--cream)" }}
+      style={{ background: "hsl(var(--background))" }}
     >
       <m.div
         initial={{ opacity: 0, y: 30 }}
@@ -110,18 +110,18 @@ export default function CompleteProfile() {
             className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
             style={{
               background:
-                "linear-gradient(135deg, var(--rose-gold), var(--copper))",
+                "linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold))",
             }}
           >
             <User className="w-8 h-8 text-white" />
           </div>
           <h1
             className="font-display text-2xl font-bold mb-2"
-            style={{ color: "var(--deep-indigo)" }}
+            style={{ color: "hsl(var(--primary))" }}
           >
             Complete Your Profile
           </h1>
-          <p style={{ color: "var(--text-muted)" }}>
+          <p style={{ color: "hsl(var(--text-secondary))" }}>
             Please provide a few more details to get started
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function CompleteProfile() {
           <div
             className={`p-4 rounded-xl mb-6 text-center ${
               message.includes("success")
-                ? "bg-green-100 text-green-700"
+                ? "bg-success/20 text-green-700"
                 : "bg-destructive/20 text-red-700"
             }`}
           >
@@ -144,14 +144,14 @@ export default function CompleteProfile() {
             <label
               htmlFor="full-name"
               className="block text-sm font-medium mb-2"
-              style={{ color: "var(--text-dark)" }}
+              style={{ color: "hsl(var(--text-primary))" }}
             >
               Full Name
             </label>
             <div className="relative">
               <User
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5"
-                style={{ color: "var(--text-muted)" }}
+                style={{ color: "hsl(var(--text-secondary))" }}
               />
               <input
                 id="full-name"
@@ -171,14 +171,14 @@ export default function CompleteProfile() {
             <label
               htmlFor="phone-number"
               className="block text-sm font-medium mb-2"
-              style={{ color: "var(--text-dark)" }}
+              style={{ color: "hsl(var(--text-primary))" }}
             >
               Phone Number
             </label>
             <div className="relative">
               <Phone
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5"
-                style={{ color: "var(--text-muted)" }}
+                style={{ color: "hsl(var(--text-secondary))" }}
               />
               <input
                 id="phone-number"
@@ -198,14 +198,14 @@ export default function CompleteProfile() {
             <label
               htmlFor="date-of-birth"
               className="block text-sm font-medium mb-2"
-              style={{ color: "var(--text-dark)" }}
+              style={{ color: "hsl(var(--text-primary))" }}
             >
               Date of Birth
             </label>
             <div className="relative">
               <Calendar
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5"
-                style={{ color: "var(--text-muted)" }}
+                style={{ color: "hsl(var(--text-secondary))" }}
               />
               <input
                 id="date-of-birth"
@@ -224,7 +224,7 @@ export default function CompleteProfile() {
             <label
               htmlFor="gender"
               className="block text-sm font-medium mb-2"
-              style={{ color: "var(--text-dark)" }}
+              style={{ color: "hsl(var(--text-primary))" }}
             >
               Gender
             </label>

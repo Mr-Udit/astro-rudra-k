@@ -227,8 +227,8 @@ export default function UserDashboard() {
                               </div>
                             </div>
                             <div className="flex items-center gap-3">
-                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' : 'bg-background-elevated text-secondary'
+                              <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-success/20 text-green-700' :
+                                booking.status === 'pending' ? 'bg-warning/20 text-yellow-700' : 'bg-background-elevated text-secondary'
                                 }`}>
                                 {booking.status}
                               </span>

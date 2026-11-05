@@ -31,8 +31,8 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[hsl(var(--deep-indigo))] to-[hsl(var(--royal-purple))] flex items-center justify-center">
-                <span className="text-[hsl(var(--rose-gold))] text-xl">✦</span>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--primary-hover))] flex items-center justify-center">
+                <span className="text-[hsl(var(--gold))] text-xl">✦</span>
               </div>
               <span className="font-serif text-xl font-bold text-foreground">
                 Astro-Rudra-K
@@ -48,7 +48,7 @@ export default function Footer() {
                 <button
                   key={Icon.name}
                   type="button"
-                  className="w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-gradient-to-br hover:from-[hsl(var(--rose-gold))] hover:to-[hsl(var(--copper))] transition-all duration-300 hover:-translate-y-1"
+                  className="w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-gradient-to-br hover:from-[hsl(var(--gold))] hover:to-[hsl(var(--gold))] transition-all duration-300 hover:-translate-y-1"
                 >
                   <Icon className="w-5 h-5" />
                 </button>
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--gold))] mb-6">
               Quick Links
             </h3>
             <ul className="space-y-3">
@@ -66,7 +66,7 @@ export default function Footer() {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
+                    className="text-muted-foreground text-sm hover:text-[hsl(var(--gold))] transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -77,7 +77,7 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--gold))] mb-6">
               Our Services
             </h3>
             <ul className="space-y-3">
@@ -85,7 +85,7 @@ export default function Footer() {
                 <li key={service}>
                   <Link
                     to="/services"
-                    className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
+                    className="text-muted-foreground text-sm hover:text-[hsl(var(--gold))] transition-colors"
                   >
                     {service}
                   </Link>
@@ -96,24 +96,24 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--rose-gold))] mb-6">
+            <h3 className="font-serif text-lg font-semibold text-[hsl(var(--gold))] mb-6">
               Contact Us
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <Mail className="w-5 h-5 text-[hsl(var(--gold))] mt-0.5" />
                 <span className="text-muted-foreground text-sm">
                   support@astro-rudra-k.com
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <Phone className="w-5 h-5 text-[hsl(var(--gold))] mt-0.5" />
                 <span className="text-muted-foreground text-sm">
                   +91 1800-123-4567
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[hsl(var(--rose-gold))] mt-0.5" />
+                <MapPin className="w-5 h-5 text-[hsl(var(--gold))] mt-0.5" />
                 <span className="text-muted-foreground text-sm">
                   123 Spiritual Lane, Mumbai,
                   <br />
@@ -135,7 +135,7 @@ export default function Footer() {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className="text-muted-foreground text-sm hover:text-[hsl(var(--rose-gold))] transition-colors"
+                  className="text-muted-foreground text-sm hover:text-[hsl(var(--gold))] transition-colors"
                 >
                   {link.label}
                 </Link>

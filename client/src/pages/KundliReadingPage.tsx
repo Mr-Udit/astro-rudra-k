@@ -76,17 +76,17 @@ export default function KundliReadingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
+    <div className="min-h-screen" style={{ background: 'hsl(var(--background))' }}>
       {/* Navbar */}
       <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-background-card sticky top-0 z-50"
-        style={{ boxShadow: '0 2px 20px rgba(45, 27, 105, 0.08)' }}>
+        style={{ boxShadow: '0 2px 20px rgba(0, 0, 0, 0.25)' }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl"
-              style={{ background: 'linear-gradient(135deg, var(--deep-indigo), var(--royal-purple))', color: 'var(--rose-gold)' }}>
+              style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover))', color: 'hsl(var(--gold))' }}>
               ✦
             </div>
-            <span className="font-display text-xl font-bold" style={{ color: 'var(--deep-indigo)' }}>
+            <span className="font-display text-xl font-bold" style={{ color: 'hsl(var(--primary))' }}>
               Celestial Insights
             </span>
           </Link>
@@ -106,13 +106,13 @@ export default function KundliReadingPage() {
             transition={{ duration: 0.7 }}
           >
             <span className="inline-block px-4 py-2 rounded-full text-sm font-semibold mb-6"
-              style={{ background: 'linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(184, 134, 11, 0.2))', color: 'var(--copper)' }}>
+              style={{ background: 'linear-gradient(135deg, rgba(230, 184, 92, 0.16), rgba(201, 150, 46, 0.16))', color: 'hsl(var(--gold))' }}>
               ✨ Your Cosmic Blueprint
             </span>
-            <h1 className="font-display text-4xl md:text-6xl font-bold mb-6" style={{ color: 'var(--deep-indigo)' }}>
+            <h1 className="font-display text-4xl md:text-6xl font-bold mb-6" style={{ color: 'hsl(var(--primary))' }}>
               Kundli Reading
             </h1>
-            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'var(--text-muted)' }}>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'hsl(var(--text-secondary))' }}>
               Sample birth chart analysis - Book a consultation for your personalized reading
             </p>
           </motion.div>
@@ -129,7 +129,7 @@ export default function KundliReadingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'var(--deep-indigo)' }}>
+            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'hsl(var(--primary))' }}>
               Birth Chart Summary
             </h2>
           </motion.div>
@@ -149,8 +149,8 @@ export default function KundliReadingPage() {
                 className="card p-6 text-center"
               >
                 <div className="text-4xl mb-2">{item.icon}</div>
-                <div className="text-sm mb-1" style={{ color: 'var(--text-muted)' }}>{item.label}</div>
-                <div className="text-lg font-semibold" style={{ color: 'var(--copper)' }}>{item.value}</div>
+                <div className="text-sm mb-1" style={{ color: 'hsl(var(--text-secondary))' }}>{item.label}</div>
+                <div className="text-lg font-semibold" style={{ color: 'hsl(var(--gold))' }}>{item.value}</div>
               </motion.div>
             ))}
           </div>
@@ -167,10 +167,10 @@ export default function KundliReadingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'var(--deep-indigo)' }}>
+            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'hsl(var(--primary))' }}>
               Planetary Strengths
             </h2>
-            <p style={{ color: 'var(--text-muted)' }}>
+            <p style={{ color: 'hsl(var(--text-secondary))' }}>
               Analysis of each planet's position and influence in your chart
             </p>
           </motion.div>
@@ -187,16 +187,16 @@ export default function KundliReadingPage() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h4 className="text-lg font-semibold" style={{ color: 'var(--deep-indigo)' }}>{item.planet}</h4>
-                    <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{item.house}</p>
+                    <h4 className="text-lg font-semibold" style={{ color: 'hsl(var(--primary))' }}>{item.planet}</h4>
+                    <p className="text-sm" style={{ color: 'hsl(var(--text-secondary))' }}>{item.house}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     item.status === 'Excellent'
-                      ? 'bg-green-100 text-green-700'
+                      ? 'bg-success/20 text-green-700'
                       : item.status === 'Good' || item.status === 'Strong'
                       ? 'bg-amber-100 text-amber-700'
                       : item.status === 'Moderate'
-                      ? 'bg-yellow-100 text-yellow-700'
+                      ? 'bg-warning/20 text-yellow-700'
                       : 'bg-destructive/20 text-red-700'
                   }`}>
                     {item.status}
@@ -204,17 +204,17 @@ export default function KundliReadingPage() {
                 </div>
 
                 <div className="relative w-full h-2 rounded-full overflow-hidden"
-                  style={{ background: 'var(--off-white)' }}>
+                  style={{ background: 'hsl(var(--background-card))' }}>
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${item.strength}%` }}
                     transition={{ duration: 1.1, ease: 'easeOut' }}
                     viewport={{ once: true }}
                     className="h-full rounded-full"
-                    style={{ background: 'linear-gradient(90deg, var(--rose-gold), var(--copper))' }}
+                    style={{ background: 'linear-gradient(90deg, hsl(var(--gold)), hsl(var(--gold))' }}
                   />
                 </div>
-                <div className="text-right mt-2 text-sm" style={{ color: 'var(--text-muted)' }}>
+                <div className="text-right mt-2 text-sm" style={{ color: 'hsl(var(--text-secondary))' }}>
                   {item.strength}% Strength
                 </div>
               </motion.div>
@@ -233,15 +233,15 @@ export default function KundliReadingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'var(--deep-indigo)' }}>
+            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'hsl(var(--primary))' }}>
               Dasha Periods
             </h2>
-            <p style={{ color: 'var(--text-muted)' }}>Major planetary periods influencing your life</p>
+            <p style={{ color: 'hsl(var(--text-secondary))' }}>Major planetary periods influencing your life</p>
           </motion.div>
 
           <div className="relative">
             <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5"
-              style={{ background: 'linear-gradient(to bottom, var(--rose-gold), var(--copper))' }} />
+              style={{ background: 'linear-gradient(to bottom, hsl(var(--gold)), hsl(var(--gold))' }} />
 
             {dashaTimeline.map((dasha, index) => (
               <motion.div
@@ -268,19 +268,19 @@ export default function KundliReadingPage() {
                     ? 'border-2'
                     : ''
                 }`}
-                style={dasha.status === 'current' ? { borderColor: 'var(--copper)' } : {}}>
+                style={dasha.status === 'current' ? { borderColor: 'hsl(var(--gold))' } : {}}>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-xl font-semibold" style={{ color: 'var(--deep-indigo)' }}>
+                    <h4 className="text-xl font-semibold" style={{ color: 'hsl(var(--primary))' }}>
                       {dasha.planet} Dasha
                     </h4>
                     {dasha.status === 'current' && (
                       <span className="px-3 py-1 rounded-full text-xs font-bold"
-                        style={{ background: 'var(--copper)', color: 'white' }}>
+                        style={{ background: 'hsl(var(--gold))', color: 'white' }}>
                         Current
                       </span>
                     )}
                   </div>
-                  <p style={{ color: 'var(--text-muted)' }}>{dasha.period}</p>
+                  <p style={{ color: 'hsl(var(--text-secondary))' }}>{dasha.period}</p>
                 </div>
               </motion.div>
             ))}
@@ -298,10 +298,10 @@ export default function KundliReadingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'var(--deep-indigo)' }}>
+            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'hsl(var(--primary))' }}>
               Life Areas Analysis
             </h2>
-            <p style={{ color: 'var(--text-muted)' }}>Predictions and guidance for major life aspects</p>
+            <p style={{ color: 'hsl(var(--text-secondary))' }}>Predictions and guidance for major life aspects</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -320,10 +320,10 @@ export default function KundliReadingPage() {
                 >
                   {area.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--copper)' }}>
+                <h3 className="text-xl font-semibold mb-2" style={{ color: 'hsl(var(--gold))' }}>
                   {area.title}
                 </h3>
-                <p style={{ color: 'var(--text-dark)' }}>{area.prediction}</p>
+                <p style={{ color: 'hsl(var(--text-primary))' }}>{area.prediction}</p>
               </motion.div>
             ))}
           </div>
@@ -340,10 +340,10 @@ export default function KundliReadingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'var(--deep-indigo)' }}>
+            <h2 className="font-display text-3xl font-bold mb-4" style={{ color: 'hsl(var(--primary))' }}>
               Recommended Remedies
             </h2>
-            <p style={{ color: 'var(--text-muted)' }}>
+            <p style={{ color: 'hsl(var(--text-secondary))' }}>
               Vedic solutions to enhance positive energies and reduce challenges
             </p>
           </motion.div>
@@ -360,10 +360,10 @@ export default function KundliReadingPage() {
               >
                 <div className="text-4xl">{remedy.icon}</div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--deep-indigo)' }}>
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: 'hsl(var(--primary))' }}>
                     {remedy.title}
                   </h3>
-                  <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{remedy.description}</p>
+                  <p className="text-sm" style={{ color: 'hsl(var(--text-secondary))' }}>{remedy.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -379,7 +379,7 @@ export default function KundliReadingPage() {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
           className="max-w-4xl mx-auto text-center card p-12"
-          style={{ background: 'linear-gradient(135deg, var(--deep-indigo), var(--royal-purple))' }}
+          style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover))' }}
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 text-white">
             Get Your Personalized Kundli Reading
@@ -398,7 +398,7 @@ export default function KundliReadingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'var(--dark-navy)' }}>
+      <footer className="py-8 px-4 sm:px-6 lg:px-8" style={{ background: 'hsl(var(--background))' }}>
         <div className="max-w-[1400px] mx-auto text-center">
           <p className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
             © 2026 Celestial Insights. All rights reserved.

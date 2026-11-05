@@ -16,7 +16,7 @@ const AstrologerCard = memo(({ astrologer, onBook }: AstrologerCardProps) => {
                 <img
                     src={astrologer.image}
                     alt={astrologer.name}
-                    className="w-20 h-20 rounded-full object-cover border-3 border-[hsl(var(--rose-gold))]"
+                    className="w-20 h-20 rounded-full object-cover border-3 border-[hsl(var(--gold))]"
                     loading="lazy"
                 />
                 <div className="flex-1 pt-2">

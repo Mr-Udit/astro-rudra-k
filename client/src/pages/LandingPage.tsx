@@ -197,7 +197,7 @@ export default function LandingPage() {
                 </span>
               </h1>
               
-                <p className="text-sm lg:text-lg text-muted leading-relaxed max-w-lg">
+                <p className="text-sm lg:text-lg text-text-secondary leading-relaxed max-w-lg">
                 Connect with expert Vedic astrologers for personalized guidance on career, relationships, health, and spiritual growth.
                 <br className="hidden sm:block" />
                 Experience the ancient wisdom tailored for modern challenges.
@@ -205,7 +205,7 @@ export default function LandingPage() {
               
               <div className="flex flex-wrap gap-3 lg:gap-4">
                 <Link to="/booking">
-                    <Button className="bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80 text-white px-6 lg:px-8 py-2.5 lg:py-3 text-sm lg:text-lg rounded-xl">
+                    <Button className="btn-cta px-6 lg:px-8 py-2.5 lg:py-3 text-sm lg:text-lg">
                     Book Consultation
                   </Button>
                 </Link>
@@ -219,15 +219,15 @@ export default function LandingPage() {
               <div className="flex items-center gap-12 pt-8">
                 <div className="text-center">
                                 <div className="font-serif text-3xl font-bold text-secondary">1K+</div>
-                                <div className="text-sm text-muted">Happy Clients</div>
+                                <div className="text-sm text-text-secondary">Happy Clients</div>
                 </div>
                 <div className="text-center">
                                 <div className="font-serif text-3xl font-bold text-secondary">10+</div>
-                                <div className="text-sm text-muted">Expert Astrologers</div>
+                                <div className="text-sm text-text-secondary">Expert Astrologers</div>
                 </div>
                 <div className="text-center">
                                 <div className="font-serif text-3xl font-bold text-secondary">99%</div>
-                                <div className="text-sm text-muted">Accuracy Rate</div>
+                                <div className="text-sm text-text-secondary">Accuracy Rate</div>
                 </div>
               </div>
             </div>
@@ -282,7 +282,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                                       <div className="font-semibold text-secondary text-sm sm:text-base">4.9/5</div>
-                                      <div className="text-xs text-muted">Rating</div>
+                                      <div className="text-xs text-text-secondary">Rating</div>
                     </div>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function LandingPage() {
                     </div>
                     <div>
                                       <div className="font-semibold text-secondary text-sm sm:text-base">24/7</div>
-                                      <div className="text-xs text-muted">Support</div>
+                                      <div className="text-xs text-text-secondary">Support</div>
                     </div>
                   </div>
                 </div>
@@ -315,7 +315,7 @@ export default function LandingPage() {
                   <h2 className="font-serif text-4xl font-bold text-primary mb-4">
               Ancient Wisdom, Modern Solutions
             </h2>
-                  <p className="text-lg text-muted">
+                  <p className="text-lg text-text-secondary">
               Experience the perfect blend of traditional Vedic astrology and contemporary approach to life's challenges
             </p>
           </div>
@@ -332,7 +332,7 @@ export default function LandingPage() {
                       <h3 className="font-serif text-lg lg:text-xl font-bold text-primary mb-2 lg:mb-3">
                   {feature.name}
                 </h3>
-                      <p className="text-sm lg:text-base text-muted leading-relaxed">
+                      <p className="text-sm lg:text-base text-text-secondary leading-relaxed">
                   {feature.description}
                 </p>
               </div>
@@ -356,7 +356,7 @@ export default function LandingPage() {
                   <h2 className="font-serif text-2xl lg:text-4xl font-bold text-foreground mb-3 lg:mb-4">
               Choose Your Path to Clarity
             </h2>
-                  <p className="text-sm lg:text-lg text-muted">
+                  <p className="text-sm lg:text-lg text-text-secondary">
               Premium consultation packages designed for every aspect of your life
             </p>
           </div>
@@ -376,12 +376,12 @@ export default function LandingPage() {
                         <h3 className="font-serif text-lg lg:text-xl font-bold text-primary mb-2 lg:mb-3">
                     {service.name}
                   </h3>
-                        <p className="text-muted text-sm mb-3 lg:mb-4 leading-relaxed">
+                        <p className="text-text-secondary text-sm mb-3 lg:mb-4 leading-relaxed">
                     {service.description}
                   </p>
                         <div className="text-2xl lg:text-3xl font-bold text-secondary mb-3 lg:mb-4">
                     {service.price}
-                          <span className="text-sm font-normal text-muted">{service.duration}</span>
+                          <span className="text-sm font-normal text-text-secondary">{service.duration}</span>
                   </div>
                   <Link to={`/booking?service=${service.id}&serviceName=${encodeURIComponent(service.name)}`}>
                           <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/80 hover:to-secondary/80">

@@ -657,9 +657,9 @@ export default function AdminDashboard() {
                                 <p className="text-sm font-medium text-primary">{user.name || user.fullName || 'Unknown User'}</p>
                                 <p className="text-xs text-muted-foreground">{user.email}</p>
                               </div>
-                              <span className={`text-xs px-2 py-1 rounded-full ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
+                              <span className={`text-xs px-2 py-1 rounded-full ${user.role === 'admin' ? 'bg-primary/15 text-purple-700' :
                                 user.role === 'astrologer' ? 'bg-blue-100 text-blue-700' :
-                                  'bg-green-100 text-green-700'
+                                  'bg-success/20 text-green-700'
                                 }`}>
                                 {user.role}
                               </span>
@@ -718,15 +718,15 @@ export default function AdminDashboard() {
                               </td>
                               <td className="py-4 px-4 text-muted-foreground">{user.email}</td>
                               <td className="py-4 px-4">
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-purple-100 text-purple-700' :
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-primary/15 text-purple-700' :
                                   user.role === 'astrologer' ? 'bg-blue-100 text-blue-700' :
-                                    'bg-green-100 text-green-700'
+                                    'bg-success/20 text-green-700'
                                   }`}>
                                   {user.role}
                                 </span>
                               </td>
                               <td className="py-4 px-4">
-                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-success/20 text-green-700">
                                   {user.isActive ? 'Active' : 'Inactive'}
                                 </span>
                               </td>
@@ -888,8 +888,8 @@ export default function AdminDashboard() {
                               </td>
                               <td className="py-4 px-4 font-semibold text-primary">₹{booking.amount || booking.totalAmount}</td>
                               <td className="py-4 px-4">
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-green-100 text-green-700' :
-                                  booking.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'confirmed' ? 'bg-success/20 text-green-700' :
+                                  booking.status === 'pending' ? 'bg-warning/20 text-yellow-700' :
                                     booking.status === 'completed' ? 'bg-blue-100 text-blue-700' :
                                       booking.status === 'cancelled' ? 'bg-destructive/20 text-red-700' :
                                         'bg-background-elevated text-secondary'
@@ -949,7 +949,7 @@ export default function AdminDashboard() {
                                 <td className="py-4 px-4 font-semibold text-primary">₹{booking.amount || booking.totalAmount}</td>
                                 <td className="py-4 px-4 text-muted-foreground">Card</td>
                                 <td className="py-4 px-4">
-                                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-success/20 text-green-700">
                                     Success
                                   </span>
                                 </td>
@@ -1009,13 +1009,13 @@ export default function AdminDashboard() {
                             <div className="space-y-3 text-sm">
                               <div className="flex items-center justify-between">
                                 <span className="text-muted-foreground">MongoDB</span>
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.mongoUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.mongoUp >= 1 ? 'bg-success/20 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
                                   {monitoring.infra?.mongoUp >= 1 ? 'Up' : 'Down'}
                                 </span>
                               </div>
                               <div className="flex items-center justify-between">
                                 <span className="text-muted-foreground">Redis</span>
-                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.redisUp >= 1 ? 'bg-green-100 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${monitoring.infra?.redisUp >= 1 ? 'bg-success/20 text-green-700' : 'bg-destructive/20 text-red-700'}`}>
                                   {monitoring.infra?.redisUp >= 1 ? 'Up' : 'Down'}
                                 </span>
                               </div>

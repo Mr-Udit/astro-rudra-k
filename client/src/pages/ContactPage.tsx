@@ -113,8 +113,8 @@ export default function ContactPage() {
             <div className="bg-background-card rounded-2xl p-8 shadow-lg shadow-[hsl(var(--primary))]/5">
               {isSubmitted ? (
                 <div className="text-center py-12">
-                  <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-10 h-10 text-green-600" />
+                  <div className="w-20 h-20 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="w-10 h-10 text-success" />
                   </div>
                   <h3 className="font-serif text-2xl font-bold text-primary mb-4">
                     Message Sent!

@@ -419,7 +419,7 @@ export default function BookingPage() {
                   <span className="text-muted-foreground">Platform Fee</span>
                   <span>₹{platformFee}</span>
                 </div>
-                <div className="flex justify-between text-sm text-green-600">
+                <div className="flex justify-between text-sm text-success">
                   <span>First Time Discount (20%)</span>
                   <span>-₹{discount}</span>
                 </div>

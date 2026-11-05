@@ -5,91 +5,93 @@
 @tailwind utilities;
 
 :root {
-  --deep-indigo: 258 70% 45%;
-  --royal-purple: 260 70% 50%;
-  --rose-gold: 35 80% 60%;
-  --copper: 45 85% 55%;
-  --cream: 240 10% 6%;
-  --off-white: 240 10% 10%;
-  --dark-navy: 240 10% 8%;
-  --text-dark: 0 0% 93%;
-  --text-muted: 240 10% 50%;
-  --success: 120 60% 45%;
-  --error: 0 80% 60%;
+  --deep-indigo: 258 89.5% 66.3%;
+  --royal-purple: 255 91.7% 76.3%;
+  --rose-gold: 40 73.4% 63.1%;
+  --copper: 40 63% 45%;
+  --cream: 248 28.6% 5.5%;
+  --off-white: 249 26.5% 9.6%;
+  --dark-navy: 248 28.6% 5.5%;
+  --text-dark: 256 47.8% 95.5%;
+  --text-muted: 249 13.1% 47.8%;
   
-  --background: 240 10% 6%;
-  --background-elevated: 240 10% 10%;
-  --background-card: 240 10% 14%;
-  --foreground: 0 0% 93%;
-  --card: 240 10% 14%;
-  --card-foreground: 0 0% 93%;
-  --popover: 240 10% 14%;
-  --popover-foreground: 0 0% 93%;
-  --primary: 258 70% 45%;
+  --background: 248 28.6% 5.5%;
+  --background-elevated: 249 27.8% 14.1%;
+  --background-card: 249 26.5% 9.6%;
+  --foreground: 256 47.8% 95.5%;
+  --card: 249 26.5% 9.6%;
+  --card-foreground: 256 47.8% 95.5%;
+  --popover: 249 27.8% 14.1%;
+  --popover-foreground: 256 47.8% 95.5%;
+  --primary: 258 89.5% 66.3%;
+  --primary-hover: 255 91.7% 76.3%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 260 70% 50%;
+  --secondary: 255 91.7% 76.3%;
   --secondary-foreground: 0 0% 100%;
-  --muted: 240 10% 20%;
-  --muted-foreground: 240 10% 55%;
-  --accent: 35 80% 60%;
-  --accent-foreground: 240 10% 10%;
-  --destructive: 0 80% 60%;
+  --muted: 249 26.5% 16%;
+  --muted-foreground: 250 19.7% 70.2%;
+  --accent: 40 73.4% 63.1%;
+  --gold: 40 73.4% 63.1%;
+  --accent-foreground: 249 29% 14%;
+  --destructive: 0 90.6% 70.8%;
   --destructive-foreground: 0 0% 100%;
-  --border: 240 10% 25%;
-  --input: 240 10% 22%;
-  --ring: 258 70% 45%;
+  --border: 249 24.5% 20.8%;
+  --input: 249 24.5% 20.8%;
+  --ring: 258 89.5% 66.3%;
   --radius: 0.75rem;
 }
 
 /* Dark Theme - Premium Palette */
 html.dark {
   /* Brand colors - tuned for dark backgrounds */
-  --deep-indigo: 258 70% 45%;
-  --royal-purple: 260 70% 50%;
-  --rose-gold: 35 80% 60%;
-  --copper: 45 85% 55%;
+  --deep-indigo: 258 89.5% 66.3%;
+  --royal-purple: 255 91.7% 76.3%;
+  --rose-gold: 40 73.4% 63.1%;
+  --copper: 40 63% 45%;
   
   /* Page backgrounds */
-  --background: 240 10% 6%;
-  --background-elevated: 240 10% 10%;
-  --background-card: 240 10% 14%;
+  --background: 248 28.6% 5.5%;
+  --background-elevated: 249 27.8% 14.1%;
+  --background-card: 249 26.5% 9.6%;
   
   /* Text colors */
-  --text-primary: 0 0% 93%;
-  --text-secondary: 240 10% 65%;
-  --text-muted: 240 10% 50%;
+  --text-primary: 256 47.8% 95.5%;
+  --text-secondary: 250 19.7% 70.2%;
+  --text-muted: 249 13.1% 47.8%;
   
   /* Borders */
-  --border: 240 10% 25%;
-  --input: 240 10% 22%;
+  --border: 249 24.5% 20.8%;
+  --input: 249 24.5% 20.8%;
   
   /* Semantic colors */
-  --primary: 258 70% 45%;
+  --primary: 258 89.5% 66.3%;
+  --primary-hover: 255 91.7% 76.3%;
   --primary-foreground: 0 0% 100%;
-  --primary-glow: 258 70% 55% / 0.3;
+  --primary-glow: 258 90% 66% / 0.12;
   
-  --secondary: 260 70% 50%;
+  --secondary: 255 91.7% 76.3%;
   --secondary-foreground: 0 0% 100%;
   
-  --accent: 35 80% 60%;
-  --accent-foreground: 240 10% 10%;
+  --accent: 40 73.4% 63.1%;
+  --gold: 43 73% 63%;
+  --accent-foreground: 249 29% 14%;
   
-  --muted: 240 10% 20%;
-  --muted-foreground: 240 10% 55%;
+  --muted: 249 26.5% 16%;
+  --muted-foreground: 250 19.7% 70.2%;
   
-  --ring: 258 70% 45%;
+  --ring: 258 89.5% 66.3%;
   
   /* Status colors - dark-friendly */
-  --success: 120 60% 45%;
+  --success: 158 64.4% 51.6%;
   --success-foreground: 0 0% 100%;
-  --warning: 45 100% 50%;
+  --warning: 43 96.4% 56.3%;
   --warning-foreground: 0 0% 100%;
-  --error: 0 80% 60%;
+  --error: 0 90.6% 70.8%;
   --error-foreground: 0 0% 100%;
   
     /* Gold accent for stars, ratings, etc. */
-    --accent-gold: 35 80% 60%;
-    --accent-gold-foreground: 240 10% 10%;
+    --accent-gold: 40 73.4% 63.1%;
+    --accent-gold-foreground: 249 29% 14%;
   
   /* Shadows - dark-appropriate */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -124,8 +126,8 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: var(--background);
-  color: var(--text-primary);
+  background: hsl(var(--background));
+  color: hsl(var(--text-primary));
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -150,18 +152,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background-card);
+  background: hsl(var(--background-card));
   border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
   border-radius: 8px;
-  border: 2px solid var(--background-card);
+  border: 2px solid hsl(var(--background-card));
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
   opacity: 0.8;
 }
 
@@ -240,20 +242,20 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Gradient backgrounds */
 .bg-gradient-primary {
-  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
 }
 
 .bg-gradient-gold {
-  background: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--copper)));
+  background: linear-gradient(135deg, #f3d28a, #c9962e);
 }
 
 .bg-gradient-cream {
-  background: linear-gradient(135deg, var(--cream), var(--off-white));
+  background: linear-gradient(135deg, hsl(var(--background)), hsl(var(--background-card)));
 }
 
 /* Text gradients */
 .text-gradient-gold {
-  background: linear-gradient(135deg, hsl(var(--rose-gold)), hsl(var(--copper)));
+  background: linear-gradient(135deg, hsl(var(--gold)), hsl(var(--gold)));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -261,7 +263,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Button styles - dark theme */
 .btn-primary {
-  @apply px-8 py-4 bg-gradient-to-r from-[hsl(var(--deep-indigo))] to-[hsl(var(--royal-purple))] text-white rounded-xl font-semibold transition-all duration-300;
+  @apply px-8 py-4 bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--primary-hover))] text-white rounded-xl font-semibold transition-all duration-300;
   box-shadow: 0 8px 25px hsl(var(--primary) / 0.3);
 }
 
@@ -272,6 +274,22 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-primary:focus-visible {
   outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+.btn-cta {
+  @apply px-8 py-4 rounded-xl font-semibold text-[hsl(var(--accent-foreground))] transition-all duration-300;
+  background: linear-gradient(135deg, #f3d28a, #c9962e);
+  box-shadow: 0 8px 25px hsl(var(--gold) / 0.18);
+}
+
+.btn-cta:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 15px 40px hsl(var(--gold) / 0.24);
+}
+
+.btn-cta:focus-visible {
+  outline: 2px solid hsl(var(--gold));
   outline-offset: 2px;
 }
 
@@ -313,7 +331,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .status-offline {
-  @apply bg-gray-800/50 text-muted-foreground;
+  @apply bg-background-elevated/50 text-muted-foreground;
 }
 
 /* Form inputs - dark theme */
@@ -336,12 +354,12 @@ h1, h2, h3, h4, h5, h6 {
 /* Section badge - dark theme */
 .section-badge {
   @apply inline-block px-5 py-2 rounded-full text-sm font-semibold;
-  background: linear-gradient(135deg, hsla(35 80% 60% / 0.3), hsla(45 85% 55% / 0.3));
-  color: hsl(var(--copper));
+  background: hsl(var(--gold) / 0.16);
+  color: hsl(var(--gold));
 }
 
 .section-badge:focus-visible {
-  outline: 2px solid hsl(var(--copper));
+  outline: 2px solid hsl(var(--gold));
   outline-offset: 2px;
 }
 
@@ -361,7 +379,7 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: var(--deep-indigo);
+  background: hsl(var(--primary));
   border-radius: 50%;
   animation: twinkle 3s infinite ease-in-out;
 }
@@ -374,7 +392,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-link::after {
   content: '';
   @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
-  background: linear-gradient(90deg, hsl(var(--rose-gold)), hsl(var(--copper)));
+  background: hsl(var(--gold));
 }
 
 .nav-link:hover {
@@ -403,7 +421,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .filter-chip.active {
   @apply text-white border-transparent;
-  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
 }
 
 .filter-chip:focus-visible {
@@ -420,7 +438,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .step-active .step-circle {
   @apply text-white border-transparent;
-  background: linear-gradient(135deg, hsl(var(--deep-indigo)), hsl(var(--royal-purple)));
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
 }
 
 .step-active .step-circle:focus-visible {

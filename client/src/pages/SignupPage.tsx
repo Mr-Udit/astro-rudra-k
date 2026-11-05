@@ -255,7 +255,7 @@ export default function SignupPage() {
                   {usernameStatus === "checking" &&
                     "Checking availability..."}
                   {usernameStatus === "available" && (
-                    <span className="text-green-600">
+                    <span className="text-success">
                       Username available
                     </span>
                   )}

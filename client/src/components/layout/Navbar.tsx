@@ -53,8 +53,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 sm:gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[hsl(var(--deep-indigo))] to-[hsl(var(--royal-purple))] flex items-center justify-center animate-rotate">
-                <span className="text-[hsl(var(--rose-gold))] text-lg sm:text-xl">✦</span>
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--primary-hover))] flex items-center justify-center animate-rotate">
+                <span className="text-[hsl(var(--gold))] text-lg sm:text-xl">✦</span>
             </div>
               <span className="font-serif text-lg sm:text-2xl font-bold text-[hsl(var(--primary))]">
               Astro-Rudra-K
@@ -92,7 +92,7 @@ export default function Navbar() {
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[hsl(var(--rose-gold))] to-[hsl(var(--copper))] flex items-center justify-center text-white font-semibold">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[hsl(var(--gold))] to-[hsl(var(--gold))] flex items-center justify-center text-white font-semibold">
                         {user?.fullName?.charAt(0) || 'U'}
                       </div>
                     )}
@@ -130,7 +130,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/signup"
-                    className="px-6 py-2.5 bg-gradient-to-r from-[hsl(var(--deep-indigo))] to-[hsl(var(--royal-purple))] text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5"
+                    className="px-6 py-2.5 bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--primary-hover))] text-white rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5"
                 >
                   Get Started
                 </Link>
@@ -179,7 +179,7 @@ export default function Navbar() {
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     ) : (
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[hsl(var(--rose-gold))] to-[hsl(var(--copper))] flex items-center justify-center text-white font-semibold text-sm">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[hsl(var(--gold))] to-[hsl(var(--gold))] flex items-center justify-center text-white font-semibold text-sm">
                         {user?.fullName?.charAt(0)}
                       </div>
                     )}

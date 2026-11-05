@@ -15,6 +15,9 @@ module.exports = {
         "text-primary": "hsl(var(--text-primary))",
         "text-secondary": "hsl(var(--text-secondary))",
         "text-muted": "hsl(var(--text-muted))",
+        "primary-hover": "hsl(var(--primary-hover))",
+        gold: "hsl(var(--gold))",
+        elevated: "hsl(var(--background-elevated))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -38,6 +41,10 @@ module.exports = {
                 accentGold: {
                   DEFAULT: "hsl(var(--accent-gold))",
                   foreground: "hsl(var(--accent-gold-foreground))",
+                },
+                warning: {
+                  DEFAULT: "hsl(var(--warning))",
+                  foreground: "hsl(var(--warning-foreground))",
                 },
                 success: {
                   DEFAULT: "hsl(var(--success))",

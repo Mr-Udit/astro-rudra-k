@@ -170,7 +170,7 @@ export default function PaymentPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="bg-background-card rounded-3xl p-10 shadow-xl text-center">
-          <Check className="w-14 h-14 text-green-600 mx-auto mb-4" />
+          <Check className="w-14 h-14 text-success mx-auto mb-4" />
           <h2 className="text-2xl font-bold mb-3">Payment Successful</h2>
           <p className="mb-4">
             Your consultation with

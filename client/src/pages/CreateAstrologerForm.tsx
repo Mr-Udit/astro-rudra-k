@@ -191,17 +191,17 @@ export default function CreateAstrologerForm() {
 
   return (
     <LazyMotion features={domAnimation}>
-    <div className="min-h-screen" style={{ background: 'var(--cream)' }}>
+    <div className="min-h-screen" style={{ background: 'hsl(var(--background))' }}>
       {/* Navbar */}
       <nav className="py-4 px-4 sm:px-6 lg:px-8 bg-background-card sticky top-0 z-50"
-        style={{ boxShadow: '0 2px 20px rgba(45, 27, 105, 0.08)' }}>
+        style={{ boxShadow: '0 2px 20px rgba(0, 0, 0, 0.25)' }}>
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl"
-              style={{ background: 'linear-gradient(135deg, var(--deep-indigo), var(--royal-purple))', color: 'var(--rose-gold)' }}>
+              style={{ background: 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover))', color: 'hsl(var(--gold))' }}>
               ✦
             </div>
-            <span className="font-display text-xl font-bold" style={{ color: 'var(--deep-indigo)' }}>
+            <span className="font-display text-xl font-bold" style={{ color: 'hsl(var(--primary))' }}>
               Celestial Insights
             </span>
           </Link>
@@ -218,10 +218,10 @@ export default function CreateAstrologerForm() {
           animate={{ opacity: 1, y: 0 }}
           className="card p-8"
         >
-          <h1 className="font-display text-3xl font-bold mb-2" style={{ color: 'var(--deep-indigo)' }}>
+          <h1 className="font-display text-3xl font-bold mb-2" style={{ color: 'hsl(var(--primary))' }}>
             Create New Astrologer
           </h1>
-          <p className="mb-8" style={{ color: 'var(--text-muted)' }}>
+          <p className="mb-8" style={{ color: 'hsl(var(--text-secondary))' }}>
             Fill in the details to add a new astrologer to the platform.
           </p>
 
@@ -240,7 +240,7 @@ export default function CreateAstrologerForm() {
                 {previewUrl ? (
                   <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
                 ) : (
-                  <Upload className="w-8 h-8" style={{ color: 'var(--text-muted)' }} />
+                  <Upload className="w-8 h-8" style={{ color: 'hsl(var(--text-secondary))' }} />
                 )}
               </div>
               <input
