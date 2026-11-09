@@ -1,0 +1,91 @@
+- generic [ref=e3]:
+  - region "Notifications alt+T"
+  - navigation [ref=e4]:
+    - generic [ref=e6]:
+      - link "✦ Astro-Rudra-K" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: ✦
+        - generic [ref=e10]: Astro-Rudra-K
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Astrologers" [ref=e13] [cursor=pointer]:
+          - /url: /astrologers
+        - link "Services" [ref=e14] [cursor=pointer]:
+          - /url: /services
+        - link "Contact" [ref=e15] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e16]:
+        - link "Sign In" [ref=e17] [cursor=pointer]:
+          - /url: /login
+        - link "Get Started" [ref=e18] [cursor=pointer]:
+          - /url: /signup
+  - main [ref=e19]:
+    - paragraph [ref=e24]: Loading...
+  - contentinfo [ref=e25]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]: ✦
+            - generic [ref=e32]: Astro-Rudra-K
+          - paragraph [ref=e33]: Transform your life through ancient Vedic wisdom. Connect with expert astrologers for personalized guidance on career, relationships, health, and spiritual growth.
+          - generic [ref=e34]:
+            - button [ref=e35] [cursor=pointer]
+            - button [ref=e38] [cursor=pointer]
+            - button [ref=e41] [cursor=pointer]
+            - button [ref=e45] [cursor=pointer]
+        - generic [ref=e49]:
+          - heading "Quick Links" [level=3] [ref=e50]
+          - list [ref=e51]:
+            - listitem [ref=e52]:
+              - link "Home" [ref=e53] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e54]:
+              - link "Our Astrologers" [ref=e55] [cursor=pointer]:
+                - /url: /astrologers
+            - listitem [ref=e56]:
+              - link "Services" [ref=e57] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e58]:
+              - link "Contact Us" [ref=e59] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e60]:
+          - heading "Our Services" [level=3] [ref=e61]
+          - list [ref=e62]:
+            - listitem [ref=e63]:
+              - link "Kundli Analysis" [ref=e64] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e65]:
+              - link "Career Guidance" [ref=e66] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e67]:
+              - link "Love & Marriage" [ref=e68] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e69]:
+              - link "Health Astrology" [ref=e70] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e71]:
+              - link "Finance & Wealth" [ref=e72] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e73]:
+              - link "Vastu Consultation" [ref=e74] [cursor=pointer]:
+                - /url: /services
+        - generic [ref=e75]:
+          - heading "Contact Us" [level=3] [ref=e76]
+          - list [ref=e77]:
+            - listitem [ref=e78]:
+              - generic [ref=e82]: support@astro-rudra-k.com
+            - listitem [ref=e83]:
+              - generic [ref=e86]: +91 1800-123-4567
+            - listitem [ref=e87]:
+              - generic [ref=e91]: 123 Spiritual Lane, Mumbai,Maharashtra 400001, India
+      - generic [ref=e93]:
+        - paragraph [ref=e94]: © 2026 Astro-Rudra-K. All rights reserved.
+        - generic [ref=e95]:
+          - link "Privacy Policy" [ref=e96] [cursor=pointer]:
+            - /url: /privacy
+          - link "Terms of Service" [ref=e97] [cursor=pointer]:
+            - /url: /terms
+          - link "Refund Policy" [ref=e98] [cursor=pointer]:
+            - /url: /refund

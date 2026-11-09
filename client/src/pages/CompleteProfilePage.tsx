@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Phone, Loader2, MapPin } from "lucide-react";
+import { User, Phone, Loader2, MapPin, Camera, X } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import ConstellationBg from "@/components/ui-custom/ConstellationBg";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,8 @@ export default function CompleteProfilePage() {
   const [dob, setDob] = useState("");
   const [location, setLocation] = useState("");
   const [gender, setGender] = useState("");
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { checkAuth, isAuthenticated } = useAuth() || {};
   const navigate = useNavigate();
@@ -34,6 +36,57 @@ export default function CompleteProfilePage() {
       </div>
     );
   }
+
+  const handleAvatarSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image size should be less than 5MB");
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      toast.error("Please select an image file");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setAvatarPreview(event.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+    setAvatar(file);
+  };
+
+  const removeAvatar = () => {
+    setAvatar(null);
+    setAvatarPreview(null);
+  };
+
+  const uploadAvatar = async (file: File): Promise<string | null> => {
+    try {
+      const sigRes = await api.get('/api/cloudinary/signature');
+      const { signature, timestamp, cloudName, apiKey } = sigRes.data.data;
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('api_key', apiKey);
+      formData.append('timestamp', timestamp.toString());
+      formData.append('signature', signature);
+
+      const uploadRes = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        { method: 'POST', body: formData }
+      );
+
+      const data = await uploadRes.json();
+      return data.secure_url;
+    } catch (err) {
+      console.error('Image upload failed:', err);
+      return null;
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,12 +124,21 @@ export default function CompleteProfilePage() {
     setIsLoading(true);
 
     try {
+      let avatarUrl: string | null = null;
+
+      // Upload avatar if selected
+      if (avatar) {
+        const uploadedUrl = await uploadAvatar(avatar);
+        if (uploadedUrl) avatarUrl = uploadedUrl;
+      }
+
       const { data } = await api.patch("/profile/update", {
         fullName: name.trim(),
         phoneNumber: phone.trim(),
         dateOfBirth: dob,
         location: location.trim(),
         gender,
+        ...(avatarUrl && { avatar: avatarUrl }),
       });
 
       if (data.ok) {
@@ -129,6 +191,52 @@ export default function CompleteProfilePage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Avatar Upload */}
+            <div className="space-y-2">
+              <Label htmlFor="avatar" className="text-primary font-medium">
+                Profile Photo
+              </Label>
+              <div className="flex items-center gap-4">
+                <div className="relative">
+                  {avatarPreview ? (
+                    <img
+                      src={avatarPreview}
+                      alt="Preview"
+                      className="w-20 h-20 rounded-full object-cover border-2 border-[hsl(var(--primary))]"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full border-2 border-dashed border-[hsl(var(--border))] flex items-center justify-center">
+                      <Camera className="w-8 h-8 text-muted-foreground" />
+                    </div>
+                  )}
+                  {avatarPreview && (
+                    <button
+                      type="button"
+                      onClick={removeAvatar}
+                      className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label className="cursor-pointer">
+                    <input
+                      id="avatar"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarSelect}
+                      className="sr-only"
+                    />
+                    <Button type="button" variant="outline" className="w-full">
+                      {avatarPreview ? "Change Photo" : "Upload Photo"}
+                    </Button>
+                  </label>
+                  <p className="text-xs text-muted-foreground">Max 5MB, JPG/PNG/WebP</p>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="name" className="text-primary font-medium">
                 Full Name *

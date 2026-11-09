@@ -19,6 +19,8 @@ import {
   adminDeleteUser,
   adminDeleteAstrologer,
   adminMonitoringSummary,
+  adminGetPayments,
+  adminRevenueChart,
 } from "../controllers/adminController.js";
 
 import { validate } from "../middleware/validateController.js";
@@ -131,6 +133,28 @@ router.get(
   adminAuth,
   adminRateLimit,
   adminMonitoringSummary
+);
+
+/* ------------------------------------------------------------------
+   PAYMENTS
+------------------------------------------------------------------ */
+
+router.get(
+  "/payments",
+  adminAuth,
+  adminRateLimit,
+  adminGetPayments
+);
+
+/* ------------------------------------------------------------------
+   REVENUE CHART
+------------------------------------------------------------------ */
+
+router.get(
+  "/revenue/chart",
+  adminAuth,
+  adminRateLimit,
+  adminRevenueChart
 );
 
 export default router;

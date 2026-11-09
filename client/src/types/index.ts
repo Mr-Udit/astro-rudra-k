@@ -7,7 +7,7 @@ export interface User {
   isProfileComplete: boolean;
   isActive: boolean;
   lastLoginAt?: string;
-  astrologerProfileId?: string;
+  favoriteAstrologers?: string[];
   avatar?: string;
   createdAt?: string;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
+import { Menu, X, User, LogOut, ChevronDown, Heart } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,10 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { profileApi } from '@/api/profile';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [favoritesCount, setFavoritesCount] = useState(0);
   const { user, isAuthenticated, logout, hasRole } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,6 +27,24 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Fetch favorites count for authenticated users
+  useEffect(() => {
+    const fetchFavoritesCount = async () => {
+      if (isAuthenticated && hasRole('user')) {
+        try {
+          const favorites = await profileApi.getFavorites();
+          setFavoritesCount(favorites.length);
+        } catch (err) {
+          console.error('Failed to fetch favorites count:', err);
+        }
+      } else {
+        setFavoritesCount(0);
+      }
+    };
+
+    fetchFavoritesCount();
+  }, [isAuthenticated, user]);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -109,6 +129,18 @@ export default function Navbar() {
                   >
                     <User className="w-4 h-4 mr-2" />
                     Dashboard
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate('/user/dashboard#favorites')}
+                    className="cursor-pointer"
+                  >
+                    <Heart className="w-4 h-4 mr-2" />
+                    Favorites
+                    {favoritesCount > 0 && (
+                      <span className="ml-2 px-2 py-0.5 bg-red-500 text-white text-xs rounded-full">
+                        {favoritesCount}
+                      </span>
+                    )}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

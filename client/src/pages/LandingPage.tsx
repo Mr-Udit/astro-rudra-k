@@ -485,14 +485,11 @@ export default function LandingPage() {
                 Book Your First Consultation
               </Button>
             </Link>
-            <a 
-              href={import.meta.env.VITE_KUNDLI_APP_URL} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 lg:px-8 py-2.5 lg:py-3 text-sm lg:text-lg font-medium border-2 border-white bg-transparent text-white rounded-xl hover:bg-background-card hover:text-primary transition-all duration-200"
-            >
-              Get Free Kundli
-            </a>
+            <Link to="/kundli">
+              <Button variant="outline" className="border-2 border-white bg-transparent text-white rounded-xl hover:bg-background-card hover:text-primary transition-all duration-200 px-6 lg:px-8 py-2.5 lg:py-3 text-sm lg:text-lg">
+                Get Free Kundli
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

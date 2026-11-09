@@ -458,6 +458,102 @@ export const adminMonitoringSummary = async (req, res) => {
   }
 };
 /* ------------------------------------------------------------------
+   ADMIN — GET PAYMENTS (REAL DATA FOR ADMIN DASHBOARD)
+------------------------------------------------------------------ */
+
+export const adminGetPayments = async (req, res) => {
+  try {
+    const page = Math.max(Number(req.query.page) || 1, 1);
+    const limit = Math.min(Number(req.query.limit) || 20, 100);
+    const skip = (page - 1) * limit;
+
+    const [payments, total] = await Promise.all([
+      Payment.find({})
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate('bookingId', 'userName astrologerName')
+        .lean(),
+      Payment.countDocuments({}),
+    ]);
+
+    return res.json({
+      ok: true,
+      data: payments,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    logger.error("Admin get payments error", { message: error?.message });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to fetch payments",
+    });
+  }
+};
+
+/* ------------------------------------------------------------
+   ADMIN — REVENUE CHART DATA
+------------------------------------------------------------------ */
+export const adminRevenueChart = async (req, res) => {
+  try {
+    const months = Number(req.query.months) || 6;
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - months);
+
+    const revenueByMonth = await Payment.aggregate([
+      {
+        $match: {
+          status: "captured",
+          createdAt: { $gte: startDate },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          revenue: { $sum: "$amount" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { "_id.year": 1, "_id.month": 1 },
+      },
+    ]);
+
+    // Format data for chart
+    const labels = revenueByMonth.map(item => {
+      const date = new Date(item._id.year, item._id.month - 1);
+      return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+    });
+
+    const data = revenueByMonth.map(item => item.revenue);
+    const counts = revenueByMonth.map(item => item.count);
+
+    return res.json({
+      ok: true,
+      data: {
+        labels,
+        revenue: data,
+        counts,
+      },
+    });
+  } catch (error) {
+    logger.error("Admin revenue chart error", { message: error?.message });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to fetch revenue chart data",
+    });
+  }
+};
+
+/* ------------------------------------------------------------------
    ADMIN — DELETE ASTROLOGER
 ------------------------------------------------------------------ */
 export const adminDeleteAstrologer = async (req, res) => {

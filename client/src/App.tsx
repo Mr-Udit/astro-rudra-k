@@ -28,6 +28,8 @@ const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const UserDashboard = lazy(() => import('@/pages/UserDashboard'));
 const AstrologerDashboard = lazy(() => import('@/pages/AstrologerDashboard'));
 const AdminDashboard = lazy(() => import('@/pages/AdminDashboard'));
+const KundliGeneratorPage = lazy(() => import('@/pages/KundliGeneratorPage'));
+const ConsultationPage = lazy(() => import('@/pages/ConsultationPage'));
 
 // Loading Fallback
 const PageLoader = () => (
@@ -69,6 +71,8 @@ function AppContent() {
             <Route path="/astrologers" element={<AstrologersPage />} />
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/kundli" element={<KundliGeneratorPage />} />
+            <Route path="/consultation/:id" element={<ConsultationPage />} />
 
             <Route
               path="/complete-profile"

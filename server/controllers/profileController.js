@@ -18,6 +18,68 @@ import { logger } from "../utils/logger.js";
 
 const JWT_EXPIRY = process.env.JWT_EXPIRY || "7d";
 
+import { Booking } from "../models/BookingModel.js";
+
+/* ============================================================
+   GET EARNINGS SUMMARY FOR ASTROLOGER
+============================================================ */
+
+export async function getAstrologerEarningsSummary(req, res) {
+  try {
+    const astrologerId = req.user?.id;
+
+    if (!mongoose.Types.ObjectId.isValid(astrologerId)) {
+      return res.status(401).json({
+        ok: false,
+        message: "Unauthorized",
+      });
+    }
+
+    // Aggregation pipeline to calculate earnings from completed bookings
+    const pipeline = [
+      {
+        $match: {
+          astrologerId: new mongoose.Types.ObjectId(astrologerId),
+          status: "completed",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalEarnings: { $sum: "$price" },
+          totalConsultations: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          totalEarnings: 1,
+          totalConsultations: 1,
+        },
+      },
+    ];
+
+    const result = await Booking.aggregate(pipeline);
+    const data = result[0] || {
+      totalEarnings: 0,
+      totalConsultations: 0,
+    };
+
+    return res.json({
+      ok: true,
+      data,
+    });
+  } catch (error) {
+    logger.error("Failed to fetch astrologer earnings summary", {
+      error: error.message,
+    });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to fetch earnings summary",
+    });
+  }
+}
+
 /* ============================================================
    GET PROFILE — O(1) READ
 ============================================================ */
@@ -216,6 +278,263 @@ export async function updateProfile(req, res) {
     return res.status(500).json({
       ok: false,
       message: "Failed to update profile",
+    });
+  }
+}
+
+/* ============================================================
+   FAVORITE ASTROLOGERS
+============================================================ */
+
+// Get user's favorite astrologers
+export async function getFavorites(req, res) {
+  const userId = req.user?.id;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(401).json({
+      ok: false,
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    const user = await User.findById(userId, {
+      favoriteAstrologers: 1,
+    }).lean();
+
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    if (!user.favoriteAstrologers || user.favoriteAstrologers.length === 0) {
+      return res.json({
+        ok: true,
+        favorites: [],
+      });
+    }
+
+    // Fetch astrologer details for each favorite
+    const favorites = await AstrologerProfile.find({
+      _id: { $in: user.favoriteAstrologers },
+    }, {
+      name: 1,
+      title: 1,
+      profileImage: 1,
+      experience: 1,
+      price: 1,
+      specializations: 1,
+      isVerified: 1,
+      isActive: 1,
+    }).lean();
+
+    return res.json({
+      ok: true,
+      favorites,
+    });
+  } catch (error) {
+    logger.error("Failed to fetch favorites", {
+      error: error.message,
+    });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to fetch favorites",
+    });
+  }
+}
+
+// Add astrologer to favorites
+export async function addFavorite(req, res) {
+  const userId = req.user?.id;
+  const { astrologerId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(401).json({
+      ok: false,
+      message: "Unauthorized",
+    });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(astrologerId)) {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid astrologer ID",
+    });
+  }
+
+  try {
+    // Check if the astrologer exists
+    const astrologer = await AstrologerProfile.findById(astrologerId);
+    if (!astrologer) {
+      return res.status(404).json({
+        ok: false,
+        message: "Astrologer not found",
+      });
+    }
+
+    // Add to favorites if not already present
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $addToSet: { favoriteAstrologers: astrologerId },
+      },
+      { new: true },
+    ).lean();
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    return res.json({
+      ok: true,
+      favorites: updatedUser.favoriteAstrologers,
+    });
+  } catch (error) {
+    logger.error("Failed to add favorite", {
+      error: error.message,
+    });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to add favorite",
+    });
+  }
+}
+
+// Remove astrologer from favorites
+export async function removeFavorite(req, res) {
+  const userId = req.user?.id;
+  const { astrologerId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(401).json({
+      ok: false,
+      message: "Unauthorized",
+    });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(astrologerId)) {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid astrologer ID",
+    });
+  }
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { favoriteAstrologers: astrologerId },
+      },
+      { new: true },
+    ).lean();
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    return res.json({
+      ok: true,
+      favorites: updatedUser.favoriteAstrologers,
+    });
+  } catch (error) {
+    logger.error("Failed to remove favorite", {
+      error: error.message,
+    });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to remove favorite",
+    });
+  }
+}
+
+// Toggle astrologer favorite (add or remove)
+export async function toggleFavorite(req, res) {
+  const userId = req.user?.id;
+  const { astrologerId } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(401).json({
+      ok: false,
+      message: "Unauthorized",
+    });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(astrologerId)) {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid astrologer ID",
+    });
+  }
+
+  try {
+    // Check if the astrologer exists
+    const astrologer = await AstrologerProfile.findById(astrologerId);
+    if (!astrologer) {
+      return res.status(404).json({
+        ok: false,
+        message: "Astrologer not found",
+      });
+    }
+
+    const user = await User.findById(userId, { favoriteAstrologers: 1 }).lean();
+
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    const isFavorite = user.favoriteAstrologers?.some(
+      (id) => id.toString() === astrologerId
+    ) || false;
+
+    let updatedUser;
+    if (isFavorite) {
+      // Remove from favorites
+      updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { favoriteAstrologers: astrologerId } },
+        { new: true }
+      ).lean();
+    } else {
+      // Add to favorites
+      updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $addToSet: { favoriteAstrologers: astrologerId } },
+        { new: true }
+      ).lean();
+    }
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        ok: false,
+        message: "User not found",
+      });
+    }
+
+    const newFavoriteState = !isFavorite;
+
+    return res.json({
+      ok: true,
+      isFavorite: newFavoriteState,
+      favorites: updatedUser.favoriteAstrologers,
+    });
+  } catch (error) {
+    logger.error("Failed to toggle favorite", {
+      error: error.message,
+    });
+    return res.status(500).json({
+      ok: false,
+      message: "Failed to toggle favorite",
     });
   }
 }

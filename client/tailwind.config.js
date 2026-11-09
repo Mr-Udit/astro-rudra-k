@@ -17,6 +17,10 @@ module.exports = {
         "text-muted": "hsl(var(--text-muted))",
         "primary-hover": "hsl(var(--primary-hover))",
         gold: "hsl(var(--gold))",
+        glass: "var(--glass-bg)",
+        "glass-strong": "var(--glass-bg-strong)",
+        "glass-border": "var(--glass-border)",
+        "primary-light": "var(--primary-light)",
         elevated: "hsl(var(--background-elevated))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -70,6 +74,9 @@ module.exports = {
         },
       },
       borderRadius: {
+        "glass-sm": "14px",
+        glass: "20px",
+        "glass-lg": "28px",
         xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -78,6 +85,12 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        glass: "var(--glass-shadow)",
+      },
+      backdropBlur: {
+        glass: "var(--glass-blur)",
+        "glass-sm": "var(--glass-blur-sm)",
+        "glass-lg": "var(--glass-blur-lg)",
       },
       keyframes: {
         "accordion-down": {

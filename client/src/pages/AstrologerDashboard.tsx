@@ -10,6 +10,7 @@ import type { User as UserType } from '@/types';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { astrologersApi } from '@/api/astrologers';
+import { profileApi } from '@/api/profile';
 import type { AvailabilitySlot } from '@/types/api';
 
 interface BookingType {
@@ -44,6 +45,8 @@ export default function AstrologerDashboard() {
   const [availability, setAvailability] = useState<AvailabilitySlot[]>([]);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [scheduleSaving, setScheduleSaving] = useState(false);
+  const [earnings, setEarnings] = useState<{ totalEarnings: number; totalConsultations: number } | null>(null);
+  const [loadingEarnings, setLoadingEarnings] = useState(true);
 
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -69,7 +72,21 @@ export default function AstrologerDashboard() {
       }
     };
 
+    const fetchEarnings = async () => {
+      try {
+        setLoadingEarnings(true);
+        const earningsData = await profileApi.getEarningsSummary();
+        setEarnings(earningsData);
+      } catch (err: any) {
+        console.error('Failed to fetch earnings:', err.message);
+        setEarnings({ totalEarnings: 0, totalConsultations: 0 });
+      } finally {
+        setLoadingEarnings(false);
+      }
+    };
+
     fetchBookings();
+    fetchEarnings();
   }, []);
 
   const openScheduleDialog = async () => {
@@ -189,17 +206,12 @@ export default function AstrologerDashboard() {
   const stats = [
     {
       label: 'Total Earnings',
-      value: `₹${bookings
-        .reduce(
-          (sum, b) => sum + (b.amount || b.totalAmount || 0),
-          0,
-        )
-        .toLocaleString()}`,
+      value: earnings && !loadingEarnings ? `₹${earnings.totalEarnings.toLocaleString()}` : (loadingEarnings ? 'Loading...' : `₹${bookings.reduce((sum, b) => sum + (b.amount || b.totalAmount || 0), 0).toLocaleString()}`),
       icon: DollarSign,
     },
     {
       label: 'Consultations',
-      value: bookings.length.toString(),
+      value: earnings && !loadingEarnings ? earnings.totalConsultations.toString() : bookings.length.toString(),
       icon: CheckCircle,
     },
     {
@@ -219,12 +231,40 @@ export default function AstrologerDashboard() {
     }
   };
 
-  const handleAcceptBooking = (_bookingId: string) => {
-    toast.success('Booking accepted!');
+  const handleAcceptBooking = async (bookingId: string) => {
+    try {
+      const response = await api.patch(`/bookings/${bookingId}/status`, { status: 'confirmed' });
+      if (response.data.ok) {
+        toast.success('Booking accepted!');
+        // Refresh bookings
+        const response = await api.get('/bookings/astrologer/my-consultations');
+        if (response.data.ok) {
+          setBookings(response.data.data || []);
+        }
+      } else {
+        toast.error(response.data.message || 'Failed to accept booking');
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to accept booking');
+    }
   };
 
-  const handleRejectBooking = (_bookingId: string) => {
-    toast.info('Booking rejected');
+  const handleRejectBooking = async (bookingId: string) => {
+    try {
+      const response = await api.patch(`/bookings/${bookingId}/status`, { status: 'cancelled', reason: 'Rejected by astrologer' });
+      if (response.data.ok) {
+        toast.info('Booking rejected');
+        // Refresh bookings
+        const response = await api.get('/bookings/astrologer/my-consultations');
+        if (response.data.ok) {
+          setBookings(response.data.data || []);
+        }
+      } else {
+        toast.error(response.data.message || 'Failed to reject booking');
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'Failed to reject booking');
+    }
   };
 
   const today = new Date();
@@ -354,7 +394,11 @@ export default function AstrologerDashboard() {
                           </div>
                           <div className="flex items-center gap-3">
                             <span className="font-semibold text-primary">₹{booking.amount || booking.totalAmount}</span>
-                            <Button size="sm" className="btn-primary">
+                            <Button
+                              size="sm"
+                              className="btn-primary"
+                              onClick={() => navigate(`/consultation/${booking.id || booking._id}`)}
+                            >
                               Join
                             </Button>
                           </div>
@@ -532,23 +576,48 @@ export default function AstrologerDashboard() {
                 Earnings Overview
               </h3>
               <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Today</span>
-                  <span className="font-semibold text-primary">₹3,500</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">This Week</span>
-                  <span className="font-semibold text-primary">₹18,200</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">This Month</span>
-                  <span className="font-semibold text-primary">₹72,500</span>
-                </div>
-                <div className="pt-4 border-t border-border">
-                  <Button variant="outline" className="w-full">
-                    View Details
-                  </Button>
-                </div>
+                {loadingEarnings ? (
+                  <div className="flex items-center justify-center py-4 text-muted-foreground">
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                    Loading earnings...
+                  </div>
+                ) : earnings ? (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Total Earnings</span>
+                      <span className="font-semibold text-primary">₹{earnings.totalEarnings.toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Total Consultations</span>
+                      <span className="font-semibold text-primary">{earnings.totalConsultations}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Completed Sessions</span>
+                      <span className="font-semibold text-primary">{completedBookings.length}</span>
+                    </div>
+                    <div className="pt-4 border-t border-border">
+                      <Button variant="outline" className="w-full">
+                        View Details
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Total Earnings</span>
+                      <span className="font-semibold text-primary">₹0</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Total Consultations</span>
+                      <span className="font-semibold text-primary">0</span>
+                    </div>
+                    <div className="pt-4 border-t border-border">
+                      <Button variant="outline" className="w-full">
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

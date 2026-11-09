@@ -8,6 +8,8 @@ import api from '@/lib/api';
 import type { User as UserType } from '@/types';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { testimonialsApi } from '@/api/testimonials';
+import { profileApi } from '@/api/profile';
+import type { FavoriteAstrologer } from '@/api/profile';
 
 interface BookingType {
   _id?: string;
@@ -43,6 +45,7 @@ export default function UserDashboard() {
   const [reviewRating, setReviewRating] = useState<number>(5);
   const [reviewComment, setReviewComment] = useState<string>('');
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [favorites, setFavorites] = useState<FavoriteAstrologer[]>([]);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -67,6 +70,19 @@ export default function UserDashboard() {
     };
 
     fetchBookings();
+  }, []);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const favorites = await profileApi.getFavorites();
+        setFavorites(favorites);
+      } catch (err: any) {
+        console.error('Failed to fetch favorites:', err.message);
+      }
+    };
+
+    fetchFavorites();
   }, []);
 
   if (!user || user.role !== 'user') {
@@ -94,7 +110,7 @@ export default function UserDashboard() {
   const stats = [
     { label: 'Total Consultations', value: bookings.length.toString(), icon: History },
     { label: 'Upcoming Sessions', value: upcomingBookings.length.toString(), icon: Calendar },
-    { label: 'Favorite Astrologers', value: '0', icon: Heart },
+    { label: 'Favorite Astrologers', value: favorites.length.toString(), icon: Heart },
     { label: 'Total Spent', value: `₹${bookings.reduce((sum, b) => sum + (b.amount || b.totalAmount || 0), 0).toLocaleString()}`, icon: Star },
   ];
 
@@ -337,12 +353,42 @@ export default function UserDashboard() {
                   )}
 
                   {activeTab === 'favorites' && (
-                    <div className="text-center py-12">
-                      <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                      <h3 className="font-serif text-xl font-bold text-primary mb-2">
-                        Favorites coming soon
-                      </h3>
-                      <p className="text-muted-foreground">Save your favorite astrologers for quick access</p>
+                    <div className="space-y-6">
+                      {favorites.length > 0 ? (
+                        favorites.map((fav) => (
+                          <div
+                            key={fav._id}
+                            className="flex flex-col md:flex-row md:items-center gap-4 p-4 bg-background-elevated rounded-xl"
+                          >
+                            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                              <span className="text-white font-bold text-xl">
+                                {fav.name?.charAt(0) || 'A'}
+                              </span>
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-primary">{fav.name}</h4>
+                              <p className="text-sm text-muted-foreground">
+                                {fav.specializations?.[0] ? `Specialization: ${fav.specializations[0]}` : ''}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className="text-sm text-muted-foreground">
+                                ₹{fav.price.toLocaleString()}
+                              </span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center py-12">
+                          <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                          <h3 className="font-serif text-xl font-bold text-primary mb-2">
+                            No favorites yet
+                          </h3>
+                          <p className="text-muted-foreground">
+                            Save your favorite astrologers for quick access
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

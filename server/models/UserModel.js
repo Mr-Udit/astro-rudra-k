@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "astrologer"],
       required: true,
       index: true,
     },
@@ -128,6 +128,18 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+
+    /* ------------------------------------------------------------
+       FAVORITES / WISHLIST
+    ------------------------------------------------------------ */
+
+    favoriteAstrologers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AstrologerProfile",
+        index: true,
+      },
+    ],
   },
   {
     timestamps: true,
@@ -201,6 +213,9 @@ userSchema.index(
     sparse: true,
   },
 );
+
+// Favorite astrologers for quick lookup
+userSchema.index({ favoriteAstrologers: 1 });
 
 /* ============================================================
    SAFE DELETE METHOD

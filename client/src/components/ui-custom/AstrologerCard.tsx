@@ -1,8 +1,10 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Languages } from 'lucide-react';
+import { Languages, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Astrologer } from '@/types';
+import { profileApi } from '@/api/profile';
+import { toast } from 'sonner';
 
 interface AstrologerCardProps {
     astrologer: Astrologer;
@@ -10,6 +12,30 @@ interface AstrologerCardProps {
 }
 
 const AstrologerCard = memo(({ astrologer, onBook }: AstrologerCardProps) => {
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isToggling, setIsToggling] = useState(false);
+
+    const toggleFavorite = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (isToggling) return;
+        setIsToggling(true);
+
+        try {
+            await profileApi.toggleFavorite(astrologer.id);
+            setIsFavorite(!isFavorite);
+            toast.success(!isFavorite ? 'Added to favorites' : 'Removed from favorites');
+        } catch (err: any) {
+            toast.error(err.message || 'Failed to update favorites');
+        } finally {
+            setIsToggling(false);
+        }
+    };
+
+    // Check if already in favorites (this would need to be passed as prop in a real implementation)
+    // For now, we'll just handle the toggle optimistically
+
     return (
         <div className="bg-background-card rounded-2xl p-6 shadow-lg shadow-primary/20 border border-border card-hover relative overflow-hidden">
             <div className="flex items-start gap-4 mb-4">
@@ -25,6 +51,17 @@ const AstrologerCard = memo(({ astrologer, onBook }: AstrologerCardProps) => {
                     </h3>
                     <p className="text-sm text-muted-foreground mb-2">{astrologer.title}</p>
                 </div>
+                <button
+                    onClick={toggleFavorite}
+                    disabled={isToggling}
+                    className="p-2 rounded-lg bg-background-elevated hover:bg-background-card transition-colors text-muted-foreground hover:text-red-500"
+                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                >
+                    <Heart
+                        className={`w-5 h-5 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`}
+                        strokeWidth={2}
+                    />
+                </button>
             </div>
 
             {/* About / skills fallback */}

@@ -7,6 +7,13 @@ import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import api from '@/lib/api';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import type { EarningsSummary } from '@/api/profile';
+
+interface RevenueChartData {
+  labels: string[];
+  revenue: number[];
+  counts: number[];
+}
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const PHONE_REGEX = /^[0-9+]+$/;
@@ -60,6 +67,9 @@ export default function AdminDashboard() {
   const [bookings, setBookings] = useState<BookingType[]>([]);
   const [users, setUsers] = useState<AdminUserType[]>([]);
   const [astrologers, setAstrologers] = useState<AdminUserType[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
+  const [revenueChart, setRevenueChart] = useState<RevenueChartData | null>(null);
+  const [revenueLoading, setRevenueLoading] = useState(false);
   const [monitoring, setMonitoring] = useState<any | null>(null);
   const [monitoringLoading, setMonitoringLoading] = useState(false);
   const [monitoringError, setMonitoringError] = useState<string | null>(null);
@@ -91,7 +101,7 @@ export default function AdminDashboard() {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Fetch bookings
         const bookingsResponse = await api.get('/admin/list-all-bookings');
         if (bookingsResponse.data.ok) {
@@ -114,6 +124,29 @@ export default function AdminDashboard() {
           setAstrologers(astrologersResponse.data.data || []);
         } else {
           setError(astrologersResponse.data.message || 'Failed to fetch astrologers');
+        }
+
+        // Fetch payments
+        try {
+          const paymentsResponse = await api.get('/admin/payments');
+          if (paymentsResponse.data?.ok) {
+            setPayments(paymentsResponse.data.data || []);
+          }
+        } catch (paymentsErr: any) {
+          console.error('Failed to fetch payments:', paymentsErr.message);
+        }
+
+        // Fetch revenue chart data
+        try {
+          setRevenueLoading(true);
+          const revenueResponse = await api.get('/admin/revenue/chart');
+          if (revenueResponse.data?.ok) {
+            setRevenueChart(revenueResponse.data.data);
+          }
+        } catch (revenueErr: any) {
+          console.error('Failed to fetch revenue chart:', revenueErr.message);
+        } finally {
+          setRevenueLoading(false);
         }
 
         // Fetch monitoring summary (non-fatal if it fails)
@@ -574,22 +607,37 @@ export default function AdminDashboard() {
                   <div className="space-y-8">
                     {/* Charts Row */}
                     <div className="grid lg:grid-cols-2 gap-8">
-                      {/* Revenue Chart Placeholder */}
+                      {/* Revenue Chart */}
                       <div className="bg-background-elevated rounded-2xl p-6">
                         <h3 className="font-serif text-lg font-bold text-primary mb-4">
                           Revenue Overview
                         </h3>
-                        <div className="h-64 flex items-end justify-around">
-                          {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'].map((month, i) => (
-                            <div key={month} className="flex flex-col items-center gap-2">
-                              <div
-                                className="w-12 bg-gradient-to-t from-primary to-secondary rounded-t-lg"
-                                style={{ height: `${Math.max(50, bookings.filter(b => new Date(b.createdAt || '').getMonth() === i).reduce((sum, b) => sum + (b.totalAmount || 0), 0) / 1000)}px` }}
-                              />
-                              <span className="text-xs text-muted-foreground">{month}</span>
-                            </div>
-                          ))}
-                        </div>
+                        {revenueLoading ? (
+                          <div className="flex items-center justify-center h-64">
+                            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                          </div>
+                        ) : revenueChart ? (
+                          <div className="h-64 flex items-end justify-around">
+                            {revenueChart.labels.map((label, i) => (
+                              <div key={label} className="flex flex-col items-center gap-2">
+                                <div
+                                  className="w-12 bg-gradient-to-t from-primary to-secondary rounded-t-lg"
+                                  style={{
+                                    height: `${Math.max(40, (revenueChart.revenue[i] / Math.max(1, ...revenueChart.revenue)) * 200)}px`
+                                  }}
+                                />
+                                <span className="text-xs text-muted-foreground">{label}</span>
+                                <span className="text-xs font-medium text-primary">
+                                  ₹{revenueChart.revenue[i].toLocaleString()}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center h-64 text-muted-foreground">
+                            No revenue data available
+                          </div>
+                        )}
                       </div>
 
                       {/* Booking Stats */}
@@ -911,18 +959,18 @@ export default function AdminDashboard() {
                     <div className="grid md:grid-cols-3 gap-6">
                       <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white">
                         <p className="text-green-100 text-sm mb-2">Total Revenue</p>
-                        <p className="text-3xl font-bold">₹{bookings.reduce((sum, b) => sum + (b.amount || b.totalAmount || 0), 0).toLocaleString()}</p>
-                        <p className="text-green-100 text-sm mt-2">+18% from last month</p>
+                        <p className="text-3xl font-bold">₹{payments.filter(p => p.status === 'captured').reduce((sum, p) => sum + (p.amount || 0), 0).toLocaleString()}</p>
+                        <p className="text-green-100 text-sm mt-2">From captured payments</p>
                       </div>
                       <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white">
                         <p className="text-blue-100 text-sm mb-2">This Month</p>
-                        <p className="text-3xl font-bold">₹{bookings.filter(b => b.createdAt && new Date(b.createdAt).getMonth() === new Date().getMonth()).reduce((sum, b) => sum + (b.amount || b.totalAmount || 0), 0).toLocaleString()}</p>
-                        <p className="text-blue-100 text-sm mt-2">+12% from last month</p>
+                        <p className="text-3xl font-bold">₹{payments.filter(p => p.status === 'captured' && p.createdAt && new Date(p.createdAt).getMonth() === new Date().getMonth()).reduce((sum, p) => sum + (p.amount || 0), 0).toLocaleString()}</p>
+                        <p className="text-blue-100 text-sm mt-2">From captured payments</p>
                       </div>
                       <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white">
                         <p className="text-purple-100 text-sm mb-2">Pending Payouts</p>
-                        <p className="text-3xl font-bold">₹{bookings.filter(b => b.status === 'completed').reduce((sum, b) => sum + (b.amount || b.totalAmount || 0), 0).toLocaleString()}</p>
-                        <p className="text-purple-100 text-sm mt-2">{bookings.filter(b => b.status === 'completed').length} astrologers</p>
+                        <p className="text-3xl font-bold">₹{payments.filter(p => p.status === 'captured' && p.bookingId?.astrologerName).reduce((sum, p) => sum + (p.amount || 0), 0).toLocaleString()}</p>
+                        <p className="text-purple-100 text-sm mt-2">{payments.filter(p => p.status === 'captured' && p.bookingId?.astrologerName).length} transactions</p>
                       </div>
                     </div>
 
@@ -936,23 +984,31 @@ export default function AdminDashboard() {
                             <tr className="border-b border-border">
                               <th className="text-left py-4 px-4 font-medium text-muted-foreground">Transaction ID</th>
                               <th className="text-left py-4 px-4 font-medium text-muted-foreground">User</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Astrologer</th>
                               <th className="text-left py-4 px-4 font-medium text-muted-foreground">Amount</th>
                               <th className="text-left py-4 px-4 font-medium text-muted-foreground">Method</th>
                               <th className="text-left py-4 px-4 font-medium text-muted-foreground">Status</th>
+                              <th className="text-left py-4 px-4 font-medium text-muted-foreground">Date</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {bookings.map((booking: BookingType, index: number) => (
-                              <tr key={booking._id || booking.id} className="border-b border-border hover:bg-background-elevated">
-                                <td className="py-4 px-4 font-mono text-sm">TXN{100000 + index}</td>
-                                <td className="py-4 px-4 text-primary">{booking.userName}</td>
-                                <td className="py-4 px-4 font-semibold text-primary">₹{booking.amount || booking.totalAmount}</td>
-                                <td className="py-4 px-4 text-muted-foreground">Card</td>
+                            {payments.map((payment: any, index: number) => (
+                              <tr key={payment._id || payment.id || index} className="border-b border-border hover:bg-background-elevated">
+                                <td className="py-4 px-4 font-mono text-sm">{payment.razorpayOrderId || payment.paymentId || `TXN${100000 + index}`}</td>
+                                <td className="py-4 px-4 text-primary">{payment.bookingId?.userName || 'N/A'}</td>
+                                <td className="py-4 px-4 text-primary">{payment.bookingId?.astrologerName || 'N/A'}</td>
+                                <td className="py-4 px-4 font-semibold text-primary">₹{payment.amount?.toLocaleString() || 0}</td>
+                                <td className="py-4 px-4 text-muted-foreground">{payment.gateway || 'Razorpay'}</td>
                                 <td className="py-4 px-4">
-                                  <span className="px-3 py-1 rounded-full text-xs font-medium bg-success/20 text-green-700">
-                                    Success
+                                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${payment.status === 'captured' ? 'bg-success/20 text-green-700' :
+                                    payment.status === 'failed' ? 'bg-destructive/20 text-red-700' :
+                                      payment.status === 'refunded' ? 'bg-warning/20 text-yellow-700' :
+                                        'bg-background-elevated text-secondary'
+                                  }`}>
+                                    {payment.status || 'pending'}
                                   </span>
                                 </td>
+                                <td className="py-4 px-4 text-muted-foreground">{payment.createdAt ? new Date(payment.createdAt).toLocaleDateString() : 'N/A'}</td>
                               </tr>
                             ))}
                           </tbody>
