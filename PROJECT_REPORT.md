@@ -158,7 +158,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 | Revenue Chart (Admin) | Partial | Mock bar chart; needs real data |
 | Payments Tab (Admin) | Partial | Mock transaction data; needs connection to PaymentModel |
 | Free Kundli Generator | Partial | External link configured (VITE_KUNDLI_APP_URL); no embed |
-| Join Consultation Button | Partial | UI exists in dashboards; no real-time integration |
+| Join Consultation Button | Implemented (runtime verification pending) | Server-issued JaaS RS256 room tokens and the JaaS iframe client are wired; live credentials and two-party testing remain |
 | Image Upload (User Profile) | Partial | Cloudinary signature endpoint exists; client upload not complete |
 
 ---
@@ -166,9 +166,9 @@ The platform is a **production-ready astrology consultation marketplace** with a
 ## ❌ Not Started - High Priority (25)
 
 ### Core Product (Critical)
-1. **Video Call Integration** - WebRTC via Daily.co, Agora, Twilio Video, or Jitsi
-2. **Audio Call Integration** - Voice-only WebRTC or PSTN fallback
-3. **Chat Consultation Interface** - Real-time messaging (Socket.io/Firebase)
+1. **Automatic Consultation Completion** - Server-authoritative completion after the JaaS session ends
+2. **Pre-call Checks** - Camera/mic test, connection quality
+3. **Screen Sharing** - Astrologer shares chart/analysis
 4. **Pre-call Checks** - Camera/mic test, connection quality
 5. **Screen Sharing** - Astrologer shares chart/analysis
 6. **Session Recording** - Optional recording for user reference
