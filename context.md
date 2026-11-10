@@ -155,7 +155,6 @@ server role checks are not currently enforced until S1 is fixed.
 |---|---|---|---|
 | POST | `/auth/register` | authLimiter, otpVerifyLimiter | register |
 | POST | `/auth/login` | authLimiter, otpVerifyLimiter | login |
-| GET | `/auth/test-login` | authLimiter | inline test handler |
 | GET | `/auth/verify` | apiLimiter, authOptional | verifySession |
 | POST | `/auth/logout` | authRequired (intended auth/profile) | logout |
 | POST | `/auth/check-username` | apiLimiter | checkUsernameAvailability |
