@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import axios from "axios";
 import api from "@/lib/api";
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
@@ -17,7 +18,7 @@ export default function CompleteProfilePage() {
   const [dob, setDob] = useState("");
   const [location, setLocation] = useState("");
   const [gender, setGender] = useState("");
-  const [avatar, setAvatar] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { checkAuth, isAuthenticated } = useAuth() || {};
@@ -156,10 +157,10 @@ export default function CompleteProfilePage() {
           toast.error(data.message || "Failed to update profile.");
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("[CompleteProfilePage] Error:", error);
       // Also handle field errors surfaced via axios 400 response
-      const responseData = error.response?.data;
+      const responseData = axios.isAxiosError(error) ? error.response?.data : undefined;
       if (responseData?.errors && typeof responseData.errors === "object") {
         const firstError = Object.values(responseData.errors)[0] as string;
         toast.error(firstError || "Validation failed. Check your details.");

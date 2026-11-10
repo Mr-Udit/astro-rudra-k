@@ -1,27 +1,31 @@
-# Logs
-logs
+# secrets (keep the example template tracked)
+.env
+.env.*
+!.env.example
+
+# dependencies
+node_modules/
+
+# build output and coverage
+dist/
+dist-ssr/
+coverage/
+stats.html
+
+# logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# local caches and TypeScript build info
+.vite/
+.eslintcache
+*.tsbuildinfo
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# editor and OS files
+.idea/
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-
-.env
+Thumbs.db

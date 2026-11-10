@@ -123,14 +123,16 @@ the JWT, checks the blacklist, loads the account, and sets:
 req.user = { id, role, type, fullName?, email?, phoneNumber?, username? }
 ```
 
-`authRequired` currently accepts one object:
+`authRequired` accepts one options object:
 
 ```js
 authRequired({ allowedRoles = [], allowedTokenTypes = ["auth", "profile"] })
 ```
 
-Several routes currently pass arrays instead of this object; this is an open
-verified security bug being handled in S1.
+Routes pass this object with explicit `allowedRoles` and `allowedTokenTypes`
+where restrictions are required. The middleware validates the JWT type first,
+then the decoded role, and finally loads the corresponding active user or
+astrologer account before setting `req.user`.
 
 Redis is used for astrologer list/availability caching and booking slot locks.
 Razorpay order creation, signature verification, and webhook handling are in the
@@ -146,8 +148,9 @@ the client uploads directly to Cloudinary.
 - **Admin**: authenticated admin management routes, monitoring, payments,
   revenue, user management, and astrologer management.
 
-These are intended permissions. Current route middleware mismatches mean some
-server role checks are not currently enforced until S1 is fixed.
+These permissions are enforced by route middleware. Restricted routes provide
+the allowed roles and token types to `authRequired`; unrestricted authenticated
+profile routes use its defaults (`auth` and `profile`).
 
 ## 7. API map
 
@@ -155,7 +158,6 @@ server role checks are not currently enforced until S1 is fixed.
 |---|---|---|---|
 | POST | `/auth/register` | authLimiter, otpVerifyLimiter | register |
 | POST | `/auth/login` | authLimiter, otpVerifyLimiter | login |
-| GET | `/auth/test-login` | authLimiter | inline test handler |
 | GET | `/auth/verify` | apiLimiter, authOptional | verifySession |
 | POST | `/auth/logout` | authRequired (intended auth/profile) | logout |
 | POST | `/auth/check-username` | apiLimiter | checkUsernameAvailability |
@@ -186,7 +188,7 @@ server role checks are not currently enforced until S1 is fixed.
 | POST | `/payment/create-order` | authRequired user/admin/astrologer | createOrder |
 | POST | `/payment/verify` | authRequired user | verifyPayment |
 | POST | `/payment/webhook` | none; signature checked in controller | razorpayWebhook |
-| GET | `/api/cloudinary/signature` | authRequired, apiLimiter | getUploadSignature |
+| GET | `/api/cloudinary/signature` | authRequired (auth/profile), apiLimiter | getUploadSignature |
 | POST | `/admin/astrologer/create` | adminAuth, apiLimiter, validation | createAstrologerHandler |
 | PATCH | `/admin/astrologer/:id/status` | adminAuth, apiLimiter | setVerificationAstrologerHandler |
 | DELETE | `/admin/astrologer/:id` | adminAuth, apiLimiter | adminDeleteAstrologer |
@@ -250,7 +252,7 @@ does not exactly match the server model/controller, which returns `id`,
 | S3 | FIXED | `server/routes/authRoutes.js` | Removed unused `/auth/test-login`; repo search found no callers, and the route contained the invalid `login(req, {})` response argument. |
 | S4 | NEEDS DECISION | `client/src/App.tsx:134-140`; `client/src/pages/CheckoutPage.tsx` | Checkout is currently public, the only page text says to use the booking flow, and no client caller was found. The intended role (any authenticated user versus a specific role) is ambiguous; no protection was guessed. |
 | B1/B2 | FIXED | `server/controllers/bookingController.js`; `server/middleware/validateController.js` | Replaced every verified `req.user.userId`/optional variant with `req.user.id`; booking service signatures already accept a user ID and callers remain unchanged. |
-| F1 | FIXED | `client/src/pages/CompleteProfilePage.tsx:20` | Avatar file state is now `File | null`, while preview URL remains a separate string state. |
+| F1 | FIXED | `client/src/pages/CompleteProfilePage.tsx:20` | Avatar file state is now `File \| null`, while preview URL remains a separate string state. |
 | F2 | FIXED | `client/src/pages/ConsultationPage.tsx:138`; `client/src/types/index.ts`; booking API aggregation | Typed the returned participant IDs and compare them to the authenticated account's `_id` after string normalization; admin access remains role-based. |
 | F3 | FIXED | `client/src/pages/ConsultationPage.tsx:3` | Imported `CheckCircle` from the existing `lucide-react` dependency. |
 | F4 | FIXED | `client/src/pages/KundliGeneratorPage.tsx:394` | Converted the `Object.entries` value to a safe string for React rendering. |
@@ -303,8 +305,8 @@ Server (`npx eslint .`): 319 errors.
 | 2026-11-10 | `context.md` | Created verified project context and issue register | Required before code changes | Source/package/report inspection completed |
 | 2026-11-10 | `server/routes/authRoutes.js`, `astrologersRoutes.js`, `cloudinaryRoutes.js`, `adminRoutes.js`, `bookingRoutes.js` | Converted all legacy array-shaped `authRequired` calls to options objects with explicit token types and roles | S1 role checks were being ignored by the existing middleware signature | `rg "authRequired\\(\\["` returned no matches; `node --check` passed for all five files |
 | 2026-11-10 | `server/controllers/authController.js` | Gated both OTP response fields to non-production and removed OTP logging | S2 required development OTP visibility without production exposure | `node --check controllers\\authController.js` passed; no OTP logging remains |
-| 2026-11-10 | `server/routes/authRoutes.js` | Removed unused `/auth/test-login` route | S3 route called `login` with `{}` as `res` and had no callers | `rg "test-login|login\\(req,\\s*\\{\\}\\)"` returned no matches; `node --check routes\\authRoutes.js` passed |
-| 2026-11-10 | `server/controllers/bookingController.js`, `server/middleware/validateController.js` | Replaced stale `req.user.userId` references with `req.user.id` | Auth middleware sets `req.user.id`; booking cancellation, lookup, error logging, and validation were otherwise using an absent property | `rg "req\\.user\\.userId|req\\.user\\?\\.userId"` returned no matches; `node --check` passed for both files |
+| 2026-11-10 | `server/routes/authRoutes.js` | Removed unused `/auth/test-login` route | S3 route called `login` with `{}` as `res` and had no callers | `rg "test-login\|login\\(req,\\s*\\{\\}\\)"` returned no matches; `node --check routes\\authRoutes.js` passed |
+| 2026-11-10 | `server/controllers/bookingController.js`, `server/middleware/validateController.js` | Replaced stale `req.user.userId` references with `req.user.id` | Auth middleware sets `req.user.id`; booking cancellation, lookup, error logging, and validation were otherwise using an absent property | `rg "req\\.user\\.userId\|req\\.user\\?\\.userId"` returned no matches; `node --check` passed for both files |
 | 2026-11-10 | `client/src/pages/CompleteProfilePage.tsx` | Separated selected avatar `File` state from preview URL state | F1 assigned a `File` to string state and passed the string to the upload function | `npx tsc --noEmit` passed in `client` |
 | 2026-11-10 | `client/src/pages/ConsultationPage.tsx` | Added participant ID fields, corrected access checks to use auth `_id`, and imported `CheckCircle` | F2 compared mismatched client fields to the booking aggregation and F3 had a missing icon import | `npx tsc --noEmit` passed in `client` |
 | 2026-11-10 | `client/src/pages/KundliGeneratorPage.tsx` | Rendered planetary position values via `String` | F4 reported `Object.entries` values as `unknown` React children | `npm run build` passed in `client` |

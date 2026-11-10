@@ -2,7 +2,6 @@ import express from "express";
 
 import {
   createAstrologerHandler,
-  listAstrologersHandler,
   setVerificationAstrologerHandler
 } from "../controllers/astrologerController.js";
 
@@ -34,7 +33,7 @@ const router = express.Router();
    PRECOMPUTED MIDDLEWARE (ZERO RE-ALLOCATION PER REQUEST)
 ------------------------------------------------------------------ */
 
-const adminAuth = authRequired(["auth"], ["admin"]);
+const adminAuth = authRequired({ allowedRoles: ["admin"], allowedTokenTypes: ["auth"] });
 const adminRateLimit = apiLimiter;
 
 /* ------------------------------------------------------------------

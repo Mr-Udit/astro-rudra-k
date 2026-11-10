@@ -75,7 +75,7 @@ router.get(
 
 router.patch(
   "/:id/availability",
-  authRequired(["auth"], ["astrologer"]),
+  authRequired({ allowedRoles: ["astrologer"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   updateAstrologerAvailabilityController
 );

@@ -82,7 +82,7 @@ export const cancelBookingHandler = async (req, res) => {
   try {
     const booking = await cancelBooking(
       req.params.id,
-      req.user.userId,
+      req.user.id,
       req.canceller,
       req.body.reason || "",
       req.refundAmount,
@@ -97,7 +97,7 @@ export const cancelBookingHandler = async (req, res) => {
       error: err.message,
       code: err.code,
       bookingId: req.params.id,
-      userId: req.user?.userId,
+      userId: req.user?.id,
     });
 
     if (err instanceof AppError) {
@@ -135,7 +135,7 @@ export const rescheduleBookingHandler = async (req, res) => {
       error: err.message,
       code: err.code,
       bookingId: req.params.id,
-      userId: req.user?.userId,
+      userId: req.user?.id,
     });
 
     if (err instanceof AppError) {
@@ -241,7 +241,7 @@ export const astrologerBookingHistory = async (req, res) => {
 export const getBooking = async (req, res) => {
   const booking = await getBookingById(
     req.params.id,
-    req.user.userId,
+    req.user.id,
     req.user.role,
   );
 

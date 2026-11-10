@@ -1,11 +1,30 @@
 import { useState } from 'react';
-import { ExternalLink, Loader2, AlertCircle, CheckCircle, Star, Sparkles } from 'lucide-react';
+import { ExternalLink, Loader2, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import ConstellationBg from '@/components/ui-custom/ConstellationBg';
+
+interface KundliHouse {
+  house: number;
+  sign: string;
+  planets: string;
+}
+
+interface KundliResult {
+  name: string;
+  sunSign: string;
+  dateOfBirth: string;
+  timeOfBirth: string;
+  placeOfBirth: string;
+  gender: string;
+  ascendant: string;
+  moonSign: string;
+  planets: Record<string, string>;
+  houses: KundliHouse[];
+}
 
 export default function KundliGeneratorPage() {
   useDocumentTitle('Free Kundli Generator');
@@ -17,7 +36,7 @@ export default function KundliGeneratorPage() {
     gender: 'male',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [kundliResult, setKundliResult] = useState<any>(null);
+  const [kundliResult, setKundliResult] = useState<KundliResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -73,7 +92,7 @@ export default function KundliGeneratorPage() {
       const data = await response.json();
       setKundliResult(data);
       toast.success('Kundli generated successfully!');
-    } catch (err) {
+    } catch {
       // Fallback: Generate basic kundli data
       const kundliData = generateBasicKundli(formData);
       setKundliResult(kundliData);
@@ -391,7 +410,7 @@ export default function KundliGeneratorPage() {
                   {Object.entries(kundliResult.planets).map(([planet, sign]) => (
                     <div key={planet} className="bg-background-elevated rounded-xl p-3">
                       <p className="text-xs text-muted-foreground capitalize">{planet}</p>
-                      <p className="font-bold text-primary">{sign}</p>
+                      <p className="font-bold text-primary">{String(sign)}</p>
                     </div>
                   ))}
                 </div>
@@ -412,7 +431,7 @@ export default function KundliGeneratorPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {kundliResult.houses.map((house: any) => (
+                      {kundliResult.houses.map((house) => (
                         <tr key={house.house} className="border-b border-border hover:bg-background-elevated">
                           <td className="py-2 px-3 font-medium text-primary">House {house.house}</td>
                           <td className="py-2 px-3">{house.sign}</td>

@@ -44,9 +44,14 @@ export default function Footer() {
               and spiritual growth.
             </p>
             <div className="flex gap-3">
-              {[Facebook, Twitter, Instagram, Youtube].map((Icon) => (
+              {[
+                { key: 'facebook', Icon: Facebook },
+                { key: 'twitter', Icon: Twitter },
+                { key: 'instagram', Icon: Instagram },
+                { key: 'youtube', Icon: Youtube },
+              ].map(({ key, Icon }) => (
                 <button
-                  key={Icon.name}
+                  key={key}
                   type="button"
                   className="w-10 h-10 rounded-full bg-accent flex items-center justify-center hover:bg-gradient-to-br hover:from-[hsl(var(--gold))] hover:to-[hsl(var(--gold))] transition-all duration-300 hover:-translate-y-1"
                 >
