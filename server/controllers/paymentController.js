@@ -439,12 +439,11 @@ export const razorpayWebhook = async (req, res) => {
       };
 
       if (isRefundEvent && refundEntity?.id) {
-        const refundStatus = eventType === "refund.processed" ? "processed" : "failed";
-        const refunds = payment.refunds || [];
-        payment.refunds = refunds;
-        const existingRefund = refunds.find(
-          (refund) => refund.refundId === refundEntity.id,
-        );
+              const refundStatus = eventType === "refund.processed" ? "processed" : "failed";
+              if (!payment.refunds) payment.refunds = [];
+              const existingRefund = payment.refunds.find(
+                (refund) => refund.refundId === refundEntity.id,
+              );
         const wasProcessed = existingRefund?.status === "processed";
 
         if (existingRefund) {
@@ -472,9 +471,11 @@ export const razorpayWebhook = async (req, res) => {
           });
         }
 
-        payment.refundedAmount = refunds
-          .filter((refund) => refund.status === "processed")
-          .reduce((total, refund) => total + Number(refund.amount || 0), 0);
+        payment.refundedAmount = Math.round(
+                  payment.refunds
+                    .filter((refund) => refund.status === "processed")
+                    .reduce((total, refund) => total + Number(refund.amount || 0), 0) * 100
+                ) / 100;
         if (payment.refundedAmount >= payment.amount) {
           payment.status = "refunded";
         }
