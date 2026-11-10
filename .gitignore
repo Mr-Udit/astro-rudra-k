@@ -18,6 +18,9 @@ coverage/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# local browser automation artifacts
+.playwright-mcp/
 pnpm-debug.log*
 
 # local caches and TypeScript build info
