@@ -375,23 +375,32 @@ export const razorpayWebhook = async (req, res) => {
     const eventId = event.id;
     const eventType = event.event;
     const paymentEntity = event.payload?.payment?.entity;
+    const refundEntity = event.payload?.refund?.entity;
+    const isRefundEvent =
+      eventType === "refund.processed" || eventType === "refund.failed";
 
-    if (!paymentEntity?.order_id) {
+    if (!isRefundEvent && !paymentEntity?.order_id) {
       return res.status(200).json({ ok: true });
     }
 
-    const statusFromEvent = mapRazorpayStatus(eventType, paymentEntity.status);
+    const statusFromEvent = isRefundEvent
+      ? null
+      : mapRazorpayStatus(eventType, paymentEntity.status);
+    let refundEmail;
 
     const session = await mongoose.startSession();
 
     await session.withTransaction(async () => {
       const payment = await PaymentModel.findOne({
-        razorpayOrderId: paymentEntity.order_id,
+        ...(isRefundEvent
+          ? { razorpayPaymentId: refundEntity?.payment_id }
+          : { razorpayOrderId: paymentEntity.order_id }),
       }).session(session);
 
       if (!payment) {
         logger.warn("Webhook for unknown payment", {
-          orderId: paymentEntity.order_id,
+          orderId: paymentEntity?.order_id,
+          paymentId: refundEntity?.payment_id,
           eventType,
         });
         webhookEventsCounter.inc({ event: eventType, result: "unknown_payment" });
@@ -407,25 +416,106 @@ export const razorpayWebhook = async (req, res) => {
       const update = {
         lastWebhookEventId: eventId,
         lastEventSource: "webhook",
-        razorpayPaymentId: paymentEntity.id || payment.razorpayPaymentId,
+        razorpayPaymentId:
+          paymentEntity?.id || payment.razorpayPaymentId,
         webhookDeliveries: (payment.webhookDeliveries || 0) + 1,
       };
 
       // Push the latest event (keep last 10)
       const pushEvent = {
         event: eventType,
-        status: paymentEntity.status,
+        status: paymentEntity?.status || refundEntity?.status,
         receivedAt: new Date(),
         payload: {
-          id: paymentEntity.id,
-          amount: paymentEntity.amount,
-          currency: paymentEntity.currency,
-          status: paymentEntity.status,
-          error_code: paymentEntity.error_code,
-          error_description: paymentEntity.error_description,
+          id: paymentEntity?.id || refundEntity?.id,
+          amount: paymentEntity?.amount || refundEntity?.amount,
+          currency: paymentEntity?.currency || refundEntity?.currency,
+          status: paymentEntity?.status || refundEntity?.status,
+          error_code: paymentEntity?.error_code || refundEntity?.error_code,
+          error_description:
+            paymentEntity?.error_description || refundEntity?.error_description,
         },
         signatureValid: true,
       };
+
+      if (isRefundEvent && refundEntity?.id) {
+        const refundStatus = eventType === "refund.processed" ? "processed" : "failed";
+        const refunds = payment.refunds || [];
+        payment.refunds = refunds;
+        const existingRefund = refunds.find(
+          (refund) => refund.refundId === refundEntity.id,
+        );
+        const wasProcessed = existingRefund?.status === "processed";
+
+        if (existingRefund) {
+          existingRefund.status = refundStatus;
+          existingRefund.amount = refundEntity.amount / 100;
+          if (refundStatus === "processed") existingRefund.processedAt = new Date();
+          if (refundStatus === "failed") {
+            existingRefund.failedAt = new Date();
+            existingRefund.failureReason =
+              refundEntity.error_description || "Razorpay refund failed";
+          }
+        } else {
+          payment.refunds.push({
+            refundId: refundEntity.id,
+            amount: refundEntity.amount / 100,
+            status: refundStatus,
+            requestedAt: new Date(),
+            ...(refundStatus === "processed"
+              ? { processedAt: new Date() }
+              : {
+                  failedAt: new Date(),
+                  failureReason:
+                    refundEntity.error_description || "Razorpay refund failed",
+                }),
+          });
+        }
+
+        payment.refundedAmount = refunds
+          .filter((refund) => refund.status === "processed")
+          .reduce((total, refund) => total + Number(refund.amount || 0), 0);
+        if (payment.refundedAmount >= payment.amount) {
+          payment.status = "refunded";
+        }
+        payment.lastWebhookEventId = eventId;
+        payment.lastEventSource = "webhook";
+        payment.webhookDeliveries = (payment.webhookDeliveries || 0) + 1;
+        payment.webhookEvents.push(pushEvent);
+        payment.webhookEvents = payment.webhookEvents.slice(-10);
+        await payment.save({ session });
+
+        const booking = await Booking.findOneAndUpdate(
+          {
+            _id: payment.bookingId,
+            "cancellation.refundState": { $in: ["approved", "failed"] },
+          },
+          {
+            $set: {
+              "cancellation.refundState": refundStatus,
+              "cancellation.razorpayRefundId": refundEntity.id,
+              ...(refundStatus === "processed"
+                ? { "cancellation.processedAt": new Date() }
+                : {
+                    "cancellation.failedAt": new Date(),
+                    "cancellation.failureReason":
+                      refundEntity.error_description || "Razorpay refund failed",
+                  }),
+            },
+            $unset: { "cancellation.approvalClaimedAt": 1 },
+          },
+          { new: true, session },
+        );
+        if (booking && (!wasProcessed || refundStatus === "failed")) {
+          refundEmail = {
+            email: booking.userEmail,
+            event: refundStatus,
+            amount: refundEntity.amount / 100,
+            bookingId: booking.bookingId,
+          };
+        }
+        return;
+      }
 
       // Enforce monotonic status progression: do not downgrade from final states
       const currentStatus = payment.status;
@@ -482,6 +572,19 @@ export const razorpayWebhook = async (req, res) => {
     });
 
     session.endSession();
+    if (refundEmail) {
+      try {
+        const { sendRefundNotification } = await import("../utils/sendEmailUtil.js");
+        await sendRefundNotification(
+          refundEmail.email,
+          refundEmail.event,
+          refundEmail.amount,
+          refundEmail.bookingId,
+        );
+      } catch (error) {
+        logger.error("Refund completion email failed", { error: error.message });
+      }
+    }
     webhookEventsCounter.inc({ event: eventType, result: "processed" });
     if (statusFromEvent) {
       paymentStatusCounter.inc({ source: "webhook", status: statusFromEvent });

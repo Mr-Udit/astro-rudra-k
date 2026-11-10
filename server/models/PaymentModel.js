@@ -131,6 +131,24 @@ const paymentSchema = new mongoose.Schema(
     metadata: {
       checkoutSessionId: String,
     },
+    refunds: [
+      {
+        refundId: String,
+        amount: Number,
+        status: {
+          type: String,
+          enum: ["created", "processed", "failed"],
+        },
+        requestedAt: Date,
+        processedAt: Date,
+        failedAt: Date,
+        failureReason: String,
+      },
+    ],
+    refundedAmount: {
+      type: Number,
+      default: 0,
+    },
     webhookEvents: [
       {
         event: String,

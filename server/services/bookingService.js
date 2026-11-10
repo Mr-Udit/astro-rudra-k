@@ -355,6 +355,13 @@ export async function cancelBooking(
           reason,
           cancelledAt: new Date(),
           refundAmount: refundAmount, // change based on refund policy
+          ...(Number(refundAmount) > 0
+            ? {
+                refundState: "requested",
+                requestedAmount: Number(refundAmount),
+                requestedAt: new Date(),
+              }
+            : {}),
         },
       },
     },
@@ -456,12 +463,13 @@ export async function getMyBookings(userId, query) {
         _id: 1,
         bookingDate: 1,
         bookingTime: 1,
+        duration: 1,
         consultationType: 1,
         status: 1,
         amount: 1,
         astrologerName: 1,
         createdAt: 1,
-        "cancellation.cancelledBy": 1,
+        cancellation: 1,
       },
     },
   ];
@@ -555,6 +563,13 @@ export const updateBookingStatusService = async ({
       reason,
       refundAmount,
       cancelledAt: new Date(),
+      ...(Number(refundAmount) > 0
+        ? {
+            refundState: "requested",
+            requestedAmount: Number(refundAmount),
+            requestedAt: new Date(),
+          }
+        : {}),
     };
   }
 

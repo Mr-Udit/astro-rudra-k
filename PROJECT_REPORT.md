@@ -71,7 +71,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 - Redis-based slot locking (prevents concurrent double-booking)
 - Database-level duplicate prevention (unique partial indexes)
 - Booking confirmation & receipt page
-- Booking cancellation (user/astrologer with reason, refund tracking)
+- Booking cancellation (user/astrologer with reason, admin-approved refund request tracking)
 - Booking rescheduling (atomic update with validation)
 - Auto-expiry background job for stale pending bookings
 
@@ -79,7 +79,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 - Server-side order creation with idempotency keys
 - Client-side Razorpay checkout modal
 - Payment verification (signature validation)
-- Webhook handler (payment.captured, payment.failed, refund events with deduplication)
+- Webhook handler (payment.captured, payment.failed, refund.processed, refund.failed with deduplication)
 - Payment status tracking (Created → Authorized → Captured/Failed/Refunded)
 - Auto-update booking status on successful payment (Pending → Confirmed)
 - Multiple payment methods via Razorpay (UPI, Card, Net Banking, Wallet)
@@ -185,7 +185,6 @@ The platform is a **production-ready astrology consultation marketplace** with a
 
 ### Admin & Business Operations
 15. **Real Payment Data in Admin** - Connect payments tab to PaymentModel
-16. **Refund Processing** - Admin/user initiated via Razorpay API
 17. **Payout Management** - Astrologer withdrawal requests, bank details, history
 18. **Export Data (CSV/Excel)** - Users, bookings, payments, revenue reports
 19. **Audit Logs** - Track admin actions for compliance

@@ -88,4 +88,22 @@ export async function sendOtpEmail(service, email, otp) {
   } catch (err) {
     return { success: false, error: err.message };
   }
+
+}
+
+export async function sendRefundNotification(email, event, amount, bookingId) {
+  const messages = {
+    approved: ["Refund approved", "Your refund request has been approved and submitted to Razorpay."],
+    rejected: ["Refund request rejected", "Your refund request was rejected by an administrator."],
+    processed: ["Refund processed", "Your refund has been processed by Razorpay."],
+    failed: ["Refund failed", "Your refund could not be processed and will be reviewed."],
+  };
+  const [subject, message] = messages[event] || messages.failed;
+  const info = await transporter.sendMail({
+    from: `"AstroRudra-K Support" <${SMTP_USER}>`,
+    to: email,
+    subject,
+    text: `${message}\nBooking: ${bookingId}\nAmount: ₹${Number(amount || 0).toFixed(2)}`,
+  });
+  return { success: true, messageId: info.messageId };
 }
