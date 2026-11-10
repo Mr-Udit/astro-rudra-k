@@ -336,3 +336,11 @@ Server (`npx eslint .`): 319 errors.
 - Resolve the listed product decisions before implementing checkout protection,
   consultation video, contact submission, social URLs, or legal pages.
 - Address remaining lint debt separately; it was not broadly refactored under this audit's scope.
+
+## 14. CodeRabbit review (2026-11-10)
+
+See [coderabbit-report.md](./coderabbit-report.md) for the complete verified
+review report. CodeRabbit 0.9.3 reviewed all 16 planned chunks and reported no
+findings. There are no open CR IDs. `server/README.md` was excluded as an
+unsupported binary file; the one transient `client-core-b` WebSocket failure
+was retried once with `--fresh` and then completed with no findings.
