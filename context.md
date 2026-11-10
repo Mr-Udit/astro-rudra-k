@@ -123,14 +123,16 @@ the JWT, checks the blacklist, loads the account, and sets:
 req.user = { id, role, type, fullName?, email?, phoneNumber?, username? }
 ```
 
-`authRequired` currently accepts one object:
+`authRequired` accepts one options object:
 
 ```js
 authRequired({ allowedRoles = [], allowedTokenTypes = ["auth", "profile"] })
 ```
 
-Several routes currently pass arrays instead of this object; this is an open
-verified security bug being handled in S1.
+Routes pass this object with explicit `allowedRoles` and `allowedTokenTypes`
+where restrictions are required. The middleware validates the JWT type first,
+then the decoded role, and finally loads the corresponding active user or
+astrologer account before setting `req.user`.
 
 Redis is used for astrologer list/availability caching and booking slot locks.
 Razorpay order creation, signature verification, and webhook handling are in the
@@ -146,8 +148,9 @@ the client uploads directly to Cloudinary.
 - **Admin**: authenticated admin management routes, monitoring, payments,
   revenue, user management, and astrologer management.
 
-These are intended permissions. Current route middleware mismatches mean some
-server role checks are not currently enforced until S1 is fixed.
+These permissions are enforced by route middleware. Restricted routes provide
+the allowed roles and token types to `authRequired`; unrestricted authenticated
+profile routes use its defaults (`auth` and `profile`).
 
 ## 7. API map
 
