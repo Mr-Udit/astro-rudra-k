@@ -469,7 +469,11 @@ export async function getMyBookings(userId, query) {
         amount: 1,
         astrologerName: 1,
         createdAt: 1,
-        cancellation: 1,
+        "cancellation.cancelledBy": 1,
+        "cancellation.refundAmount": 1,
+        "cancellation.refundState": 1,
+        "cancellation.requestedAmount": 1,
+        "cancellation.approvedAmount": 1,
       },
     },
   ];

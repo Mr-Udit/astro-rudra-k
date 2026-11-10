@@ -30,7 +30,22 @@ const refundableAmount = (payment) =>
 export const listRefundRequests = async (req, res) => {
   try {
     const bookings = await Booking.find({
-      "cancellation.refundState": "requested",
+      "cancellation.refundState": { $in: ["requested", "failed", "approved"] },
+      $or: [
+        { "cancellation.refundState": { $in: ["requested", "failed"] } },
+        {
+          "cancellation.refundState": "approved",
+          "cancellation.razorpayRefundId": { $exists: false },
+          $or: [
+            { "cancellation.approvalClaimedAt": { $exists: false } },
+            {
+              "cancellation.approvalClaimedAt": {
+                $lt: new Date(Date.now() - 5 * 60 * 1000),
+              },
+            },
+          ],
+        },
+      ],
     })
       .select(
         "bookingId userName userEmail price status bookingDate bookingTime cancellation",
@@ -117,24 +132,6 @@ export const approveRefund = async (req, res) => {
       payment.razorpayPaymentId,
       { count: 100 },
     );
-    const gatewayRefunded = (existing.items || [])
-      .filter((refund) => ["created", "processed"].includes(refund.status))
-      .reduce((total, refund) => total + Number(refund.amount || 0) / 100, 0);
-    const maximum = Math.max(
-      0,
-      Number(payment.amount || 0) - Math.max(Number(payment.refundedAmount || 0), gatewayRefunded),
-    );
-    const amount = requestedAmount === undefined
-      ? Number(booking.cancellation.requestedAmount || booking.cancellation.refundAmount)
-      : Number(requestedAmount);
-
-    if (!isValidAmount(amount) || amount > maximum) {
-      return res.status(400).json({
-        ok: false,
-        message: `Refund amount must be greater than zero and no more than ₹${maximum.toFixed(2)}`,
-      });
-    }
-
     const alreadyCreated = (existing.items || []).find(
       (refund) =>
         refund.receipt === receipt ||
@@ -162,6 +159,24 @@ export const approveRefund = async (req, res) => {
         ok: true,
         message: "Existing Razorpay refund linked to this request",
         data: { refundId: alreadyCreated.id, status: alreadyCreated.status },
+      });
+    }
+
+    const gatewayRefunded = (existing.items || [])
+      .filter((refund) => ["created", "processed"].includes(refund.status))
+      .reduce((total, refund) => total + Number(refund.amount || 0) / 100, 0);
+    const maximum = Math.max(
+      0,
+      Number(payment.amount || 0) - Math.max(Number(payment.refundedAmount || 0), gatewayRefunded),
+    );
+    const amount = requestedAmount === undefined
+      ? Number(booking.cancellation.requestedAmount || booking.cancellation.refundAmount)
+      : Number(requestedAmount);
+
+    if (!isValidAmount(amount) || amount > maximum) {
+      return res.status(400).json({
+        ok: false,
+        message: `Refund amount must be greater than zero and no more than ₹${maximum.toFixed(2)}`,
       });
     }
 
@@ -212,27 +227,40 @@ export const approveRefund = async (req, res) => {
         },
       });
 
-      await Payment.updateOne(
-        { _id: payment._id, "refunds.refundId": { $ne: refund.id } },
-        {
-          $push: {
-            refunds: {
-              refundId: refund.id,
-              amount: refund.amount / 100,
-              status: refund.status === "processed" ? "processed" : "created",
-              requestedAt: new Date(),
-              ...(refund.status === "processed" ? { processedAt: new Date() } : {}),
+      try {
+        await Payment.updateOne(
+          { _id: payment._id, "refunds.refundId": { $ne: refund.id } },
+          {
+            $push: {
+              refunds: {
+                refundId: refund.id,
+                amount: refund.amount / 100,
+                status: refund.status === "processed" ? "processed" : "created",
+                requestedAt: new Date(),
+                ...(refund.status === "processed" ? { processedAt: new Date() } : {}),
+              },
             },
           },
-        },
-      );
-      await Booking.updateOne(
-        { _id: booking._id },
-        {
-          $set: { "cancellation.razorpayRefundId": refund.id },
-          $unset: { "cancellation.approvalClaimedAt": 1 },
-        },
-      );
+        );
+        await Booking.updateOne(
+          { _id: booking._id },
+          {
+            $set: { "cancellation.razorpayRefundId": refund.id },
+            $unset: { "cancellation.approvalClaimedAt": 1 },
+          },
+        );
+      } catch (persistenceError) {
+        logger.error("Refund persistence reconciliation pending", {
+          bookingId: booking.bookingId,
+          refundId: refund.id,
+          error: persistenceError.message,
+        });
+        return res.status(202).json({
+          ok: true,
+          message: "Refund submitted; awaiting server reconciliation",
+          data: { refundId: refund.id, status: refund.status },
+        });
+      }
       await sendRefundEmail({ ...booking.toObject(), cancellation: { ...booking.cancellation.toObject(), approvedAmount: amount } }, "approved", amount);
 
       return res.json({

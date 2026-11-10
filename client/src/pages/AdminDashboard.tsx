@@ -261,7 +261,7 @@ export default function AdminDashboard() {
 
   const handleApproveRefund = async (request: RefundRequest) => {
     const requested = request.cancellation?.requestedAmount || request.cancellation?.refundAmount || 0;
-    const amountInput = window.prompt(`Approve refund amount (maximum ₹${requested.toFixed(2)})`, requested.toFixed(2));
+    const amountInput = window.prompt(`Approve refund amount (requested ₹${requested.toFixed(2)})`, requested.toFixed(2));
     if (amountInput === null) return;
     const amount = Number(amountInput);
     if (!Number.isFinite(amount) || amount <= 0 || amount > requested) {
@@ -1085,7 +1085,7 @@ export default function AdminDashboard() {
                   <div className="space-y-4">
                     <h3 className="font-serif text-lg font-bold text-primary">Refund requests</h3>
                     {refundRequests.length === 0 ? (
-                      <p className="text-muted-foreground">No pending refund requests.</p>
+                      <p className="text-muted-foreground">No actionable refund requests.</p>
                     ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full">
@@ -1094,7 +1094,8 @@ export default function AdminDashboard() {
                               <th className="text-left py-3 px-3">Booking</th>
                               <th className="text-left py-3 px-3">User</th>
                               <th className="text-left py-3 px-3">Paid</th>
-                              <th className="text-left py-3 px-3">Policy amount</th>
+                              <th className="text-left py-3 px-3">Requested amount</th>
+                              <th className="text-left py-3 px-3">State</th>
                               <th className="text-left py-3 px-3">Actions</th>
                             </tr>
                           </thead>
@@ -1107,6 +1108,7 @@ export default function AdminDashboard() {
                                   <td className="py-3 px-3">{request.userName}<br /><span className="text-xs text-muted-foreground">{request.userEmail}</span></td>
                                   <td className="py-3 px-3">₹{request.paidAmount?.toLocaleString() || 0}</td>
                                   <td className="py-3 px-3">₹{policyAmount.toFixed(2)}</td>
+                                  <td className="py-3 px-3 capitalize">{request.cancellation?.refundState}</td>
                                   <td className="py-3 px-3 flex gap-2">
                                     <Button size="sm" onClick={() => handleApproveRefund(request)}>Approve</Button>
                                     <Button size="sm" variant="outline" onClick={() => handleRejectRefund(request)}>Reject</Button>
