@@ -1,5 +1,0 @@
-[   11814ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=373be43d:20102
-[   12023ms] [ERROR] Each child in a list should have a unique "key" prop.%s%s See https://react.dev/link/warning-keys for more information. 
-
-Check the render method of `Footer`.  @ http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=373be43d:18617
-[   12327ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/favicon.ico:0

@@ -1,59 +1,29 @@
-# Node modules
+# secrets (keep the example template tracked)
+.env
+.env.*
+!.env.example
+
+# dependencies
 node_modules/
 
-# Logs
-logs/
+# coverage
+coverage/
+.nyc_output/
+
+# logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Build output
-dist/
-build/
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache
-.npm/
+# local caches
 .eslintcache
 
-# Mac OS system files
-.DS_Store
+# local database dumps
+dump.rdb
 
-# Windows system files
-Thumbs.db
-
-# IDEs
-.vscode/
+# editor and OS files
 .idea/
-*.sublime-project
-*.sublime-workspace
-
-# Coverage directory used by testing tools
-coverage/
-
-# Temporary files
-tmp/
-temp/
-
-# Yarn integrity file
-.yarn-integrity
-
-# PM2
-.pm2/
-
-# Docker
-docker-compose.override.yml
+.DS_Store
+Thumbs.db

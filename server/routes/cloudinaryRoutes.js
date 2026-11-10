@@ -10,7 +10,7 @@ const router = express.Router();
 ------------------------------------------------------------------ */
 
 const uploadLimiter = apiLimiter;
-const auth = authRequired(["auth"]);
+const auth = authRequired({ allowedTokenTypes: ["auth"] });
 
 /* ------------------------------------------------------------------
    CLOUDINARY ROUTES

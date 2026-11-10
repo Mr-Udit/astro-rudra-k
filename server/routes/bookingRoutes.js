@@ -30,28 +30,31 @@ const router = express.Router();
 
 router.post(
   "/create",
-  authRequired(["auth"]),
+  authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   createBookingHandler
 );
 
 router.patch(
   "/:id/cancel",
-  authRequired(["auth"], ["user"]),
+  authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   cancelBookingHandler
 );
 
 router.patch(
   "/:id/reschedule",
-  authRequired(["auth"], ["user"]),
+  authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   rescheduleBookingHandler
 );
 
 router.patch(
   "/:id/status",
-  authRequired(["auth"], ["astrologer", "user", "admin"]),
+  authRequired({
+    allowedRoles: ["astrologer", "user", "admin"],
+    allowedTokenTypes: ["auth"],
+  }),
   apiLimiter,
   updateBookingStatusController
 );
@@ -62,7 +65,7 @@ router.patch(
 
 router.get(
   "/my-bookings",
-  authRequired(["auth"]),
+  authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   myBookings
 );
@@ -73,21 +76,21 @@ router.get(
 
 router.get(
   "/astrologer/my-consultations",
-  authRequired(["auth"],),
+  authRequired({ allowedRoles: ["astrologer"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   astrologerUpcomingBookings // We will modify this or add a specific one
 );
 
 router.get(
   "/astrologer/:astrologerProfileId/upcoming",
-  authRequired(["auth"], ["astrologer"]),
+  authRequired({ allowedRoles: ["astrologer"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   astrologerUpcomingBookings
 );
 
 router.get(
   "/astrologer/:astrologerProfileId/history",
-  authRequired(["auth"], ["astrologer"]),
+  authRequired({ allowedRoles: ["astrologer"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   astrologerBookingHistory
 );
@@ -98,7 +101,10 @@ router.get(
 
 router.get(
   "/:id",
-  authRequired(["auth"], ["user", "astrologer", "admin"]),
+  authRequired({
+    allowedRoles: ["user", "astrologer", "admin"],
+    allowedTokenTypes: ["auth"],
+  }),
   apiLimiter,
   getBooking
 );

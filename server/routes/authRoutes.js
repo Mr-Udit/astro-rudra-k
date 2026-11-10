@@ -7,7 +7,6 @@ import {
   verifySession,
 } from "../controllers/authController.js";
 import { authRequired, authOptional } from "../middleware/authMiddleware.js";
-import { csrfProtection } from "../middleware/csrfMiddleware.js";
 import {
   apiLimiter,
   authLimiter,
@@ -54,7 +53,7 @@ router.get(
 
 router.post(
   "/logout",
-  authRequired(["auth", "profile"]), // Requires valid auth or profile token
+  authRequired({ allowedTokenTypes: ["auth", "profile"] }),
   // csrfProtection, // CSRF protection for state-changing request
   logout,
 );

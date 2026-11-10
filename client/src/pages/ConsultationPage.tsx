@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Calendar, Clock, Phone, Video, MessageSquare, Shield, AlertCircle, Loader2, Wifi, Mic, Camera, MessageCircle } from 'lucide-react';
+import { Phone, Video, MessageSquare, Shield, AlertCircle, Loader2, Wifi, Mic, Camera, MessageCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import api from '@/lib/api';
+import axios from 'axios';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import ConstellationBg from '@/components/ui-custom/ConstellationBg';
 
 interface BookingType {
   _id?: string;
   id?: string;
+  userId?: string;
+  astrologerId?: string;
   astrologerName?: string;
   astrologerImage?: string;
   bookingDate?: string;
@@ -52,8 +55,9 @@ export default function ConsultationPage() {
         } else {
           setError(response.data.message || 'Booking not found');
         }
-      } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to load booking');
+      } catch (err: unknown) {
+        const responseData = axios.isAxiosError(err) ? err.response?.data : undefined;
+        setError(responseData?.message || 'Failed to load booking');
       } finally {
         setLoading(false);
       }
@@ -135,7 +139,11 @@ export default function ConsultationPage() {
   }
 
   // Check if user has access to this booking
-  const hasAccess = booking.userId === user?.id || booking.astrologerId === user?.id || user?.role === 'admin';
+  const currentUserId = user?._id;
+  const hasAccess =
+    String(booking.userId) === String(currentUserId) ||
+    String(booking.astrologerId) === String(currentUserId) ||
+    user?.role === 'admin';
 
   if (!hasAccess) {
     return (

@@ -1,0 +1,34 @@
+# secrets (keep the example template tracked)
+.env
+.env.*
+!.env.example
+
+# dependencies
+node_modules/
+
+# build output and coverage
+dist/
+dist-ssr/
+build/
+coverage/
+.nyc_output/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local caches and TypeScript build info
+.vite/
+.eslintcache
+*.tsbuildinfo
+
+# local database dumps (Redis writes dump.rdb into its working directory)
+dump.rdb
+
+# editor and OS files
+.idea/
+.DS_Store
+Thumbs.db

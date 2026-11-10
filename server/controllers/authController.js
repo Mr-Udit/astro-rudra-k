@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/UserModel.js";
 import BlacklistedToken from "../models/BlacklistedTokenModel.js";
 import { generateAndStoreOtp, verifyOtp } from "../services/otpService.js";
-import generateToken, { getCookieOptions } from "../utils/generateTokenUtil.js";
+import generateToken from "../utils/generateTokenUtil.js";
 import { AstrologerProfile } from "../models/AstrologersModel.js";
 import { logger } from "../utils/logger.js";
 
@@ -82,7 +82,7 @@ export async function register(req, res) {
       return res.json({
         ok: true,
         message: "OTP sent successfully.",
-        otp: OTP, // REMOVE IN PRODUCTION
+        ...(process.env.NODE_ENV !== "production" ? { otp: OTP } : {}),
       });
     }
 
@@ -256,11 +256,10 @@ export async function login(req, res, next) {
         email: account.email,
         purpose: `${role}_auth`,
       });
-      console.log(`Generated OTP for ${account.email}: ${OTP}`); // Log OTP for debugging (REMOVE IN PRODUCTION)
       return res.json({
         ok: true,
         message: "OTP sent successfully.",
-        otp: OTP, // REMOVE IN PRODUCTION
+        ...(process.env.NODE_ENV !== "production" ? { otp: OTP } : {}),
       });
     }
 

@@ -8,10 +8,10 @@ export const validate = schema => {
 
   return (req, res, next) => {
     // attach userId without mutating original body reference
-    if (req.user?.userId && req.body?.userId === undefined) {
+    if (req.user?.id && req.body?.userId === undefined) {
       req.body = {
         ...req.body,
-        userId: req.user.userId
+        userId: req.user.id
       };
     }
 
