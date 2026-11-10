@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { Booking } from "../models/BookingModel.js";
 import Payment from "../models/PaymentModel.js";
@@ -54,6 +55,9 @@ const getParticipantName = (booking, role) =>
 
 export async function createJoinToken(bookingId, user) {
   const config = getJaasConfig();
+  if (!mongoose.isValidObjectId(bookingId)) {
+    throw new AppError("BOOKING_NOT_FOUND", "Booking not found", 404);
+  }
   const booking = await Booking.findById(bookingId).lean();
 
   if (!booking) {

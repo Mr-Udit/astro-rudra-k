@@ -95,7 +95,7 @@ export default function ConsultationPage() {
   useDocumentTitle("Consultation");
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth() || {};
+  const { user, isAuthenticated, isLoading } = useAuth() || {};
   const containerRef = useRef<HTMLDivElement>(null);
   const jitsiRef = useRef<JitsiApi | null>(null);
   const [booking, setBooking] = useState<Booking | null>(null);
@@ -107,8 +107,9 @@ export default function ConsultationPage() {
   const [now, setNow] = useState(Date.now());
 
   useEffect(() => {
+    if (isLoading) return;
     if (!isAuthenticated) {
-      navigate("/login", { state: { from: `/consultation/${id}` } });
+      navigate("/login", { state: { from: { pathname: `/consultation/${id}` } } });
       return;
     }
     if (!id) {
@@ -131,7 +132,7 @@ export default function ConsultationPage() {
         setError(data?.error?.message || data?.message || "Failed to load booking");
       })
       .finally(() => setLoading(false));
-  }, [id, isAuthenticated, navigate]);
+  }, [id, isAuthenticated, isLoading, navigate]);
 
   useEffect(() => {
     const interval = window.setInterval(() => setNow(Date.now()), 30000);
@@ -187,6 +188,7 @@ export default function ConsultationPage() {
       }
 
       const audioOnly = data.consultationType === "voice_call";
+      const chatOnly = data.consultationType === "chat";
       jitsiRef.current?.dispose();
       jitsiRef.current = new window.JitsiMeetExternalAPI("8x8.vc", {
         roomName: data.roomName,
@@ -196,7 +198,8 @@ export default function ConsultationPage() {
         height: "100%",
         configOverwrite: {
           startAudioOnly: audioOnly,
-          startWithVideoMuted: audioOnly,
+          startWithVideoMuted: audioOnly || chatOnly,
+          startWithAudioMuted: chatOnly,
         },
         userInfo: { displayName: user?.fullName || "Participant" },
       });

@@ -33,7 +33,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 
 ---
 
-## ✅ Fully Implemented Features (91)
+## ✅ Fully Implemented Features (92)
 
 ### Authentication & User Management
 - OTP-based registration (email)
@@ -68,6 +68,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 - Step indicator UI across all steps
 - Real-time booking summary sidebar with price breakdown
 - Pay Later option (create booking without immediate payment)
+- JaaS consultation rooms with participant authorization and short-lived RS256 join tokens
 - Redis-based slot locking (prevents concurrent double-booking)
 - Database-level duplicate prevention (unique partial indexes)
 - Booking confirmation & receipt page
@@ -147,7 +148,7 @@ The platform is a **production-ready astrology consultation marketplace** with a
 
 ---
 
-## 🔄 Partially Implemented (9)
+## 🔄 Partially Implemented (8)
 
 | Feature | Status | Notes |
 |---------|--------|-------|
@@ -158,45 +159,42 @@ The platform is a **production-ready astrology consultation marketplace** with a
 | Revenue Chart (Admin) | Partial | Mock bar chart; needs real data |
 | Payments Tab (Admin) | Partial | Mock transaction data; needs connection to PaymentModel |
 | Free Kundli Generator | Partial | External link configured (VITE_KUNDLI_APP_URL); no embed |
-| Join Consultation Button | Implemented (runtime verification pending) | Server-issued JaaS RS256 room tokens and the JaaS iframe client are wired; live credentials and two-party testing remain |
 | Image Upload (User Profile) | Partial | Cloudinary signature endpoint exists; client upload not complete |
 
 ---
 
-## ❌ Not Started - High Priority (25)
+## ❌ Not Started - High Priority (23)
 
 ### Core Product (Critical)
 1. **Automatic Consultation Completion** - Server-authoritative completion after the JaaS session ends
 2. **Pre-call Checks** - Camera/mic test, connection quality
 3. **Screen Sharing** - Astrologer shares chart/analysis
-4. **Pre-call Checks** - Camera/mic test, connection quality
-5. **Screen Sharing** - Astrologer shares chart/analysis
-6. **Session Recording** - Optional recording for user reference
-7. **Post-session Notes** - Astrologer saves private notes
-8. **Chat History Persistence** - Users revisit past chat consultations
+4. **Session Recording** - Optional recording for user reference
+5. **Post-session Notes** - Astrologer saves private notes
+6. **Chat History Persistence** - Users revisit past chat consultations
 
 ### Communication & Notifications
-9. **Booking Confirmation Email** - Send on successful booking/payment
-10. **Reminder Emails/SMS** - 24h and 1h before consultation
-11. **In-app Notification Center** - Bell icon with history
-12. **Push Notifications (Web)** - Service worker + VAPID
-13. **WhatsApp/SMS Integration** - Twilio/Gupshup for critical alerts
-14. **Email Templates System** - Reusable templates
+7. **Booking Confirmation Email** - Send on successful booking/payment
+8. **Reminder Emails/SMS** - 24h and 1h before consultation
+9. **In-app Notification Center** - Bell icon with history
+10. **Push Notifications (Web)** - Service worker + VAPID
+11. **WhatsApp/SMS Integration** - Twilio/Gupshup for critical alerts
+12. **Email Templates System** - Reusable templates
 
 ### Admin & Business Operations
-15. **Real Payment Data in Admin** - Connect payments tab to PaymentModel
-16. **Refund Processing** - Admin/user initiated via Razorpay API
-17. **Payout Management** - Astrologer withdrawal requests, bank details, history
-18. **Export Data (CSV/Excel)** - Users, bookings, payments, revenue reports
-19. **Audit Logs** - Track admin actions for compliance
-20. **System Configuration Panel** - Manage pricing, discounts, platform settings
+13. **Real Payment Data in Admin** - Connect payments tab to PaymentModel
+14. **Refund Processing** - Admin/user initiated via Razorpay API
+15. **Payout Management** - Astrologer withdrawal requests, bank details, history
+16. **Export Data (CSV/Excel)** - Users, bookings, payments, revenue reports
+17. **Audit Logs** - Track admin actions for compliance
+18. **System Configuration Panel** - Manage pricing, discounts, platform settings
 
 ### User Experience
-21. **Astrologer Public Profile Page** - Bio, experience, reviews, availability calendar
-22. **User Profile Settings Page** - Notifications, privacy, account deletion
-23. **Booking Detail View** - Full details page with join link
-24. **Reschedule from Dashboard** - Direct action on upcoming bookings
-25. **Download Consultation Report** - PDF summary
+19. **Astrologer Public Profile Page** - Bio, experience, reviews, availability calendar
+20. **User Profile Settings Page** - Notifications, privacy, account deletion
+21. **Booking Detail View** - Full details page with join link
+22. **Reschedule from Dashboard** - Direct action on upcoming bookings
+23. **Download Consultation Report** - PDF summary
 
 ---
 
