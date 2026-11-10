@@ -186,7 +186,7 @@ server role checks are not currently enforced until S1 is fixed.
 | POST | `/payment/create-order` | authRequired user/admin/astrologer | createOrder |
 | POST | `/payment/verify` | authRequired user | verifyPayment |
 | POST | `/payment/webhook` | none; signature checked in controller | razorpayWebhook |
-| GET | `/api/cloudinary/signature` | authRequired, apiLimiter | getUploadSignature |
+| GET | `/api/cloudinary/signature` | authRequired (auth/profile), apiLimiter | getUploadSignature |
 | POST | `/admin/astrologer/create` | adminAuth, apiLimiter, validation | createAstrologerHandler |
 | PATCH | `/admin/astrologer/:id/status` | adminAuth, apiLimiter | setVerificationAstrologerHandler |
 | DELETE | `/admin/astrologer/:id` | adminAuth, apiLimiter | adminDeleteAstrologer |
