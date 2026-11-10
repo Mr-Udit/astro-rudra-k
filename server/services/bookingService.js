@@ -388,6 +388,14 @@ export async function rescheduleBooking(
     throw BookingErrors.bookingNotFound();
   }
 
+  if (
+    !/^\d{2}:\d{2}$/.test(bookingTime) ||
+    Number(bookingTime.slice(0, 2)) > 23 ||
+    Number(bookingTime.slice(3, 5)) > 59
+  ) {
+    throw BookingErrors.invalidTimeFormat();
+  }
+
   const normalizedDate = normalizeISTDate(bookingDate);
 
   // Validate slot availability for new date/time

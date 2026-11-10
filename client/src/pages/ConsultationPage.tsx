@@ -64,6 +64,15 @@ const getBookingStart = (booking: Booking) => {
 
   const date = new Date(dateValue);
   const [hours, minutes] = timeValue.split(":").map(Number);
+  if (
+    !/^\d{2}:\d{2}$/.test(timeValue) ||
+    !Number.isInteger(hours) ||
+    !Number.isInteger(minutes) ||
+    hours > 23 ||
+    minutes > 59
+  ) {
+    return null;
+  }
   return new Date(
     Date.UTC(
       date.getUTCFullYear(),
@@ -163,6 +172,7 @@ export default function ConsultationPage() {
   const isCompleted = booking?.status === "completed";
   const canJoin =
     booking?.status === "confirmed" &&
+    startAt !== null &&
     !isTooEarly &&
     !isEnded &&
     !isCancelled &&
@@ -275,7 +285,7 @@ export default function ConsultationPage() {
           {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
           <div
             ref={containerRef}
-            className="min-h-[520px] rounded-xl overflow-hidden bg-gray-900"
+            className="h-[520px] rounded-xl overflow-hidden bg-gray-900"
           >
             {status === "connected" && joinData ? null : (
               <div className="h-[520px] flex flex-col items-center justify-center text-center text-white px-6">
