@@ -201,6 +201,9 @@ profile routes use its defaults (`auth` and `profile`).
 | GET | `/admin/astrologers` | adminAuth, apiLimiter | adminListAstrologers |
 | GET | `/admin/monitoring/summary` | adminAuth, apiLimiter | adminMonitoringSummary |
 | GET | `/admin/payments` | adminAuth, apiLimiter | adminGetPayments |
+| GET | `/admin/refunds` | adminAuth, apiLimiter | listRefundRequests |
+| POST | `/admin/refunds/:id/approve` | adminAuth, apiLimiter | approveRefund |
+| POST | `/admin/refunds/:id/reject` | adminAuth, apiLimiter | rejectRefund |
 | GET | `/admin/revenue/chart` | adminAuth, apiLimiter | adminRevenueChart |
 
 ## 8. Frontend map
@@ -313,6 +316,7 @@ Server (`npx eslint .`): 319 errors.
 | 2026-11-10 | `client/src/components/layout/Footer.tsx` | Replaced `Icon.name` React keys with explicit stable social keys | Social icon component names are not a reliable unique key | `npm run build` passed in `client` |
 | 2026-11-10 | `client/src/pages/CompleteProfilePage.tsx`, `ConsultationPage.tsx`, `KundliGeneratorPage.tsx`, `server/controllers/authController.js`, `server/routes/adminRoutes.js`, `server/routes/authRoutes.js` | Corrected lint errors in files already touched by the audit: typed unknown catches, removed unused imports/variables, and replaced the remaining local `any` types | Phase 6 permits fixes only in files already modified for this audit | Client build passed; final lint counts recorded above |
 | 2026-11-10 | `context.md` | Recorded final client/server lint totals and grouped rule counts | Complete the required audit report and preserve the remaining lint debt | `npm run lint` and `npx eslint .` completed; both remain non-zero |
+| 2026-11-10 | `BookingModel.js`, `PaymentModel.js`, refund controllers/routes, `AdminDashboard.tsx`, `UserDashboard.tsx` | Added admin-approved Razorpay refund requests, idempotent refund submission, verified refund webhooks, and user/admin refund status displays | Cancellation now records a request instead of claiming money was returned | Server syntax checks, client TypeScript check, and client build passed; Razorpay test-mode runtime was not run |
 
 ## 12. Conventions and gotchas
 

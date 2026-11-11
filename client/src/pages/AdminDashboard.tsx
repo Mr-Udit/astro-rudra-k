@@ -33,6 +33,21 @@ interface BookingType {
   createdAt?: string;
 }
 
+interface RefundRequest {
+  _id: string;
+  bookingId: string;
+  userName: string;
+  userEmail: string;
+  price: number;
+  paidAmount?: number;
+  cancellation?: {
+    requestedAmount?: number;
+    refundAmount?: number;
+    refundState?: string;
+    requestedAt?: string;
+  };
+}
+
 interface AdminUserType {
   _id?: string;
   id?: string;
@@ -68,12 +83,13 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<AdminUserType[]>([]);
   const [astrologers, setAstrologers] = useState<AdminUserType[]>([]);
   const [payments, setPayments] = useState<any[]>([]);
+  const [refundRequests, setRefundRequests] = useState<RefundRequest[]>([]);
   const [revenueChart, setRevenueChart] = useState<RevenueChartData | null>(null);
   const [revenueLoading, setRevenueLoading] = useState(false);
   const [monitoring, setMonitoring] = useState<any | null>(null);
   const [monitoringLoading, setMonitoringLoading] = useState(false);
   const [monitoringError, setMonitoringError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'astrologers' | 'bookings' | 'payments' | 'monitoring'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'astrologers' | 'bookings' | 'payments' | 'refunds' | 'monitoring'>('overview');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -147,6 +163,15 @@ export default function AdminDashboard() {
           console.error('Failed to fetch revenue chart:', revenueErr.message);
         } finally {
           setRevenueLoading(false);
+        }
+
+        try {
+          const refundsResponse = await api.get('/admin/refunds');
+          if (refundsResponse.data?.ok) {
+            setRefundRequests(refundsResponse.data.data || []);
+          }
+        } catch (refundsErr: any) {
+          console.error('Failed to fetch refund requests:', refundsErr.message);
         }
 
         // Fetch monitoring summary (non-fatal if it fails)
@@ -228,6 +253,43 @@ export default function AdminDashboard() {
 
   const recentBookings = bookings.slice(0, 5);
   const recentUsers = users.slice(0, 5);
+
+  const reloadRefundRequests = async () => {
+    const response = await api.get('/admin/refunds');
+    if (response.data?.ok) setRefundRequests(response.data.data || []);
+  };
+
+  const handleApproveRefund = async (request: RefundRequest) => {
+    const requested = request.cancellation?.requestedAmount || request.cancellation?.refundAmount || 0;
+    const amountInput = window.prompt(`Approve refund amount (requested ₹${requested.toFixed(2)})`, requested.toFixed(2));
+    if (amountInput === null) return;
+    const amount = Number(amountInput);
+    if (!Number.isFinite(amount) || amount <= 0 || amount > requested) {
+      toast.error('Enter a valid amount within the requested refund amount');
+      return;
+    }
+    if (!window.confirm(`Approve a ₹${amount.toFixed(2)} refund for ${request.userName}?`)) return;
+    try {
+      await api.post(`/admin/refunds/${request._id}/approve`, { amount });
+      toast.success('Refund submitted to Razorpay');
+      await reloadRefundRequests();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to approve refund');
+    }
+  };
+
+  const handleRejectRefund = async (request: RefundRequest) => {
+    if (!window.confirm(`Reject the refund request for ${request.userName}?`)) return;
+    const reason = window.prompt('Rejection reason');
+    if (!reason?.trim()) return;
+    try {
+      await api.post(`/admin/refunds/${request._id}/reject`, { reason });
+      toast.success('Refund request rejected');
+      await reloadRefundRequests();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Failed to reject refund');
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -585,6 +647,7 @@ export default function AdminDashboard() {
                   { id: 'astrologers', label: 'Astrologers', icon: Star },
                   { id: 'bookings', label: 'Bookings', icon: Calendar },
                   { id: 'payments', label: 'Payments', icon: DollarSign },
+                  { id: 'refunds', label: `Refunds (${refundRequests.length})`, icon: XCircle },
                   { id: 'monitoring', label: 'Monitoring', icon: AsteriskIcon },
                 ].map((tab) => (
                   <button
@@ -1015,6 +1078,48 @@ export default function AdminDashboard() {
                         </table>
                       </div>
                     </div>
+                  </div>
+                )}
+
+                {activeTab === 'refunds' && (
+                  <div className="space-y-4">
+                    <h3 className="font-serif text-lg font-bold text-primary">Refund requests</h3>
+                    {refundRequests.length === 0 ? (
+                      <p className="text-muted-foreground">No actionable refund requests.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="border-b border-border">
+                              <th className="text-left py-3 px-3">Booking</th>
+                              <th className="text-left py-3 px-3">User</th>
+                              <th className="text-left py-3 px-3">Paid</th>
+                              <th className="text-left py-3 px-3">Requested amount</th>
+                              <th className="text-left py-3 px-3">State</th>
+                              <th className="text-left py-3 px-3">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {refundRequests.map((request) => {
+                              const policyAmount = request.cancellation?.requestedAmount || request.cancellation?.refundAmount || 0;
+                              return (
+                                <tr key={request._id} className="border-b border-border">
+                                  <td className="py-3 px-3 font-mono text-sm">{request.bookingId}</td>
+                                  <td className="py-3 px-3">{request.userName}<br /><span className="text-xs text-muted-foreground">{request.userEmail}</span></td>
+                                  <td className="py-3 px-3">₹{request.paidAmount?.toLocaleString() || 0}</td>
+                                  <td className="py-3 px-3">₹{policyAmount.toFixed(2)}</td>
+                                  <td className="py-3 px-3 capitalize">{request.cancellation?.refundState}</td>
+                                  <td className="py-3 px-3 flex gap-2">
+                                    <Button size="sm" onClick={() => handleApproveRefund(request)}>Approve</Button>
+                                    <Button size="sm" variant="outline" onClick={() => handleRejectRefund(request)}>Reject</Button>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 )}
 

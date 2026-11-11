@@ -27,6 +27,10 @@ interface BookingType {
   createdAt?: string;
   cancellation?: {
     cancelledBy?: string;
+    refundState?: 'requested' | 'approved' | 'processed' | 'rejected' | 'failed';
+    requestedAmount?: number;
+    approvedAmount?: number;
+    failureReason?: string;
   };
 }
 
@@ -323,6 +327,19 @@ export default function UserDashboard() {
                                     : 'Cancelled')}
                                 {booking.status === 'expired' && 'Expired'}
                               </span>
+                              {booking.cancellation?.refundState && (
+                                <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                                  Refund: {booking.cancellation.refundState === 'processed'
+                                    ? 'Processed'
+                                    : booking.cancellation.refundState === 'approved'
+                                      ? 'Approved - processing'
+                                      : booking.cancellation.refundState === 'requested'
+                                        ? 'Requested'
+                                        : booking.cancellation.refundState === 'rejected'
+                                          ? 'Rejected'
+                                          : 'Failed - retry pending'}
+                                </span>
+                              )}
                               {booking.status === 'completed' && (
                                 <Button
                                   variant="ghost"

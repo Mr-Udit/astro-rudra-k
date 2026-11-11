@@ -85,11 +85,15 @@ export const cancelBookingHandler = async (req, res) => {
       req.user.id,
       req.canceller,
       req.body.reason || "",
-      req.refundAmount,
+      req.body.refundAmount ?? req.refundAmount,
     );
 
     return res.json({
       ok: true,
+      message:
+        booking.cancellation?.refundState === "requested"
+          ? "Booking cancelled; refund request is pending admin approval"
+          : "Booking cancelled",
       data: booking,
     });
   } catch (err) {

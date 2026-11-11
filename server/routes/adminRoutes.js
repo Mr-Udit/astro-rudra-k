@@ -26,6 +26,11 @@ import { validate } from "../middleware/validateController.js";
 import { createAstrologerSchema } from "../validators/createAstrologerSchemaValidator.js";
 import { authRequired } from "../middleware/authMiddleware.js";
 import { apiLimiter } from "../middleware/rateLimitMiddleware.js";
+import {
+  listRefundRequests,
+  approveRefund,
+  rejectRefund,
+} from "../controllers/refundController.js";
 
 const router = express.Router();
 
@@ -144,6 +149,10 @@ router.get(
   adminRateLimit,
   adminGetPayments
 );
+
+router.get("/refunds", adminAuth, adminRateLimit, listRefundRequests);
+router.post("/refunds/:id/approve", adminAuth, adminRateLimit, approveRefund);
+router.post("/refunds/:id/reject", adminAuth, adminRateLimit, rejectRefund);
 
 /* ------------------------------------------------------------------
    REVENUE CHART
