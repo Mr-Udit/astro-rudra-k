@@ -8,6 +8,7 @@ import {
   astrologerBookingHistory,
   getBooking,
   updateBookingStatusController,
+  joinTokenHandler,
 } from "../controllers/bookingController.js";
 
 import { authRequired } from "../middleware/authMiddleware.js";
@@ -40,6 +41,16 @@ router.patch(
   authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] }),
   apiLimiter,
   cancelBookingHandler
+);
+
+router.post(
+  "/:id/join-token",
+  authRequired({
+    allowedRoles: ["user", "astrologer"],
+    allowedTokenTypes: ["auth"],
+  }),
+  apiLimiter,
+  joinTokenHandler,
 );
 
 router.patch(

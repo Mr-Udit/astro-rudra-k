@@ -22,6 +22,7 @@ interface BookingType {
   time?: string;
   consultationType: string;
   status: string;
+  duration?: number;
   amount?: number;
   totalAmount?: number; // legacy fallback
   createdAt?: string;
@@ -33,6 +34,24 @@ interface BookingType {
     failureReason?: string;
   };
 }
+
+const isWithinJoinWindow = (booking: BookingType) => {
+  if (booking.status !== 'confirmed') return false;
+  const dateValue = booking.bookingDate || booking.date;
+  const timeValue = booking.bookingTime || booking.time;
+  if (!dateValue || !timeValue) return false;
+  const date = new Date(dateValue);
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  const start = Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    hours,
+    minutes,
+  ) - 330 * 60 * 1000;
+  const end = start + (booking.duration || 30) * 60 * 1000;
+  return Date.now() >= start - 10 * 60 * 1000 && Date.now() <= end + 5 * 60 * 1000;
+};
 
 export default function UserDashboard() {
   useDocumentTitle('My Dashboard');
@@ -268,8 +287,14 @@ export default function UserDashboard() {
                                   Pay Now <ChevronRight className="w-4 h-4" />
                                 </Button>
                               ) : (
-                                <Button variant="ghost" size="sm" className="text-primary">
-                                  View <ChevronRight className="w-4 h-4" />
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-primary"
+                                  disabled={!isWithinJoinWindow(booking)}
+                                  onClick={() => navigate(`/consultation/${booking.id || booking._id}`)}
+                                >
+                                  {isWithinJoinWindow(booking) ? 'Join' : 'Not open'} <ChevronRight className="w-4 h-4" />
                                 </Button>
                               )}
                             </div>

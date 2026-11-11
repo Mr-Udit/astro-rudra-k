@@ -11,6 +11,7 @@ import {
   updateBookingStatusService,
 } from "../services/bookingService.js";
 import { AppError } from "../utils/AppError.js";
+import { createJoinToken } from "../services/jaasService.js";
 
 /*
   BOOKING CONTROLLER — HIGH THROUGHPUT SAFE
@@ -69,6 +70,30 @@ export const createBookingHandler = async (req, res) => {
       error: {
         code: "INTERNAL_SERVER_ERROR",
         message: "An unexpected error occurred. Please try again.",
+      },
+    });
+  }
+};
+
+export const joinTokenHandler = async (req, res) => {
+  try {
+    const data = await createJoinToken(req.params.id, req.user);
+    return res.json({ ok: true, data });
+  } catch (err) {
+    if (err instanceof AppError) {
+      return res.status(err.statusCode).json(err.toJSON());
+    }
+
+    console.error("[CONSULTATION JOIN TOKEN ERROR]", {
+      error: err.message,
+      bookingId: req.params.id,
+      userId: req.user?.id,
+    });
+    return res.status(500).json({
+      ok: false,
+      error: {
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Unable to start the consultation",
       },
     });
   }

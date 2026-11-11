@@ -25,10 +25,29 @@ interface BookingType {
   time?: string;
   consultationType: string;
   status: string;
+  duration?: number;
   amount?: number;
   totalAmount?: number;
   createdAt?: string;
 }
+
+const isWithinJoinWindow = (booking: BookingType) => {
+  if (booking.status !== 'confirmed') return false;
+  const dateValue = booking.bookingDate || booking.date;
+  const timeValue = booking.bookingTime || booking.time;
+  if (!dateValue || !timeValue) return false;
+  const date = new Date(dateValue);
+  const [hours, minutes] = timeValue.split(':').map(Number);
+  const start = Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    hours,
+    minutes,
+  ) - 330 * 60 * 1000;
+  const end = start + (booking.duration || 30) * 60 * 1000;
+  return Date.now() >= start - 10 * 60 * 1000 && Date.now() <= end + 5 * 60 * 1000;
+};
 
 export default function AstrologerDashboard() {
   useDocumentTitle('Astrologer Dashboard');
@@ -397,9 +416,10 @@ export default function AstrologerDashboard() {
                             <Button
                               size="sm"
                               className="btn-primary"
+                              disabled={!isWithinJoinWindow(booking)}
                               onClick={() => navigate(`/consultation/${booking.id || booking._id}`)}
                             >
-                              Join
+                              {isWithinJoinWindow(booking) ? 'Join' : 'Not open'}
                             </Button>
                           </div>
                         </div>

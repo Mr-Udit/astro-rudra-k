@@ -140,6 +140,7 @@ server/
     └── metrics.js            # Prometheus counters/gauges (bookings, payments, webhooks, Redis/Mongo)
 ```
 
+<<<<<<< HEAD
 ### Client Structure (16,121 lines across 119 TSX/TS files)
 ```
 client/src/
@@ -247,6 +248,10 @@ authRequired({ allowedRoles: ["user"], allowedTokenTypes: ["auth"] })
 
 ### Auto-Expiry Job
 Background interval runs every 60 seconds, cancelling `pending` bookings older than `BOOKING_EXPIRY_MINUTES` (default 30 min). Cancelled bookings are excluded from active slot indexes, freeing the slot for rebooking.
+
+---
+
+## 5. Payment & Refund System
 
 ---
 

@@ -179,6 +179,7 @@ profile routes use its defaults (`auth` and `profile`).
 | POST | `/bookings/create` | authRequired, apiLimiter | createBookingHandler |
 | PATCH | `/bookings/:id/cancel` | authRequired user, apiLimiter | cancelBookingHandler |
 | PATCH | `/bookings/:id/reschedule` | authRequired user, apiLimiter | rescheduleBookingHandler |
+| POST | `/bookings/:id/join-token` | authRequired user/astrologer, auth token only, apiLimiter | joinTokenHandler |
 | PATCH | `/bookings/:id/status` | authRequired user/astrologer/admin, apiLimiter | updateBookingStatusController |
 | GET | `/bookings/my-bookings` | authRequired, apiLimiter | myBookings |
 | GET | `/bookings/astrologer/my-consultations` | authRequired, apiLimiter | astrologerUpcomingBookings |
@@ -259,7 +260,7 @@ does not exactly match the server model/controller, which returns `id`,
 | F2 | FIXED | `client/src/pages/ConsultationPage.tsx:138`; `client/src/types/index.ts`; booking API aggregation | Typed the returned participant IDs and compare them to the authenticated account's `_id` after string normalization; admin access remains role-based. |
 | F3 | FIXED | `client/src/pages/ConsultationPage.tsx:3` | Imported `CheckCircle` from the existing `lucide-react` dependency. |
 | F4 | FIXED | `client/src/pages/KundliGeneratorPage.tsx:394` | Converted the `Object.entries` value to a safe string for React rendering. |
-| X1 | NEEDS DECISION | `client/src/pages/ConsultationPage.tsx:84` | Fake `meet.example.com` demo URL. No provider may be invented. |
+| X1 | IMPLEMENTED (runtime verification pending) | `server/services/jaasService.js`; `server/routes/bookingRoutes.js`; `client/src/pages/ConsultationPage.tsx` | JaaS room JWTs are issued only to confirmed, captured, participant bookings inside the join window. Credentials and a live two-party test are still required. |
 | X2 | NEEDS DECISION | `client/src/pages/ContactPage.tsx:32`; `server/routes` | No contact route or controller exists, so the form only simulates success. A backend endpoint or external contact destination must be specified before wiring. |
 | Dead social URLs | NEEDS DECISION | `client/src/components/layout/Footer.tsx:48` | Buttons have no URLs. User must supply approved social links. |
 | Dead astrologer buttons | SKIPPED | `client/src/pages/AstrologerDashboard.tsx:600,616,632` | Confirmed buttons have no handlers and no matching earnings/details or astrologer profile-edit route/page exists. Report-only per scope; no route invented. |
@@ -331,19 +332,24 @@ Server (`npx eslint .`): 319 errors.
 - Do not expose `.env` values in notes, logs, commits, or reports.
 - Existing working-tree changes must not be reverted unless explicitly requested.
 
-## 13. Open decisions and next steps
+## 13. Feature status (2026-11-10)
 
-- Choose a real consultation provider for X1 (for example Daily, Agora,
-  Twilio, Jitsi, or an approved WebRTC implementation) before implementation.
+See [FEATURE_STATUS.md](./FEATURE_STATUS.md) and
+[PROJECT_REPORT.md](./PROJECT_REPORT.md). The consultation delivery path now
+uses JaaS rooms; automatic completion after a call remains out of scope and
+requires a server-authoritative product decision.
+
+## 14. Open decisions and next steps
+
 - Provide approved Facebook, Twitter/X, Instagram, and YouTube URLs before wiring
   footer social buttons.
 - Determine whether `/checkout` is admin-only or available to any authenticated
   user after reviewing its callers and intended product flow.
 - Resolve the listed product decisions before implementing checkout protection,
-  consultation video, contact submission, social URLs, or legal pages.
+  contact submission, social URLs, legal pages, or automatic consultation completion.
 - Address remaining lint debt separately; it was not broadly refactored under this audit's scope.
 
-## 14. CodeRabbit review (2026-11-10)
+## 15. CodeRabbit review (2026-11-10)
 
 See [coderabbit-report.md](./coderabbit-report.md) for the complete verified
 review report. CodeRabbit 0.9.3 reviewed all 16 planned chunks and reported no

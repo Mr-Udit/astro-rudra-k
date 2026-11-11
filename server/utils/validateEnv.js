@@ -60,6 +60,31 @@ const REQUIRED_VARS = {
   REDIS_URL: {
     required: false,
     description: "Redis connection URL for slot locking, caching, and queues"
+  },
+  JAAS_APP_ID: {
+    required: false,
+    description: "JaaS application ID"
+  },
+  JAAS_API_KEY_ID: {
+    required: false,
+    description: "JaaS API key ID"
+  },
+  JAAS_PRIVATE_KEY: {
+    required: false,
+    description: "JaaS RS256 private key with escaped newlines"
+  },
+  JAAS_PRIVATE_KEY_BASE64: {
+    required: false,
+    description: "Base64-encoded JaaS RS256 private key"
+  },
+  JAAS_JOIN_WINDOW_MINUTES: {
+    required: false,
+    default: "10",
+    validateFn: (value) => {
+      const minutes = Number.parseInt(value, 10);
+      return Number.isInteger(minutes) && minutes > 0 && minutes <= 120;
+    },
+    description: "Minutes before the start time when joining opens"
   }
 };
 
