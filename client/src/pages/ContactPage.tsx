@@ -29,12 +29,17 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    toast.success('Message sent successfully! We will get back to you soon.');
+    try {
+      setIsSubmitting(true);
+      await api.post('/contact', formData);
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      toast.success('Message sent successfully! We will get back to you soon.');
+    } catch (err: any) {
+      setIsSubmitting(false);
+      const msg = err?.response?.data?.message || err?.message || 'Failed to send message';
+      toast.error(`Failed to send message: ${msg}`);
+    }
   };
 
   const contactInfo = [

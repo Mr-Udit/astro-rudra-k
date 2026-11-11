@@ -134,9 +134,9 @@ function AppContent() {
             <Route
               path="/checkout"
               element={
-                // <ProtectedRoute allowedRoles={['admin']}>
+                <ProtectedRoute allowedRoles={['user', 'admin']}>
                   <CheckoutPage />
-                // </ProtectedRoute>
+                </ProtectedRoute>
               }
             />
 

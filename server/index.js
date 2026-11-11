@@ -39,6 +39,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import cloudinaryRoutes from "./routes/cloudinaryRoutes.js";
 import { logger } from "./utils/logger.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 import { metricsHandler } from "./monitoring/metrics.js";
 import { expireStalePendingBookings } from "./services/bookingExpiryService.js";
 import { runAstrologerCacheCleanup } from "./services/cacheMaintenanceService.js";
@@ -149,6 +150,7 @@ app.use("/bookings", bookingRoutes);
 app.use("/api/cloudinary", cloudinaryRoutes);
 app.use("/admin", adminRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/contact", contactRoutes);
 
 // ------------------------------------------------------------------------------------
 // METRICS (Prometheus compatible)
